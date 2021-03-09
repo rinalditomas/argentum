@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,12 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import {useDispatch,useSelector} from "react-redux"
+import {sendLoginRequest} from "../state/user"
+import { useHistory} from "react-router-dom";
+
+
+
 
 function Copyright() {
   return (
@@ -58,7 +64,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignInSide() {
+  const [email,setEmail] = useState ("")
+  const [password,setPassword] = useState ("")
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
   const classes = useStyles();
+  const history = useHistory();
+
+
+  const handleEmail = (e) =>{
+    setEmail(e.target.value)
+}
+const handlePass = (e) =>{
+    setPassword(e.target.value)
+}
+console.log(password)
+console.log(email)
+
+const handleSubmit =  (e) => {
+  e.preventDefault();
+  console.log("login attempt...");
+ dispatch(sendLoginRequest({email:email,password:password}))
+  .then(()=>{
+    alert(`Te logueaste correctamente `)
+    history.push('/')
+  })
+  .catch((err) => alert(`Failed login`))
+   
+};
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -70,19 +103,20 @@ export default function SignInSide() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Iniciar Sesion
+             Iniciar sesión
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit ={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Correo electronico"
+              label="Correo electrónico"
               name="email"
               autoComplete="email"
               autoFocus
+              onChange ={handleEmail}
             />
             <TextField
               variant="outlined"
@@ -94,6 +128,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange = {handlePass}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -106,7 +141,7 @@ export default function SignInSide() {
               color="primary"
               className={classes.submit}
             >
-              Iniciar Sesion
+              Iniciar sesión
             </Button>
             <Grid container>
               <Grid item xs>
