@@ -33,8 +33,14 @@ export default function EditForm() {
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
   const dispatch = useDispatch()
-    const submitForm = ()=>{
-      //dispatch
+  const submitForm = (e)=>{
+    e.preventDefault()
+      console.log(product.value)
+      console.log(price.value)
+      console.log(description.value)
+      console.log(image.value)
+      console.log(stock.value)
+      
     }
    /*  const enter = (e)=> {
       if(e.keyCode == '13'){ 
@@ -49,6 +55,8 @@ export default function EditForm() {
       <Typography variant="h6" gutterBottom>
         Editar un Producto
       </Typography>
+      <form>
+
       <Grid container spacing={3}>
       <Grid item xs={10} >
           <TextField
@@ -62,7 +70,7 @@ export default function EditForm() {
             /* onKeyDown= {(e)=>enter(e)} 
             value={value}
             onChange={(e)=>setValue(e.target.value)} */
-          />
+            />
         </Grid>
         
         
@@ -74,7 +82,7 @@ export default function EditForm() {
             label="productName"
             fullWidth
             
-          />
+            />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
@@ -82,7 +90,7 @@ export default function EditForm() {
             id="price"
             name="price"
             label="price"
-          />
+            />
         </Grid>
         <Grid item xs={10}>
           <TextField
@@ -91,7 +99,7 @@ export default function EditForm() {
             label="description"
             fullWidth
             
-          />
+            />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -100,8 +108,8 @@ export default function EditForm() {
             name="image"
             label="image"
             fullWidth
-          
-          />
+            
+            />
         </Grid>
         
         <Grid item xs={12} sm={4}>
@@ -112,7 +120,7 @@ export default function EditForm() {
             label="stock"
             fullWidth
             
-          />
+            />
         </Grid>
         
         <Grid item xs={10}>
@@ -125,9 +133,10 @@ export default function EditForm() {
                     color="primary"
                     onClick={submitForm}
                     className={useStyles.button}
-                  >
+                    >
                     Edit 
                   </Button>
+                    </form>
     </React.Fragment>
   );
 }
