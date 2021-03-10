@@ -2,7 +2,8 @@ const express = require ("express");
 const app = express()
 const db = require ('./config/index')
 const helmet = require("helmet");
-const routes = require ('./routes')
+
+const routes = require("./routes")
 
 
 app.use(helmet());
@@ -13,9 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(__dirname + "/public"));
 
-app.use (routes)
-
-
+app.use(routes)
 
 
 db.sync({ force: false }).then(() => {

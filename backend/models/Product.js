@@ -5,21 +5,18 @@ class Product extends Sequelize.Model { }
 
 Product.init({
     nombre: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
     },
     precio: {
         type: Sequelize.INTEGER,
-
-
+        allowNull: false
     },
     // imagen: {
     //     type: Sequelize.String,
-
     // },
     descripcion: {
-        type: Sequelize.STRING
-
-
+        type: Sequelize.TEXT
     },
     disponible: {
         type: Sequelize.BOOLEAN,
@@ -32,13 +29,13 @@ Product.init({
                 return this.disponible= false;
             }
         }
-    },
+    }
 
 }, { sequelize: db, modelName: "product" })
 
 Product.addHook("beforeCreate",function(product){
-    if(product.disponible == false){
-        product.nombre += " No disponible"
+    if(this.disponible == false){
+        Product.nombre= this.nombre + " No disponible"
     }
 
 })
