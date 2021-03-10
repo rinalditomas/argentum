@@ -8,7 +8,7 @@ import Main from './container/Main'
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-     <Route path="/" component={Main} />
+     <Main />
     
     </Router>
   </React.StrictMode>,

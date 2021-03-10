@@ -99,12 +99,15 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
     
+    
+    
   },
   card: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
     margin: 'auto',
+    
     
   },
   cardMedia: {
@@ -142,7 +145,7 @@ export default function Album() {
   // },[products])
 
   return (
-    <React.Fragment>
+    <React.Fragment >
       <CssBaseline />
       
      
@@ -151,7 +154,7 @@ export default function Album() {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          <Grid container spacing={4}>
+          <Grid container spacing={4} >
             {yerbas.map((yerba) => (
               <Grid item key={yerba.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>

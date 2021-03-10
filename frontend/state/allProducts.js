@@ -6,7 +6,7 @@ import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
 
  export const getProductsRequest = createAsyncThunk("PRODUCTS", () => {
   return axios
-    .get("")
+    .get("/products")
     .then((res) => res.data)
     
 }); 

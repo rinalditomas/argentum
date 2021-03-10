@@ -92,14 +92,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     verticalAlign: 'top',
     paddingTop: '10%',
-    border:'1px solid #D3D3D3',
+    border:'2px solid #D3D3D3',
     width:300,
     height:600,
     borderRadius:'5px',
-    lineHeight:'40px'
-  
-    
-  },
+    lineHeight:'40px',
+    backgroundColor: '#00aae4',
+    color:'white'
+   },
   cardMedia: {
     paddingTop: '15%', // 16:9
     width: 450,
