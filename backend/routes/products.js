@@ -1,3 +1,6 @@
+
+
+
 const express = require('express');
 const router = express.Router();
 
@@ -11,16 +14,11 @@ router.get("/", (req, res, next) => {
 
 router.get("/:id", (req, res) => {
     let id = req.params.id
+
     Product.findByPk(id)
     .then(producto => { res.send(producto) })
 })
 
-// router.post("/", (req, res)=>{
-//     console.log("ESTAMOS EN POST", req.body)
-//     console.log(req.body)
-//     Producto.create(req.body)
-//     .then(producto=> {res.send(producto) })
-// })
 router.post ("/", (req,res,next)=>{
     Product.create (req.body)
     .then ((producto)=>{
@@ -52,6 +50,7 @@ router.delete("/:id", (req, res, next) => {
     }).then(() => {
 
         res.send("Producto eliminado!!")
+
     })
 })
 

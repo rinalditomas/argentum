@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const S = require('sequelize');
 const db = require('../config/index');
 
 class Category extends Sequelize.Model {}
@@ -13,7 +13,6 @@ categoria: {
 descripccion:{
     type: S.TEXT
 }
-
 },{sequelize: db, modelName:"category"});
 
 module.exports = Category

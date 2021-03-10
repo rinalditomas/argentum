@@ -12,8 +12,8 @@ const User = require ('./User')
 
 Cart.hasMany(Product)
 Cart.belongsTo(User)
-Product.belongsToMany(Category)
-Product.hasMany(Reviews)
+Product.belongsToMany(Category,{through: "productCategory"})
+//Product.hasMany(Reviews)
 
 
 

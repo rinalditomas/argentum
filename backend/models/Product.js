@@ -10,17 +10,13 @@ Product.init({
     },
     precio: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-
+        allowNull: false
     },
     // imagen: {
     //     type: Sequelize.String,
-        
     // },
     descripcion: {
         type: Sequelize.TEXT
-
-
     },
     disponible: {
         type: Sequelize.BOOLEAN,
@@ -28,7 +24,6 @@ Product.init({
     },
     stock: {
         type: Sequelize.INTEGER,
-        
         set(){
             if(this.stock == "0"){
                 return this.disponible= false;
@@ -36,9 +31,9 @@ Product.init({
         }
     }
 
-}, { sequelize: db, modelName: "producto" })
+}, { sequelize: db, modelName: "product" })
 
-Product.addHook("beforeCreate",function(producto){
+Product.addHook("beforeCreate",function(product){
     if(this.disponible == false){
         Product.nombre= this.nombre + " No disponible"
     }
