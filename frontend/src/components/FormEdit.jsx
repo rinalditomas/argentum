@@ -4,7 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
+import { useSelector,useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,10 +29,20 @@ const useStyles = makeStyles((theme) => ({
     }));
     
 
-export default function AddressForm() {
+export default function EditForm() {
+  const history = useHistory();
+  const [ value, setValue ] = React.useState("")
+  const dispatch = useDispatch()
     const submitForm = ()=>{
-
+      //dispatch
     }
+   /*  const enter = (e)=> {
+      if(e.keyCode == '13'){ 
+   history.push()
+   setValue("")
+     } } */
+   
+
   return (
     <React.Fragment>
        
@@ -39,7 +50,7 @@ export default function AddressForm() {
         Editar un Producto
       </Typography>
       <Grid container spacing={3}>
-      <Grid item xs={12} >
+      <Grid item xs={10} >
           <TextField
             required
             id="search"
@@ -48,11 +59,14 @@ export default function AddressForm() {
             fullWidth
             classes={{ root: useStyles.inputRoot, input: useStyles.inputInput, }}
             inputProps={{ 'aria-label': 'search' }}
+            /* onKeyDown= {(e)=>enter(e)} 
+            value={value}
+            onChange={(e)=>setValue(e.target.value)} */
           />
         </Grid>
         
         
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={10} sm={6}>
           <TextField
             required
             id="productName"
@@ -62,7 +76,7 @@ export default function AddressForm() {
             
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="price"
@@ -70,7 +84,7 @@ export default function AddressForm() {
             label="price"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={10}>
           <TextField
             id="description"
             name="description"
@@ -90,7 +104,7 @@ export default function AddressForm() {
           />
         </Grid>
         
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="stock"
@@ -101,7 +115,7 @@ export default function AddressForm() {
           />
         </Grid>
         
-        <Grid item xs={12}>
+        <Grid item xs={10}>
           
         </Grid>
         

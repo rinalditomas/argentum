@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const db = require ('../config/index')
 
 class Cart extends Sequelize.Model{}
@@ -13,3 +13,5 @@ Cart.init({
       defaultValue: 'active',
     },
   }, {sequelize : db, modelName: "cart"})
+
+  module.exports = Cart;

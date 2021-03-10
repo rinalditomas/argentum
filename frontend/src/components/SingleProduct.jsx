@@ -79,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     paddingTop: '10%',
-    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     width:800,

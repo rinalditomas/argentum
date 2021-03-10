@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-
-
+import { useSelector,useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -28,10 +28,19 @@ const useStyles = makeStyles((theme) => ({
     }));
     
 
-export default function AddressForm() {
-    const submitForm = ()=>{
-
+export default function Delete() {
+    const history = useHistory();
+    const [ value, setValue ] = React.useState("")
+    const dispatch = useDispatch()
+   
+    const deleteForm = ()=>{
+        // dispatch()
     }
+     /*  const enter = (e)=> {
+      if(e.keyCode == '13'){ 
+   history.push()
+   setValue("")
+     } } */
   return (
     <React.Fragment>
        
@@ -48,16 +57,21 @@ export default function AddressForm() {
             fullWidth
             classes={{ root: useStyles.inputRoot, input: useStyles.inputInput, }}
             inputProps={{ 'aria-label': 'search' }}
+            /* onKeyDown= {(e)=>enter(e)} 
+            value={value}
+            onChange={(e)=>setValue(e.target.value)} */
           />
         </Grid>
-        
+        <Grid item xs={8}>
+          
+        </Grid>
         
         
       </Grid>
       <Button
                     variant="contained"
                     color="primary"
-                    onClick={submitForm}
+                    onClick={deleteForm}
                     className={useStyles.button}
                   >
                     Delete 
