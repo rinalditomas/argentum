@@ -6,7 +6,7 @@ import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getSingleProductRequest = createAsyncThunk("SINGLE-PRODUCT", (productId) => {
   return axios
-    .get('')
+    .get(`/products/${productId}`)
     .then((res) => res.data)
     
 })
