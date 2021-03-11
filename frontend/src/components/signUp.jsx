@@ -13,11 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useDispatch,useSelector} from "react-redux"
-import {sendRegisterRequest} from "../state/user"
+import {sendRegisterRequest} from "../state/register"
 import { useHistory} from "react-router-dom";
 
 
 
+/////////////MATERIAL UI CODE///////////
 
 
 function Copyright() {
@@ -53,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+///////////////////////////////////
+
 export default function SignUp() {
   const [email,setEmail] = useState ("")
   const [password,setPassword] = useState ("")
@@ -85,10 +88,11 @@ export default function SignUp() {
             alert(`Te registraste correctamente `)
             history.push('/login')
           })
+          .catch(err => console.log(err))
         }
-        
+      }
 ////////////////VALIDATE////////////
-       }
+       
        const validate = () =>{
          let isValid = true
          if (!name) {

@@ -3,7 +3,10 @@ import logger from "redux-logger";
 import {getSingleProductReducer} from './singleProduct'
 import {getSearchProductReducer} from './searchProduct'
 import {getAllProductsReducer} from './allProducts'
-import {userReducer} from './user'
+import {productReducer} from './product'
+import { registerReducer } from "./register";
+import { loginReducer } from "./login";
+import { logoutReducer } from "./logout";
 
 
 
@@ -14,7 +17,10 @@ const store = configureStore({
     singleProduct: getSingleProductReducer,
     searchProduct: getSearchProductReducer,
     allProducts : getAllProductsReducer,
-    user: userReducer,
+    register: registerReducer,
+    login: loginReducer,
+    logout:logoutReducer,
+    product :productReducer,
   },
 });
 

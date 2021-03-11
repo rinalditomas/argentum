@@ -13,10 +13,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch,useSelector} from "react-redux"
-import {sendLoginRequest} from "../state/user"
+import {sendLoginRequest} from "../state/login"
 import { useHistory} from "react-router-dom";
 
 
+/////////////MATERIAL UI CODE///////////
 
 
 function Copyright() {
@@ -62,14 +63,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+///////////////////////////////////
 
 export default function SignInSide() {
   const [email,setEmail] = useState ("")
   const [password,setPassword] = useState ("")
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+  const user = useSelector(state => state)
   const classes = useStyles();
   const history = useHistory();
+ 
+
+/////////////HANDLE INPUT'S///////////
 
 
   const handleEmail = (e) =>{
@@ -78,20 +83,49 @@ export default function SignInSide() {
 const handlePass = (e) =>{
     setPassword(e.target.value)
 }
-console.log(password)
-console.log(email)
 
+ ////////////////HANDLESUBMIT////////////
 const handleSubmit =  (e) => {
   e.preventDefault();
   console.log("login attempt...");
+  if(validate()){
  dispatch(sendLoginRequest({email:email,password:password}))
-  .then(()=>{
-    alert(`Te logueaste correctamente `)
+  .then((data)=>{
+    console.log("ACA ESTA LA DATA",data)
+    alert(`bienvenido!`)
     history.push('/')
   })
-  .catch((err) => alert(`Failed login`))
-   
+  .catch((err) => console.log(err))
+  }
 };
+
+////////////////VALIDATE////////////
+
+const validate = () =>{
+  let isValid = true
+
+  if (!password) {
+   isValid = false;
+   alert("Por favor, ingresa una contraseña.");
+ }
+  if (!email) {
+   isValid = false;
+   alert("Por favor, ingresa un correo electronico.");
+ }
+  
+ if (typeof email !== "undefined"){
+   var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+   if (!pattern.test(email)) {
+     isValid = false;
+    alert("Por favor, ingresa un correo electronico valido.") 
+ }
+}
+return isValid;
+}
+
+
+
+
 
   return (
     <Grid container component="main" className={classes.root}>
