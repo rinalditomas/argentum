@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -36,11 +37,12 @@ export default function Delete() {
     const deleteForm = ()=>{
         // dispatch()
     }
-     /*  const enter = (e)=> {
+      const enter = (e)=> {
       if(e.keyCode == '13'){ 
-   history.push()
+   axios.get('http://localhost:3001/products')
+   .then(data=>console.log(data))
    setValue("")
-     } } */
+     } } 
   return (
     <React.Fragment>
        

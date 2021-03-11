@@ -8,6 +8,7 @@ const routes = require("./routes")
 
 app.use(cors())
 app.use(helmet());
+app.use(cors())
 
 app.use(express.json());
 
