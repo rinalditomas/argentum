@@ -18,23 +18,21 @@
           }
         }
       },
-      username: {
-        type: S.STRING,
-        allowNull: false,
-      },
       password: {
         type: S.STRING,
         allowNull: false,
       }, 
-      address: {
+      name: {
         type: S.STRING,
         allowNull: false
       },
-      name: {
-        type: S.STRING,
-      },
       lastName: {
         type: S.STRING,
+        allowNull: false
+      },
+      address: {
+        type: S.STRING,
+        allowNull: true
       },
       isAdmin: {
         type: S.BOOLEAN,

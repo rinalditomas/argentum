@@ -10,6 +10,9 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import SearchProd from '../components/SearchProd'
 
+
+
+
 export default function Main() {
 
   return (

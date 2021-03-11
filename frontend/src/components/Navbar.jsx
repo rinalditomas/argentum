@@ -10,6 +10,11 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link,useHistory } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {useDispatch,useSelector} from 'react-redux'
+import {sendLogoutRequest} from "../state/user"
+
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -91,6 +96,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar() {
 
+  const classes = useStyles();
+  
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
   const classes = useStyles();
@@ -141,9 +151,20 @@ export default function PrimarySearchAppBar() {
               <Badge color="black">
                 <ShoppingCartIcon style={{ fontSize: 30 }} />
               </Badge>
-            </IconButton>
+              </IconButton>
             </Link>
-            <Link to="/signup">
+
+          
+
+              {user.token? (<div><Link to="/logout">
+            <IconButton color="black">
+              <Badge color="black">
+                <ExitToAppIcon style={{ fontSize: 30 }} />
+              </Badge>
+            </IconButton>
+            </Link></div>):(<div>
+                <Link to="/signup">
+
             <IconButton color="black">
               <Badge color="black">
                 <PersonAddIcon style={{ fontSize: 30 }} />
@@ -160,6 +181,9 @@ export default function PrimarySearchAppBar() {
                 <AccountCircle style={{ fontSize: 30 }} />
               </IconButton>
             </Link>
+              </div>)}
+           
+           
           </div>
           
         </Toolbar>
