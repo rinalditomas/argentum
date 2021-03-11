@@ -2,11 +2,12 @@ const express = require ("express");
 const app = express()
 const db = require ('./config/index')
 const helmet = require("helmet");
-
+const cors = require('cors')
 const routes = require("./routes")
 
 
 app.use(helmet());
+app.use(cors())
 
 app.use(express.json());
 

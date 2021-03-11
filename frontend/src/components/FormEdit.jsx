@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
+import { useInput } from "../customHook";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -31,8 +31,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditForm() {
   const history = useHistory();
-  const [ value, setValue ] = React.useState("")
   const dispatch = useDispatch()
+
+  const product = useInput("product");
+  const price = useInput("price");
+  const description = useInput("description")
+  const image = useInput("image")
+  const stock = useInput("stock")
+
+
   const submitForm = (e)=>{
     e.preventDefault()
       console.log(product.value)
@@ -77,11 +84,11 @@ export default function EditForm() {
         <Grid item xs={10} sm={6}>
           <TextField
             required
-            id="productName"
-            name="productName"
-            label="productName"
+            id="product"
+            name="product"
+            label="product"
             fullWidth
-            
+            {...product}
             />
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -90,6 +97,7 @@ export default function EditForm() {
             id="price"
             name="price"
             label="price"
+            {...price}
             />
         </Grid>
         <Grid item xs={10}>
@@ -98,7 +106,7 @@ export default function EditForm() {
             name="description"
             label="description"
             fullWidth
-            
+            {...description}
             />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -108,7 +116,7 @@ export default function EditForm() {
             name="image"
             label="image"
             fullWidth
-            
+            {...image}
             />
         </Grid>
         
@@ -119,7 +127,7 @@ export default function EditForm() {
             name="stock"
             label="stock"
             fullWidth
-            
+            {...stock}
             />
         </Grid>
         
@@ -129,14 +137,14 @@ export default function EditForm() {
         
       </Grid>
       <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={submitForm}
-                    className={useStyles.button}
-                    >
-                    Edit 
-                  </Button>
-                    </form>
+        type="submit"
+        variant="contained"
+        color="primary"
+        onClick={submitForm}
+        className={useStyles.button}>
+          Edit 
+          </Button>
+            </form>
     </React.Fragment>
   );
 }

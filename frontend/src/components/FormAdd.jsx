@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector,useDispatch } from 'react-redux';
 import { useInput } from "../customHook";
+import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +26,40 @@ export default function AddForm() {
   const description = useInput("description")
   const image = useInput("image")
   const stock = useInput("stock")
+  const history = useHistory();
+  
+  
+  const submitForm =  (e) => {
+    e.preventDefault();
     
-  const submitForm = (e)=>{
+    console.log("adding new product...");
+     axios.post("http://localhost:3001/products", 
+     {
+        nombre:product.value,
+        precio: price.value,
+        descripcion: description.value,
+        imagen: image.value,
+        stock: stock.value
+      })
+      .then((data)=>console.log(data)/* console.log(`new product added`) */)
+      /* history.push("/admin"); */
+    
+  }
+  
+  
+  
+  
+/*   const submitForm = (e)=>{
     e.preventDefault()
+axios.post('/products',{
+  nombre:product.value,
+  precio: price.value,
+  descripcion: description.value,
+  imagen: image.value,
+  stock:stock.value
+})
+.then(data => data)
+      
       console.log(product.value)
       console.log(price.value)
       console.log(description.value)
@@ -34,7 +67,7 @@ export default function AddForm() {
       console.log(stock.value)
       
     }
-    
+     */
   return (
     <React.Fragment>
        
