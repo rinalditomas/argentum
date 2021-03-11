@@ -9,6 +9,7 @@ import Admin from '../components/Admin'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import SearchProd from '../components/SearchProd'
+import Shop from "../components/Shop";
 
 
 
@@ -28,6 +29,7 @@ export default function Main() {
             <Route exact path="/search" render={({match})=> <SearchProd match={match}/>} />
             <Route exact path="/product/:id" render={({match})=> <SingleProduct match={match}/>} />
             <Route exact path='/admin' component={Admin} />
+            <Route exact path='/shop' component={Shop} />
             <Redirect to= "/products" />
             {/* </div> */}
           </Switch>
