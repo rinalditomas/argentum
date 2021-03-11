@@ -1,7 +1,7 @@
 const S = require('sequelize');
 const db = require('../config/index');
 
-class Category extends Sequelize.Model {}
+class Category extends S.Model {}
 
 Category.init({
     nombre: {
