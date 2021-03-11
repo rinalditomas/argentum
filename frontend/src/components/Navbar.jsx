@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFCA8F",
   },
   logo: {
-    width: "230px",
     height: "80px",
     paddingRight: "150px",
   },
@@ -103,7 +102,7 @@ export default function PrimarySearchAppBar() {
 
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
-  const classes = useStyles();
+
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
