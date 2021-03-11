@@ -125,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SingleProduct({match}) {
+  
   const classes = useStyles();
   console.log(match.params.id)
   const dispatch = useDispatch()
@@ -169,7 +170,7 @@ export default function SingleProduct({match}) {
                     </Box>
                      
                      {singleProduct.descripcion}
-                     {singleProduct.stock}
+                     {console.log(singleProduct.stock)}
                      <Box mt={4} />
                      <Button aria-controls="customized-menu"  variant="contained"  fullWidth='true'>
                       AGREGAR AL CARRITO 

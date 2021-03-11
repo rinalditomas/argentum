@@ -12,7 +12,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link,useHistory } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useDispatch,useSelector} from 'react-redux'
-import {sendLogoutRequest} from "../state/user"
+
 
 
 
@@ -103,7 +103,7 @@ export default function PrimarySearchAppBar() {
 
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
-  const classes = useStyles();
+  
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
