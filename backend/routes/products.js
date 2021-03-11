@@ -1,11 +1,37 @@
 const express = require('express');
 const router = express.Router();
-const Product = require("../models/Product")
+const {Product} = require("../models/index")
 
-router.get("/", (req, res, next) => {
-    Product.findAll({}).then(productos => {
-        res.send(productos)
+router.get ("/", (req,res,next) => {
+    if (req.query.producto){
+        Product.findAll({
+            where:{
+                nombre:{
+                    [Op.like]: req.query.producto
+                }
+            }
+        })
+        // .then(categorias =>{
+        //    categorias.map((categoria)=>{
+        //     Producto.findAll({
+        //         where:{
+        //             categoriumId: categoria
+        //         }
+        //     })
+        //    })
+        .then((productos)=>{
+            res.send(productos)
+            })
+        //})
+    }else{
+    Product.findAll()
+    .then (productos => {
+        res.send (productos)
     })
+    .catch (error =>{
+        next (error)
+    })
+    }
 })
 
 router.get("/:id", (req, res) => {
