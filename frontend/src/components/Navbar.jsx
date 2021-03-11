@@ -103,7 +103,7 @@ export default function PrimarySearchAppBar() {
 
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
-  const classes = useStyles();
+ 
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
