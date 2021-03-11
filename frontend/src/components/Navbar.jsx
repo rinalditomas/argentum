@@ -3,21 +3,14 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Link,useHistory } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Link } from "react-router-dom";
 import {useDispatch,useSelector} from 'react-redux'
 import {sendLogoutRequest} from "../state/user"
 
@@ -102,95 +95,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
 
-  console.log(user.token)
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-    //   anchorEl={anchorEl}
-    //   anchorOrigin={{ vertical: "top", horizontal: "right" }}
-    //   id={menuId}
-    //   keepMounted
-    //   transformOrigin={{ vertical: "top", horizontal: "right" }}
-    //   open={isMenuOpen}
-    //   onClose={handleMenuClose}
-    ></Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-      
-        <IconButton color="inherit">
-          <Badge color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-       
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton color="black">
-          <PersonAddIcon color="black">""</PersonAddIcon>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="color"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
+  const history = useHistory();
+  const [ value, setValue ] = React.useState("")
+  const classes = useStyles();
+  
+   const enter = (e)=> {
+      if(e.keyCode == '13'){ 
+   history.push(`/search`)
+   setValue("")
+     } } 
+   
   return (
     <div className={classes.grow}>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
           <div>
+            <Link to='/products'>
             <img className={classes.logo} src="logo.png" alt="" />
+            </Link>
           </div>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -198,6 +126,9 @@ export default function PrimarySearchAppBar() {
             </div>
             <InputBase
               placeholder="Buscar..."
+              onKeyDown= {(e)=>enter(e)} 
+               value={value}
+               onChange={(e)=>setValue(e.target.value)}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -207,13 +138,24 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <Link to="/shop">
+            {/* {'------------agregado solo para mi facilidad-----------'} */}
+          <Link to="/admin">
+            <IconButton color="black">
+              <Badge color="black">
+              <PersonAddIcon style={{ fontSize: 30 }} />
+              </Badge>
+            </IconButton>
+            </Link>
+{/* {'------------agregado solo para mi facilidad-----------'}*/}          <Link to="/shop">
             <IconButton color="black">
               <Badge color="black">
                 <ShoppingCartIcon style={{ fontSize: 30 }} />
               </Badge>
               </IconButton>
             </Link>
+
+          
+
               {user.token? (<div><Link to="/logout">
             <IconButton color="black">
               <Badge color="black">
@@ -222,6 +164,7 @@ export default function PrimarySearchAppBar() {
             </IconButton>
             </Link></div>):(<div>
                 <Link to="/signup">
+
             <IconButton color="black">
               <Badge color="black">
                 <PersonAddIcon style={{ fontSize: 30 }} />
@@ -232,9 +175,7 @@ export default function PrimarySearchAppBar() {
               <IconButton
                 edge="end"
                 aria-label="account of current user"
-                aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
                 color="black"
               >
                 <AccountCircle style={{ fontSize: 30 }} />
@@ -244,21 +185,11 @@ export default function PrimarySearchAppBar() {
            
            
           </div>
-          {/* <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="primary"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div> */}
+          
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      
+      
     </div>
   );
 }

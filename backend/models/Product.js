@@ -12,9 +12,9 @@ Product.init({
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    // imagen: {
-    //     type: Sequelize.String,
-    // },
+     imagen: {
+         type: Sequelize.STRING,
+     },
     descripcion: {
         type: Sequelize.TEXT
     },

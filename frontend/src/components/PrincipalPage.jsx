@@ -1,4 +1,5 @@
 import React from 'react';
+import {useDispatch,useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -10,7 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-
+import axios from 'axios'
+import { getAllProducts } from '../state/allProducts';
 
 const yerbas = [
   {
@@ -88,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     backgroundSize: 600,
     height: 200,
-    margin: '0 auto'
+    margin: '0 auto',
 
 
   },
@@ -135,15 +137,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Album() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const productos = useSelector(state => state.allProducts);
   
-  // const products = useSelector(state => state.products);
-  // const [mainProducts,setMainProducts] = React.useState([])
-
-  // React.useEffect(()=>{
-  //   let selection = products;
-  //   setMainProducts(selection)
-  // },[products])
-
+    React.useEffect(()=>{
+    dispatch(getAllProducts())
+   },[])
+  console.log(productos)
+ 
+ 
+  
+  
   return (
     <React.Fragment >
       <CssBaseline />
@@ -155,19 +159,19 @@ export default function Album() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4} >
-            {yerbas.map((yerba) => (
-              <Grid item key={yerba.id} xs={12} sm={6} md={4}>
+            {productos.map((prod) => (
+              <Grid item key={prod.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
-                  <Link to={`/productos`}>
+                  <Link to={`/product/${prod.id}`}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={yerba.imagen}
-                    title={yerba.nombre}
+                    image={prod.imagen}
+                    title={prod.nombre}
                     />
                     </Link>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {yerba.precio}
+                      {prod.precio}
                       </Typography>
                       <Button size="small" color="primary" >
                       <ShoppingCartIcon className={classes.cartbutton}/>
@@ -177,49 +181,6 @@ export default function Album() {
               </Grid>
             ))}
 
-        {alfajores.map((alfajor) => (
-              <Grid item key={alfajor.id} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                <Link to={`/products/${alfajor.id}`}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image={alfajor.imagen}
-                    title={alfajor.nombre}
-                  />
-                  </Link>
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {alfajor.precio}
-                      </Typography>
-                      <Button size="small" color="primary" >
-                      <ShoppingCartIcon className={classes.cartbutton}/>
-                    </Button>
-                    </CardContent>
-                  </Card>
-              </Grid>
-            ))}
-
-          {dulceDeLeche.map((dulce) => (
-              <Grid item key={dulce.id} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                <Link to={`/products/${dulce.id}`}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image={dulce.imagen}
-                    title={dulce.nombre}
-                  />
-                  </Link>
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {dulce.precio}
-                      </Typography>
-                      <Button size="small" color="primary" >
-                      <ShoppingCartIcon className={classes.cartbutton}/>
-                    </Button>
-                    </CardContent>
-                  </Card>
-              </Grid>
-            ))}
           </Grid>
         </Container>
       
