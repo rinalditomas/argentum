@@ -16,7 +16,12 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from "react-router-dom";
+import {useDispatch,useSelector} from 'react-redux'
+import {sendLogoutRequest} from "../state/user"
+
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -100,6 +105,10 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+
+  console.log(user.token)
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -146,20 +155,23 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
+      
         <IconButton color="inherit">
           <Badge color="secondary">
             <MailIcon />
           </Badge>
         </IconButton>
+       
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
         <IconButton color="black">
-          <PersonAddIcon color="black"></PersonAddIcon>
+          <PersonAddIcon color="black">""</PersonAddIcon>
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
+        
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -200,9 +212,16 @@ export default function PrimarySearchAppBar() {
               <Badge color="black">
                 <ShoppingCartIcon style={{ fontSize: 30 }} />
               </Badge>
-            </IconButton>
+              </IconButton>
             </Link>
-            <Link to="/register">
+              {user.token? (<div><Link to="/logout">
+            <IconButton color="black">
+              <Badge color="black">
+                <ExitToAppIcon style={{ fontSize: 30 }} />
+              </Badge>
+            </IconButton>
+            </Link></div>):(<div>
+                <Link to="/signup">
             <IconButton color="black">
               <Badge color="black">
                 <PersonAddIcon style={{ fontSize: 30 }} />
@@ -221,6 +240,9 @@ export default function PrimarySearchAppBar() {
                 <AccountCircle style={{ fontSize: 30 }} />
               </IconButton>
             </Link>
+              </div>)}
+           
+           
           </div>
           {/* <div className={classes.sectionMobile}>
             <IconButton

@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router()
-const {User} = require ('../models')
+const {User} = require ('../models/index')
 const jwt= require ("jsonwebtoken")
 const checkJWT= require("./middlewares/jwt")
 const isAdmin=require("./middlewares/isAdmin")
 
 router.post("/register", (req, res,next) => {  
+    
     User.create(req.body)
       .then((user) => {
       res.status(201).send(user)})
-      .catch(next);
+      .catch(next)
 });
+
 
 router.post('/login', (req,res)=>{
      const {email,password} = req.body

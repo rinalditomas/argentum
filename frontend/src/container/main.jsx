@@ -6,6 +6,7 @@ import Login from '../components/login'
 import PrincipalPage from '../components/PrincipalPage'
 import SingleProduct from '../components/SingleProduct'
 import Admin from '../components/Admin'
+import Navbar from '../components/Navbar'
 
 
 export default function Main() {
@@ -14,6 +15,7 @@ export default function Main() {
       
       <React.Fragment>
         {/* <section className="content"> */}
+        <Navbar />
           <Switch>
             {/* <div className= 'App'> */}
             <Route  path="/products" component={PrincipalPage} />
