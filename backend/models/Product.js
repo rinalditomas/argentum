@@ -12,9 +12,9 @@ Product.init({
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    // imagen: {
-    //     type: Sequelize.String,
-    // },
+     imagen: {
+         type: Sequelize.STRING,
+     },
     descripcion: {
         type: Sequelize.TEXT
     },
@@ -24,11 +24,11 @@ Product.init({
     },
     stock: {
         type: Sequelize.INTEGER,
-        set(){
-            if(this.stock == "0"){
-                return this.disponible= false;
+        value :{set(){
+            if(this.value == "0"){
+                this.setDataValue('disponible', false);
             }
-        }
+        }} 
     }
 
 }, { sequelize: db, modelName: "product" })
@@ -37,7 +37,6 @@ Product.addHook("beforeCreate",function(product){
     if(this.disponible == false){
         Product.nombre= this.nombre + " No disponible"
     }
-
 })
 
 Product.sinStock = function () {

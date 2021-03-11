@@ -9,7 +9,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Rating from '@material-ui/lab/Rating';
-
+import {getSingleProduct} from '../state/singleProduct'
+import { useSelector,useDispatch } from 'react-redux';
 
 
 const yerbas = 
@@ -125,15 +126,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SingleProduct({match}) {
   const classes = useStyles();
-  console.log(match)
+  console.log(match.params.id)
+  const dispatch = useDispatch()
+ const singleProduct = useSelector(state => state.singleProduct)
+ 
+ console.log(singleProduct)
+ 
+ React.useEffect(()=>{
+ dispatch(getSingleProduct(match.params.id))
+ },[])
 
-  //   const singleProduct = useSelector(state => state.singleProduct)
-// console.log(singleMovie)
-// React.useEffect(()=>{
-// dispatch(getSingleProductRequest(match.params.id))
-// },[])
-
-  const [value, setValue] = React.useState(2);
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -153,20 +156,20 @@ export default function SingleProduct({match}) {
               <Grid item key={yerbas.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                     <div>
-                    <img src={yerbas.imagen} alt="" className={classes.cardMedia} />
+                    <img src={singleProduct.imagen} alt="" className={classes.cardMedia} />
                     
                     <Typography  variant="h5" component="h2" className={classes.lilCard}>
-                    Producto: {yerbas.nombre}
+                    Producto: {singleProduct.nombre}
                     <hr />
-                     {yerbas.precio}
+                     {singleProduct.precio}
                      <hr />
                      <Box component="fieldset" mb={1} borderColor="transparent">
                         
-                        <Rating name="read-only" value={value} readOnly />
+                        <Rating name="read-only" value={2} readOnly />
                     </Box>
                      
-                     {yerbas.descripcion}
-                     
+                     {singleProduct.descripcion}
+                     {singleProduct.stock}
                      <Box mt={4} />
                      <Button aria-controls="customized-menu"  variant="contained"  fullWidth='true'>
                       AGREGAR AL CARRITO 

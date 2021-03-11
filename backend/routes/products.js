@@ -1,34 +1,30 @@
-
-
-
 const express = require('express');
 const router = express.Router();
-
-const Product = require("../models/Product")
+const {Product} = require("../models/index")
 
 router.get ("/", (req,res,next) => {
-    if (req.query.categoria){
-        Categoria.findAll({
+    if (req.query.producto){
+        Product.findAll({
             where:{
                 nombre:{
-                    [Op.like]: req.query.categoria
+                    [Op.like]: req.query.producto
                 }
             }
         })
-        .then(categorias =>{
-           categorias.map((categoria)=>{
-            Producto.findAll({
-                where:{
-                    categoriumId: categoria
-                }
+        // .then(categorias =>{
+        //    categorias.map((categoria)=>{
+        //     Producto.findAll({
+        //         where:{
+        //             categoriumId: categoria
+        //         }
+        //     })
+        //    })
+        .then((productos)=>{
+            res.send(productos)
             })
-           })
-            .then((productos)=>{
-                res.send(productos)
-            })
-        })
+        //})
     }else{
-    Producto.findAll()
+    Product.findAll()
     .then (productos => {
         res.send (productos)
     })
@@ -36,11 +32,6 @@ router.get ("/", (req,res,next) => {
         next (error)
     })
     }
-})
-router.get("/", (req, res, next) => {
-    Product.findAll({}).then(productos => {
-        res.send(productos)
-    })
 })
 
 router.get("/:id", (req, res) => {
@@ -51,6 +42,7 @@ router.get("/:id", (req, res) => {
 })
 
 router.post ("/", (req,res,next)=>{
+    console.log(req.body)
     Product.create (req.body)
     .then ((producto)=>{
         res.send(producto)

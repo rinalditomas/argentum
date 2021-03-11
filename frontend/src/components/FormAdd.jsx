@@ -5,7 +5,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector,useDispatch } from 'react-redux';
-
+import { useInput } from "../customHook";
+import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -18,21 +20,54 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddForm() {
   const dispatch = useDispatch()
-  const [form,setForm]= React.useState({productName:'',price:'',description:'',image:'',stock:''})
-    const submitForm = (e)=>{
-      console.log(e.target.value)
-      console.log(form)
-      // dispatch()
+  
+  const product = useInput("product");
+  const price = useInput("price");
+  const description = useInput("description")
+  const image = useInput("image")
+  const stock = useInput("stock")
+  const history = useHistory();
+  
+  
+  const submitForm =  (e) => {
+    e.preventDefault();
+    
+    console.log("adding new product...");
+     axios.post("http://localhost:3001/products", 
+     {
+        nombre:product.value,
+        precio: price.value,
+        descripcion: description.value,
+        imagen: image.value,
+        stock: stock.value
+      })
+      .then((data)=>console.log(data)/* console.log(`new product added`) */)
+      /* history.push("/admin"); */
+    
+  }
+  
+  
+  
+  
+/*   const submitForm = (e)=>{
+    e.preventDefault()
+axios.post('/products',{
+  nombre:product.value,
+  precio: price.value,
+  descripcion: description.value,
+  imagen: image.value,
+  stock:stock.value
+})
+.then(data => data)
+      
+      console.log(product.value)
+      console.log(price.value)
+      console.log(description.value)
+      console.log(image.value)
+      console.log(stock.value)
+      
     }
-    const clickForm =(e)=>{
-        setForm({
-          productName:'',
-          price:'',
-          description:'',
-          image:'',
-          stock:''        
-        })
-    }
+     */
   return (
     <React.Fragment>
        
@@ -44,12 +79,12 @@ export default function AddForm() {
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="productName"
-            name="productName"
-            label="productName"
-            /* value = {productName} */
+            id="product"
+            name="product"
+            label="product"
+            {...product}
             fullWidth
-            classes={{ root: useStyles.inputRoot, input: useStyles.inputInput, }}
+            autoFocus
             
           />
         </Grid>
@@ -60,7 +95,7 @@ export default function AddForm() {
             id="price"
             name="price"
             label="price"
-            /* value={prince} */
+            {...price}
             classes={{ root: useStyles.inputRoot, input: useStyles.inputInput, }}
             />
         </Grid>
@@ -69,7 +104,7 @@ export default function AddForm() {
             id="description"
             name="description"
             label="description"
-            /* value ={description} */
+            {...description}
             fullWidth
             
             />
@@ -80,7 +115,7 @@ export default function AddForm() {
             id="image"
             name="image"
             label="image"
-            /* value={image} */
+            {...image}
             fullWidth
             
             />
@@ -92,7 +127,7 @@ export default function AddForm() {
             id="stock"
             name="stock"
             label="stock"
-            /* value ={stock} */
+            {...stock}
             fullWidth
             
             />
@@ -103,15 +138,15 @@ export default function AddForm() {
         </Grid>
         
       </Grid>
-      </form>
       <Button
+      type="submit"
       variant="contained"
       color="primary"
-      /* onClick={submitForm} */
       className={useStyles.button}
       >
         Add 
       </Button>
+      </form>
     </React.Fragment>
   );
 }
