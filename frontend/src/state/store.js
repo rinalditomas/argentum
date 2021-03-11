@@ -4,9 +4,7 @@ import {getSingleProductReducer} from './singleProduct'
 import {getSearchProductReducer} from './searchProduct'
 import {getAllProductsReducer} from './allProducts'
 import {productReducer} from './product'
-import { registerReducer } from "./register";
-import { loginReducer } from "./login";
-import { logoutReducer } from "./logout";
+import { userReducer } from "./user";
 
 
 
@@ -17,9 +15,8 @@ const store = configureStore({
     singleProduct: getSingleProductReducer,
     searchProduct: getSearchProductReducer,
     allProducts : getAllProductsReducer,
-    register: registerReducer,
-    login: loginReducer,
-    logout:logoutReducer,
+    user: userReducer,
+  
     product :productReducer,
   },
 });
