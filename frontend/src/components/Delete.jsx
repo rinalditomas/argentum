@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
           width: '20ch',
         },
+      },
+      prod:{
+        marginBottom:'20px'
       }
     }));
     
@@ -32,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Delete() {
     const history = useHistory();
     const [ value, setValue ] = React.useState("")
+    const [ query, setQuery ] = React.useState({})
     const dispatch = useDispatch()
    
     const deleteForm = ()=>{
@@ -39,10 +43,13 @@ export default function Delete() {
     }
       const enter = (e)=> {
       if(e.keyCode == '13'){ 
-   axios.get('http://localhost:3001/products')
-   .then(data=>console.log(data))
+   axios.get(`http://localhost:3001/products/search/${value}`)
+   .then(res=>{
+     console.log(res.data)
+     setQuery(res.data)})
    setValue("")
      } } 
+  console.log(query)
   return (
     <React.Fragment>
        
@@ -59,17 +66,24 @@ export default function Delete() {
             fullWidth
             classes={{ root: useStyles.inputRoot, input: useStyles.inputInput, }}
             inputProps={{ 'aria-label': 'search' }}
-            /* onKeyDown= {(e)=>enter(e)} 
+             onKeyDown= {(e)=>enter(e)} 
             value={value}
-            onChange={(e)=>setValue(e.target.value)} */
+            onChange={(e)=>setValue(e.target.value)} 
           />
         </Grid>
         <Grid item xs={8}>
-          
+        
         </Grid>
         
         
       </Grid>
+      
+      <Typography  variant="h5" component="h2" className={useStyles.prod} >
+      {/* {query && query.map(res => */} <ul><li>  {query[0]? query[0].nombre:null} </li> </ul>{/* )} */}
+      </Typography>
+      
+      <Grid item xs={8}>
+        </Grid>
       <Button
                     variant="contained"
                     color="primary"

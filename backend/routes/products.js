@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const {Product} = require("../models/index")
+const { Op } = require("sequelize");
 
 router.get ("/", (req,res,next) => {
+    // console.log(req.query)
     if (req.query.producto){
         Product.findAll({
             where:{
@@ -33,6 +35,21 @@ router.get ("/", (req,res,next) => {
     })
     }
 })
+
+router.get("/search/:query", (req, res) => {
+    let query = req.params.query
+    console.log(query)
+        Product.findAll({
+        where:{
+            nombre:{
+                [Op.substring]:query
+            }
+        }
+    })
+    .then(producto => { res.send(producto) })
+})
+
+
 
 router.get("/:id", (req, res) => {
     let id = req.params.id

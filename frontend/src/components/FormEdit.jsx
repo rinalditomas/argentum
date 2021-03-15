@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useInput } from "../customHook";
-
+import axios from 'axios'
 const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
 export default function EditForm() {
   const history = useHistory();
   const dispatch = useDispatch()
-
+  const [ query, setQuery ] = React.useState([])
+  const [ value, setValue ] = React.useState("")
   const product = useInput("product");
   const price = useInput("price");
   const description = useInput("description")
@@ -42,20 +43,30 @@ export default function EditForm() {
 
   const submitForm = (e)=>{
     e.preventDefault()
-      console.log(product.value)
+      /* console.log(product.value)
       console.log(price.value)
       console.log(description.value)
       console.log(image.value)
-      console.log(stock.value)
+      console.log(stock.value) */
       
     }
-   /*  const enter = (e)=> {
+    const enter = (e)=> {
       if(e.keyCode == '13'){ 
-   history.push()
+   axios.get(`http://localhost:3001/products/search/${value}`)
+   .then(res=>{
+    //  console.log(res.data[0].nombre)
+      // res.data[0].nombre
+    setQuery(res.data) })
    setValue("")
-     } } */
-   
-
+     } } 
+  console.log(query[0])
+  console.log(product)
+  console.log(query[0]?product.value=query[0].nombre: null)
+  console.log(query[0]?price.value=query[0].precio: null)
+  console.log(query[0]?stock.value=query[0].stock: null)
+  console.log(query[0]?description.value=query[0].descripcion: null)
+  console.log(query[0]?image.value=query[0].imagen: null)
+  
   return (
     <React.Fragment>
        
@@ -63,7 +74,7 @@ export default function EditForm() {
         Editar un Producto
       </Typography>
       <form>
-
+      
       <Grid container spacing={3}>
       <Grid item xs={10} >
           <TextField
@@ -74,12 +85,13 @@ export default function EditForm() {
             fullWidth
             classes={{ root: useStyles.inputRoot, input: useStyles.inputInput, }}
             inputProps={{ 'aria-label': 'search' }}
-            /* onKeyDown= {(e)=>enter(e)} 
-            value={value}
-            onChange={(e)=>setValue(e.target.value)} */
-            />
+             onKeyDown= {(e)=>enter(e)} 
+             value={value}
+             onChange={(e)=>setValue(e.target.value)} 
+             />
         </Grid>
         
+       
         
         <Grid item xs={10} sm={6}>
           <TextField
@@ -89,7 +101,7 @@ export default function EditForm() {
             label="product"
             fullWidth
             {...product}
-            />
+              />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
@@ -129,13 +141,16 @@ export default function EditForm() {
             fullWidth
             {...stock}
             />
-        </Grid>
         
+        </Grid>
         <Grid item xs={10}>
           
         </Grid>
         
-      </Grid>
+        
+        
+      </Grid> 
+      
       <Button
         type="submit"
         variant="contained"

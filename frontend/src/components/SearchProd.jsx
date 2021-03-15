@@ -7,6 +7,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
 import Divider from '@material-ui/core/Divider';
+import {getSearchProduct} from '../state/searchProduct'
+import {useDispatch,useSelector} from 'react-redux'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,9 +21,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function InsetDividers() {
+export default function InsetDividers({match}) {
   const classes = useStyles();
 
+
+/* 
+  let queryProduct = useSelector((state)=> state.searchProduct)
+  const queryProd = match.params.id
+  const dispatch = useDispatch();
+  React.useEffect(()=>{
+    dispatch(getSearchProduct(queryProd))
+  },[dispatch,queryProduct])
+
+  console.log(queryProduct) */
+ 
   return (
     <List className={classes.root}>
       <ListItem className={classes.list}>

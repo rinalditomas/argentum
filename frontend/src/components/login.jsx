@@ -15,7 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch,useSelector} from "react-redux"
 import {sendLoginRequest} from "../state/user"
 import { useHistory} from "react-router-dom";
-
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 /////////////MATERIAL UI CODE///////////
 
@@ -34,6 +35,10 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
   root: {
     height: '100vh',
   },
@@ -53,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#C25500"
+    
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -61,7 +67,14 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#C25500"
   },
+  tipo:{
+    fontWeight:'bold',
+    fontFamily: "'Lobster Two', cursive",
+    fontSize:'30px'
+  },
+  
 }));
 ///////////////////////////////////
 
@@ -72,10 +85,13 @@ export default function SignInSide() {
   const user = useSelector(state => state)
   const classes = useStyles();
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
  
 
 /////////////HANDLE INPUT'S///////////
 
+ 
+  
 
   const handleEmail = (e) =>{
     setEmail(e.target.value)
@@ -92,8 +108,9 @@ const handleSubmit =  (e) => {
  dispatch(sendLoginRequest({email:email,password:password}))
   .then((data)=>{
     console.log("ACA ESTA LA DATA",data)
-    alert(`bienvenido!`)
-    history.push('/')
+    setOpen(!open);
+
+     setTimeout(function(){ history.push("/products") }, 2000);
   })
   .catch((err) => console.log(err))
   }
@@ -136,7 +153,7 @@ return isValid;
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" className={classes.tipo} >
              Iniciar sesión
           </Typography>
           <form className={classes.form} noValidate onSubmit ={handleSubmit}>
@@ -172,11 +189,14 @@ return isValid;
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
+              color="inherit"
               className={classes.submit}
             >
               Iniciar sesión
             </Button>
+            <Backdrop className={classes.backdrop} open={open} >
+        <CircularProgress color="inherit" />
+      </Backdrop>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
