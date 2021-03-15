@@ -1,12 +1,55 @@
 const express = require('express');
 const router = express.Router();
-const Product = require("../models/Product")
+const {Product} = require("../models/index")
+const { Op } = require("sequelize");
 
-router.get("/", (req, res, next) => {
-    Product.findAll({}).then(productos => {
-        res.send(productos)
+router.get ("/", (req,res,next) => {
+    // console.log(req.query)
+    if (req.query.producto){
+        Product.findAll({
+            where:{
+                nombre:{
+                    [Op.like]: req.query.producto
+                }
+            }
+        })
+        // .then(categorias =>{
+        //    categorias.map((categoria)=>{
+        //     Producto.findAll({
+        //         where:{
+        //             categoriumId: categoria
+        //         }
+        //     })
+        //    })
+        .then((productos)=>{
+            res.send(productos)
+            })
+        //})
+    }else{
+    Product.findAll()
+    .then (productos => {
+        res.send (productos)
     })
+    .catch (error =>{
+        next (error)
+    })
+    }
 })
+
+router.get("/search/:query", (req, res) => {
+    let query = req.params.query
+    console.log(query)
+        Product.findAll({
+        where:{
+            nombre:{
+                [Op.substring]:query
+            }
+        }
+    })
+    .then(producto => { res.send(producto) })
+})
+
+
 
 router.get("/:id", (req, res) => {
     let id = req.params.id

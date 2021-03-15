@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFCA8F",
   },
   logo: {
-    width: "230px",
     height: "80px",
     paddingRight: "150px",
   },
@@ -103,11 +102,11 @@ export default function PrimarySearchAppBar() {
 
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
-  
+
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
-   history.push(`/search`)
+   history.push(`/search/${value}`)
    setValue("")
      } } 
    
@@ -140,9 +139,9 @@ export default function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop}>
             {/* {'------------agregado solo para mi facilidad-----------'} */}
           <Link to="/admin">
-            <IconButton color="black">
-              <Badge color="black">
-              <PersonAddIcon style={{ fontSize: 30 }} />
+            <IconButton color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
+              <Badge color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
+              <PersonAddIcon style={{ fontSize: 30 , color:"#FFCA8F"}} />
               </Badge>
             </IconButton>
             </Link>
