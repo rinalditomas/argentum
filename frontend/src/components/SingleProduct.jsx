@@ -183,7 +183,7 @@ export default function SingleProduct({match}) {
   const classes = useStyles();
   const dispatch = useDispatch()
  const singleProduct = useSelector(state => state.singleProduct)
- const [loading, setLoading] = React.useState(false);
+const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
 

@@ -8,14 +8,30 @@ import Login from '../components/login'
 import SearchProd from '../components/SearchProd'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import {useDispatch,useSelector} from "react-redux"
+import {sendToken} from "../state/user"
+import {useEffect} from 'react';
 import Shop from "../components/Shop";
 
 
-export default function Main(){
+export default function Main() {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state)
+  const token =localStorage.getItem("token")
+  console.log("ACA ESTA EL USER DE USE.SELECTOR",user.name)
+
+  React.useEffect(() => {
+    if(token){
+      dispatch(sendToken(token))
+    }
+  }, []);
 
 
-    return(
-        <React.Fragment>
+  return (
+      
+      <React.Fragment>
+        {/* <section className="content"> */}
+
         <Navbar />
             <Switch>
             <Route  path="/products" component={PrincipalPage} />
