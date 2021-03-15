@@ -27,11 +27,16 @@ router.post('/login', (req,res)=>{
          if(!user.validPassword(password)){
              return res.status (401).send("invalid credentials")
          }
-         const token= jwt.sign({id:user.id},"argentum")
+         const token= jwt.sign({id:user.id,email:user.email,name:user.name},"argentum")
        return res.status(200).json({token})  
      })
   })
 
+//   router.post ("/auth",checkJWT ,(req,res,next) => {
+//     User.findByPk(req.user.id)
+//     .then (user => res.send(user))
+//     .catch(next())
+//     })
 
 router.put ("/:id",checkJWT,(req,res,next)=>{
     User.findByPk(req.params.id)
@@ -52,6 +57,7 @@ router.get ("/",checkJWT,isAdmin,(req,res,next) => {
         next (error)
     })
 })
+
 
 router.delete ("/:id",checkJWT,isAdmin, (req,res,next)=>{
     Producto.destroy ({

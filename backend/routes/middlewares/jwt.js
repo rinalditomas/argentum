@@ -2,16 +2,17 @@
 const jwt= require ("jsonwebtoken")
 
 const checkJWT = (req,res,next)=>{
+
     if(!req.headers.authorization){
         return res.status(401).send("missing token")
     }
     const token = req.headers.authorization.split(" ")[1]
-
+ 
     const data = jwt.verify (token,"argentum")
-    console.log(data)
+  
     if(data){
         req.user=data
-        next()
+        return next()
     }else{
     return res.status(401).send("entrada no permitida")
     }
