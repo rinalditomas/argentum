@@ -1,3 +1,4 @@
+
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -8,16 +9,30 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
-import SaveIcon from "@material-ui/icons/Save";
-import Button from "@material-ui/core/Button";
-import PaymentIcon from "@material-ui/icons/Payment";
+import Button from '@material-ui/core/Button';
+import PaymentIcon from '@material-ui/icons/Payment';
+import TextField from '@material-ui/core/TextField';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const TAX_RATE = 0.07;
+
+
+const TAX_RATE = 0.21;
 
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
+   
   },
+  button:{
+    display:'flex',
+    justifyContent:'flex-end',
+    float:'right',
+    margin:'5%',
+    backgroundColor: "#C25500"
+  },
+  stock:{
+    width:'60px'
+  }
 });
 
 function ccyFormat(num) {
@@ -33,8 +48,8 @@ function createRow(desc, qty, unit) {
   return { desc, qty, unit, price };
 }
 
-function subtotal(items) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+function subtotal(item) {
+  return item.map((obj) => obj.precio).reduce((sum, i) => sum + i, 0);
 }
 
 const yerbas = [
@@ -52,7 +67,7 @@ const yerbas = [
     precio: 180,
     imagen:
       "https://supermercado.carrefour.com.ar/media/catalog/product/7/7/7790387014334_02.jpg",
-    stock: 5,
+      stock: 5,
   },
   {
     id: 3,
@@ -60,7 +75,7 @@ const yerbas = [
     precio: 165,
     imagen:
       "http://ardiaprod.vteximg.com.br/arquivos/ids/186878-500-500/Yerba-Mate-Amanda-de-Campo-1-Kg-_1.jpg?v=637427594485800000",
-    stock: 1,
+      stock: 1,
   },
 ];
 
@@ -136,131 +151,74 @@ export default function SpanningTable() {
               <TableCell>
                 <Avatar alt="" src={yerba.imagen} />
               </TableCell>
-              <TableCell
-                style={{
-                  fontFamily: "'Shippori Mincho B1', serif",
-                  fontSize: "18px",
-                  color: "black",
-                }}
-              >
-                {yerba.nombre}
-              </TableCell>
-              <TableCell
-                align="right"
-                style={{
-                  fontFamily: "'Shippori Mincho B1', serif",
-                  fontSize: "18px",
-                  color: "black",
-                }}
-              >
-                {yerba.stock}
-              </TableCell>
-              <TableCell
-                align="right"
-                style={{
-                  fontFamily: "'Shippori Mincho B1', serif",
-                  fontSize: "18px",
-                  color: "black",
-                }}
-              >
-                {yerba.precio}
-              </TableCell>
-              {/* <TableCell align="right">{ccyFormat(yerba.price)}</TableCell> */}
+              <TableCell style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{yerba.nombre}</TableCell>
+              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>
+              <TextField
+              id="outlined-number"
+              /* label="stock" */
+              defaultValue = {yerba.stock}
+              type="number"
+              className={classes.stock}
+              InputLabelProps={{
+                shrink: true,
+          }}
+          variant="outlined"
+        /></TableCell>
+              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{yerba.precio}  </TableCell>
+               
             </TableRow>
           ))}
 
           <TableRow>
             <TableCell rowSpan={3} />
-            <TableCell
-              style={{
-                fontFamily: "'Shippori Mincho B1', serif",
-                fontSize: "18px",
-                color: "black",
-                textDecoration: "underline",
-              }}
-            >
-              Unidades
-            </TableCell>
-            <TableCell
-              align="right"
-              style={{
-                fontFamily: "'Shippori Mincho B1', serif",
-                fontSize: "18px",
-                color: "black",
-              }}
-            >{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-            <TableCell
-              align="right"
-              style={{
-                fontFamily: "'Shippori Mincho B1', serif",
-                fontSize: "18px",
-                color: "black",
-              }}
-            >
-              {ccyFormat(invoiceTaxes)}
-            </TableCell>
+            <TableCell style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black", textDecoration:"underline"}}>IVA</TableCell>
+            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{`${(TAX_RATE * 100).toFixed(
+              0
+            )} %`}</TableCell>
+            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{ccyFormat(invoiceTaxes)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell
-              colSpan={2}
-              style={{
-                fontFamily: "'Shippori Mincho B1', serif",
-                fontSize: "18px",
-                color: "black",
-                textDecoration: "underline",
-              }}
-            >
-              Subtotal
-            </TableCell>
-            <TableCell
-              align="right"
-              style={{
-                fontFamily: "'Shippori Mincho B1', serif",
-                fontSize: "18px",
-                color: "black",
-              }}
-            >
-              {ccyFormat(invoiceSubtotal)}
-            </TableCell>
+            <TableCell colSpan={2} style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black", textDecoration:"underline"}}>Subtotal</TableCell>
+            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{ccyFormat(invoiceSubtotal)}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell
-              colSpan={2}
-              style={{
-                fontFamily: "'Shippori Mincho B1', serif",
-                fontSize: "22px",
-                color: "black",
-                textDecoration: "underline",
-                fontWeight: "bold",
-              }}
-            >
-              Total
-            </TableCell>
-            <TableCell
-              align="right"
-              style={{
-                fontFamily: "'Shippori Mincho B1', serif",
-                fontSize: "22px",
-                color: "black",
-                textDecoration: "underline",
-                fontWeight: "bold",
-              }}
-            >
-              {ccyFormat(invoiceTotal)}
-            </TableCell>
+            <TableCell colSpan={2} style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"22px", color: "black", textDecoration: "underline", fontWeight:"bold"}}>Total</TableCell>
+            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"22px", color: "black", textDecoration: "underline", fontWeight:"bold"}}>{`$ ${ccyFormat(invoiceTotal)}`}</TableCell>
           </TableRow>
         </TableBody>
-        <Button
-          align="right"
-          variant="contained"
-          color="primary"
-          size="large"
-          className={classes.button}
-          startIcon={<PaymentIcon />}
-        >
-          Pagar
-        </Button>
-      </Table>
+        </Table>
+     
+      <Button
+      align="right"
+      variant="contained"
+      color="inherit"
+      size="large"
+      className={classes.button}
+      startIcon={<PaymentIcon />}
+      >
+        Pagar
+      </Button>
+      
     </TableContainer>
+
   );
+}
+
+
+
+
+
+let array =[
+  {
+    nombre: 'cuchara',
+    cantidad: 10
+  },
+  {
+    nombre: 'tenedor',
+    cantidad: 6 
+  }
+]
+
+function otromas (arreglo,item){
+  arreglo.map(algo => {if(algo.nombre == item)  { console.log(algo.cantidad)} }  )
 }
