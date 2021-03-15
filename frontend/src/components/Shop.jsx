@@ -175,3 +175,24 @@ export default function SpanningTable() {
 
   );
 }
+
+
+
+
+
+
+let array =[
+  {
+    nombre: 'cuchara',
+    cantidad: 10
+  },
+  {
+    nombre: 'tenedor',
+    cantidad: 6 
+  }
+]
+
+function otromas (arreglo,item){
+  arreglo.map(algo => {if(algo.nombre == item)  { console.log(algo.cantidad)} }  )
+}
+

@@ -17,10 +17,8 @@ const store = configureStore({
     allProducts : getAllProductsReducer,
     user: userReducer,
 
+    product :productReducer,
 
-
-
-   product :productReducer,
 
   },
 });

@@ -20,6 +20,7 @@ export default function Main(){
 
 
 
+
 export default function Main() {
   const dispatch = useDispatch()
   const user = useSelector(state => state)
