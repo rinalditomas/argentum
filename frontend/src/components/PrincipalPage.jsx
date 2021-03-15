@@ -135,7 +135,6 @@ export default function Album() {
    },[])
   console.log(productos)
 
-  
  
   
   

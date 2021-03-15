@@ -103,9 +103,13 @@ export default function PrimarySearchAppBar() {
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
 
+
+ 
+ 
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
+        
    history.push(`/search/${value}`)
    setValue("")
      } } 
