@@ -53,7 +53,7 @@ router.get("/search/:query", (req, res) => {
 
 router.get("/:id", (req, res) => {
     let id = req.params.id
-
+console.log(id)
     Product.findByPk(id)
     .then(producto => { res.send(producto) })
 })

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -188,10 +189,10 @@ export default function SingleProduct({match}) {
   const timer = React.useRef();
 
  console.log(singleProduct)
- let singleProduc= singleProduct
+ 
  React.useEffect(()=>{
  dispatch(getSingleProduct(match.params.id))
- },[])
+ },[dispatch])
 
   
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -265,7 +266,7 @@ export default function SingleProduct({match}) {
                           </IconButton>
 
                   
-                    {singleProduc.nombre} 
+                    {singleProduct.nombre} 
                    <hr />
                      ${singleProduct.precio} 
                      <hr />
@@ -275,7 +276,7 @@ export default function SingleProduct({match}) {
                     </Box>
                     </Typography>
                     <Typography  variant="h5" component="h2" >
-                     {singleProduc.descripcion}
+                     {singleProduct.descripcion}
                      </Typography>
                      <Box mt={4} />
                      
@@ -325,8 +326,4 @@ export default function SingleProduct({match}) {
     </React.Fragment>
   );
 }
-
-
-
-
 

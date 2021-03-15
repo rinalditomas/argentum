@@ -133,7 +133,6 @@ export default function Album() {
     React.useEffect(()=>{
     dispatch(getAllProducts())
    },[])
-  console.log(productos)
 
  
   

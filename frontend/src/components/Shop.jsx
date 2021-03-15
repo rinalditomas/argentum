@@ -221,4 +221,3 @@ let array =[
 function otromas (arreglo,item){
   arreglo.map(algo => {if(algo.nombre == item)  { console.log(algo.cantidad)} }  )
 }
-
