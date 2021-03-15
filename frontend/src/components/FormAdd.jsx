@@ -8,13 +8,27 @@ import { useSelector,useDispatch } from 'react-redux';
 import { useInput } from "../customHook";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
         marginLeft: theme.spacing(1),
       },
+      root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+      },
+
     }));
     
 
@@ -27,10 +41,20 @@ export default function AddForm() {
   const image = useInput("image")
   const stock = useInput("stock")
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   
-  
-  const submitForm =  (e) => {
-    e.preventDefault();
+  const SubmitForm =  (e) => {
+    setOpen(true);
+e.preventDefault();
     
     console.log("adding new product...");
      axios.post("http://localhost:3001/products", 
@@ -41,8 +65,10 @@ export default function AddForm() {
         imagen: image.value,
         stock: stock.value
       })
-      .then((data)=>console.log(data)/* console.log(`new product added`) */)
-      /* history.push("/admin"); */
+      .then((data)=>{
+        setTimeout(function(){ history.push("/products") }, 2000);
+        console.log(data) } )
+      
     
   }
   
@@ -74,7 +100,7 @@ axios.post('/products',{
       <Typography variant="h6" gutterBottom>
         Agregar un Producto
       </Typography>
-          <form onSubmit={submitForm}>
+          <form onSubmit={SubmitForm}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -143,10 +169,36 @@ axios.post('/products',{
       variant="contained"
       color="primary"
       className={useStyles.button}
+      /* onClick={handleClick} */
       >
         Add 
       </Button>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Producto agregado correctamente!
+        </Alert>
+      </Snackbar>
       </form>
     </React.Fragment>
   );
 }
+
+
+
+
+
+ 
+  
+  /*   <div className={classes.root}>
+      
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          This is a success message!
+        </Alert>
+      </Snackbar>
+      <Alert severity="error">This is an error message!</Alert>
+      <Alert severity="warning">This is a warning message!</Alert>
+      <Alert severity="info">This is an information message!</Alert>
+      <Alert severity="success">This is a success message!</Alert>
+    </div>
+   */

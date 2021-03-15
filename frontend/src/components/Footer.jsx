@@ -8,6 +8,7 @@ const Footer = () => {
         <a style={{position:"relative",fontFamily: "'Lobster', cursive", fontSize:"20px", margin: "0 auto", marginBottom:"20px"}}>© 2021</a>
       </div>
     </div>
+  
   );
 };
 

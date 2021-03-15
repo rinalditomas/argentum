@@ -12,7 +12,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link,useHistory } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useDispatch,useSelector} from 'react-redux'
-import {sendLogoutRequest} from "../state/user"
+
 
 
 
@@ -105,7 +105,7 @@ export default function PrimarySearchAppBar() {
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
-   history.push(`/search`)
+   history.push(`/search/${value}`)
    setValue("")
      } } 
    
@@ -138,9 +138,9 @@ export default function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop}>
             {/* {'------------agregado solo para mi facilidad-----------'} */}
           <Link to="/admin">
-            <IconButton color="black">
-              <Badge color="black">
-              <PersonAddIcon style={{ fontSize: 30 }} />
+            <IconButton color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
+              <Badge color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
+              <PersonAddIcon style={{ fontSize: 30 , color:"#FFCA8F"}} />
               </Badge>
             </IconButton>
             </Link>
