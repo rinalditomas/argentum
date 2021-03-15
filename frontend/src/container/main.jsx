@@ -9,11 +9,26 @@ import Admin from '../components/Admin'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import SearchProd from '../components/SearchProd'
+import {useDispatch,useSelector} from "react-redux"
+import {sendToken} from "../state/user"
+import {useEffect} from 'react';
+
 
 
 
 
 export default function Main() {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state)
+  const token =localStorage.getItem("token")
+  console.log("ACA ESTA EL USER DE USE.SELECTOR",user.name)
+
+  React.useEffect(() => {
+    if(token){
+      dispatch(sendToken(token))
+    }
+  }, []);
+
 
   return (
       

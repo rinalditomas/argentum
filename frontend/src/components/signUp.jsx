@@ -83,7 +83,12 @@ export default function SignUp() {
         const handleSubmit = (e) => {
         e.preventDefault();
         if(validate()){
-          dispatch(sendRegisterRequest({email:email,password:password,name:name,lastName:lastName}))
+          dispatch(sendRegisterRequest(
+            {email:email,
+              password:password,
+              name:name,
+              lastName:lastName}
+              ))
           .then(()=>{
             alert(`Te registraste correctamente `)
             history.push('/login')

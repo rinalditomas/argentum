@@ -24,11 +24,11 @@ Product.init({
     },
     stock: {
         type: Sequelize.INTEGER,
-        set(){
-            if(this.stock == "0"){
-                return this.disponible= false;
+        value :{set(){
+            if(this.value == "0"){
+                this.setDataValue('disponible', false);
             }
-        }
+        }} 
     }
 
 }, { sequelize: db, modelName: "product" })

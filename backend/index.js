@@ -4,11 +4,12 @@ const cors = require('cors')
 const db = require ('./config/index')
 const helmet = require("helmet");
 const routes = require("./routes")
+const morgan = require("morgan")
 
 
-app.use(cors())
 app.use(helmet());
 app.use(cors())
+app.use(morgan('dev'))
 
 app.use(express.json());
 

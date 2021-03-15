@@ -13,6 +13,7 @@ import { Link,useHistory } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useDispatch,useSelector} from 'react-redux'
 import {sendLogoutRequest} from "../state/user"
+import { useRadioGroup } from "@material-ui/core";
 
 
 
@@ -100,10 +101,9 @@ export default function PrimarySearchAppBar() {
   
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-
+console.log(user)
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
-  const classes = useStyles();
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
@@ -138,6 +138,7 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <div>Hola {user.name}</div>
             {/* {'------------agregado solo para mi facilidad-----------'} */}
           <Link to="/admin">
             <IconButton color="black">
@@ -153,10 +154,7 @@ export default function PrimarySearchAppBar() {
               </Badge>
               </IconButton>
             </Link>
-
-          
-
-              {user.token? (<div><Link to="/logout">
+              {user.id? (<div><Link to="/logout">
             <IconButton color="black">
               <Badge color="black">
                 <ExitToAppIcon style={{ fontSize: 30 }} />

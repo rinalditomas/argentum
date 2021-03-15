@@ -16,7 +16,6 @@ const store = configureStore({
     searchProduct: getSearchProductReducer,
     allProducts : getAllProductsReducer,
     user: userReducer,
-  
     product :productReducer,
   },
 });

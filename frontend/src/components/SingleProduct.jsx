@@ -126,11 +126,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SingleProduct({match}) {
   const classes = useStyles();
-  console.log(match.params.id)
   const dispatch = useDispatch()
  const singleProduct = useSelector(state => state.singleProduct)
  
- console.log(singleProduct)
  
  React.useEffect(()=>{
  dispatch(getSingleProduct(match.params.id))

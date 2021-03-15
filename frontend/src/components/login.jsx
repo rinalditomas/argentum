@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch,useSelector} from "react-redux"
-import {sendLoginRequest} from "../state/user"
+import {sendLoginRequest,sendToken} from "../state/user"
 import { useHistory} from "react-router-dom";
 
 
@@ -91,8 +91,8 @@ const handleSubmit =  (e) => {
   if(validate()){
  dispatch(sendLoginRequest({email:email,password:password}))
   .then((data)=>{
-    console.log("ACA ESTA LA DATA",data)
     alert(`bienvenido!`)
+    localStorage.setItem("token",(data.payload.token))
     history.push('/')
   })
   .catch((err) => console.log(err))
