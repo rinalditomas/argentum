@@ -16,11 +16,12 @@ const store = configureStore({
     searchProduct: getSearchProductReducer,
     allProducts : getAllProductsReducer,
     user: userReducer,
-<<<<<<< HEAD
-    product :productReducer,
-=======
+
+
+
+
    product :productReducer,
->>>>>>> 272af29c209a24af8c82df068a55bd0f018e8cfd
+
   },
 });
 

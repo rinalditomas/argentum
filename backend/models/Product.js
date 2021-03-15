@@ -33,11 +33,10 @@ Product.init({
 
 }, { sequelize: db, modelName: "product" })
 
-Product.addHook("beforeCreate",function(product){
+Product.addHook("beforeCreate",function(){
     if(this.disponible == false){
         Product.nombre= this.nombre + " No disponible"
     }
-
 })
 
 Product.sinStock = function () {

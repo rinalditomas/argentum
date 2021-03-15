@@ -10,70 +10,27 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import axios from 'axios'
 import { getAllProducts } from '../state/allProducts';
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
-const yerbas = [
-  {
-    id:1,
-    nombre: 'Playadito',
-    precio: '$200',
-    imagen: 'https://ardiaprod.vteximg.com.br/arquivos/ids/188719-1000-1000/YERBA-PLAYADITO-SUAVE-1-KG_1.jpg?v=637427630884900000'
-},
-{
-  id:2,
-  nombre: 'Union',
-  precio: '$180',
-  imagen: 'https://supermercado.carrefour.com.ar/media/catalog/product/7/7/7790387014334_02.jpg'
-},
-{
-  id:3,
-  nombre: 'Amanda',
-  precio: '$165',
-  imagen: 'http://ardiaprod.vteximg.com.br/arquivos/ids/186878-500-500/Yerba-Mate-Amanda-de-Campo-1-Kg-_1.jpg?v=637427594485800000'
-},
-]
-const alfajores = [
-  {
-    id:4,
-    nombre: 'Havanna',
-    precio: '$50',
-    imagen: 'https://3.bp.blogspot.com/-uojsjWQI6Z8/WI-H29pN2rI/AAAAAAAAA4U/EAXFIV_B6qkgcl0P_0jTqSX3QShER9uaQCEw/s1600/20170130_094939.jpg'
-},
-{
-  id:5,
-  nombre: 'Cachafaz',
-  precio: '$55',
-  imagen: 'https://supermercado.carrefour.com.ar/media/catalog/product/7/7/77934499_02.jpg'
-},
-{
-  id:6,
-  nombre: 'Guaymallen',
-  precio: '$45',
-  imagen: 'https://dulcilandia.com.ar/sfe/wp-content/uploads/sites/3/2020/04/09801003-510x510.png'
-},
-]
-const dulceDeLeche = [
-  {
-    id:7,
-    nombre: 'La serenisima',
-    precio: '$100',
-    imagen: 'https://supermercado.carrefour.com.ar/media/catalog/product/7/7/7790742140609_02_nuevopack.jpg'
-},
-{
-  id:8,
-  nombre: 'Sancor',
-  precio: '$90',
-  imagen: 'https://walmartar.vteximg.com.br/arquivos/ids/835520-1000-1000/Dulce-De-Leche-Clasico-Sancor-400-Gr-1-11130.jpg?v=636687337497300000'
-},
-{
-  id:9,
-  nombre: 'Milkaut',
-  precio: '$95',
-  imagen: 'https://storage.googleapis.com/cdn.minimercadochacabuco.com/cdn/2020/05/05c28b7d-dulce-de-leche-milkaut-400-gr.jpg'
-},
-]   
+
+
+
+
+const handleDragStart = (e) => e.preventDefault();
+
+const items = [
+  <img src="diegote.jpg" onDragStart={handleDragStart} />,
+  <img src="diegote.jpg" onDragStart={handleDragStart} />,
+  <img src="diegote.jpg" onDragStart={handleDragStart} />,
+];
+
 
 
 
@@ -83,12 +40,12 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#00aae4',
     padding: theme.spacing(8, 0, 6),
-    backgroundImage: "url('Argentum2.png')",
+    backgroundImage: "url('https://thumbs.gfycat.com/SelfassuredRecentBull-size_restricted.gif')",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    backgroundSize: 600,
+    backgroundSize: 'content',
     height: 200,
     margin: '0 auto',
 
@@ -100,15 +57,13 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
-    
-    
-    
-  },
+    },
   card: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
     margin: 'auto',
+    marginTop:'10px'
     
     
   },
@@ -130,7 +85,42 @@ const useStyles = makeStyles((theme) => ({
   cartbutton:{
     fontSize:'medium',
     
-  }
+  }, 
+  letters:{
+    color: '#C25500',
+    display:'flex',
+    justifyContent:'center',
+    backgroundColor:'white',
+    fontWeight:'bold',
+    fontFamily: "'Lobster Two', cursive",
+    fontSize:'35px'
+  },
+  blue:{
+    backgroundColor:'#00aae4',
+    color:'#00aae4'
+  },
+  margin: {
+    margin: theme.spacing(1),
+    color: 'black',
+    fontSize:'130%',
+    fontWeight:'bold',
+    marginTop:'5%'
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  title: {
+    color: theme.palette.primary.light,
+  },
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
 
 }));
 
@@ -139,26 +129,51 @@ export default function Album() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const productos = useSelector(state => state.allProducts);
-  
+  // const [heart,setHeart] = React.useState(false)
     React.useEffect(()=>{
     dispatch(getAllProducts())
    },[])
- 
+
  
   
   
   return (
-    <React.Fragment >
+    <React.Fragment>
       <CssBaseline />
       
-     
-        <div className={classes.heroContent}>
+      <AliceCarousel 
+      autoPlay='true' 
+      autoWidth='true' 
+      autoHeight='true' 
+      disableButtonsControls
+      infinite='true'
+      autoPlayInterval={1000}
+      disableDotsControls
+      items={  
+        productos.map((tile) => (
           
-        </div>
+        
+        <GridListTile className={classes.root}>
+          <img src="mafalda.jpg"  />
+        </GridListTile>
+    
+          
+      ))}
+     />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
+       {/*  <Typography  variant="h5" component="h2" className={classes.blue}>
+        Productos sugeridos 
+          </Typography>
+        <Typography  variant="h5" component="h2" className={classes.letters}>
+          Productos sugeridos 
+          </Typography>
+          <Typography  variant="h5" component="h2" className={classes.blue}>
+          Productos sugeridos 
+          </Typography>
+          <hr /> */}
+          
           <Grid container spacing={4} >
-            {productos.map((prod) => (
+            {productos.slice(0, 9).map((prod) => (
               <Grid item key={prod.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <Link to={`/product/${prod.id}`}>
@@ -167,14 +182,21 @@ export default function Album() {
                     image={prod.imagen}
                     title={prod.nombre}
                     />
-                    </Link>
+                  </Link>
+                
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {prod.precio}
-                      </Typography>
-                      <Button size="small" color="primary" >
-                      <ShoppingCartIcon className={classes.cartbutton}/>
-                    </Button>
+                  
+                  <Button size="small" color="inherit" variant='text' className={classes.margin}>
+                      {prod.nombre}
+                      </Button>
+                      <hr />
+                  <Button size="small" color="inherit" variant='text' className={classes.margin}>
+                      ${prod.precio}
+                      </Button>
+                     
+                     
+                      
+                      
                     </CardContent>
                   </Card>
               </Grid>

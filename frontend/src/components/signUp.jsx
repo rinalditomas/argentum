@@ -43,14 +43,21 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: "#C25500"
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+    
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#C25500"
+  },
+  tipo:{
+    fontWeight:'bold',
+    fontFamily: "'Lobster Two', cursive",
+    fontSize:'30px'
   },
 }));
 
@@ -142,7 +149,7 @@ export default function SignUp() {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" className={classes.tipo} >
           Registrarse
         </Typography>
         <form className={classes.form} noValidate onSubmit ={handleSubmit}>
@@ -208,7 +215,7 @@ export default function SignUp() {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            color="inherit"
             className={classes.submit}
           >
             Registrarme
