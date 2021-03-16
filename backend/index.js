@@ -20,7 +20,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(routes)
 
 
-db.sync({ force: false }).then(() => {
+db.sync({ force: false}).then(() => {
     console.log("concetada a la base de datos");
     app.listen(3001);
     console.log("Servidor escuchado en el puerto 3001");
