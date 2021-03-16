@@ -14,6 +14,8 @@ import {useEffect} from 'react';
 import Shop from "../components/Shop";
 
 
+
+
 export default function Main() {
   const dispatch = useDispatch()
   const user = useSelector(state => state)
