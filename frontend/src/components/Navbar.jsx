@@ -13,7 +13,7 @@ import { Link,useHistory } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useDispatch,useSelector} from 'react-redux'
 import {sendLogoutRequest} from "../state/user"
-import { useRadioGroup } from "@material-ui/core";
+
 
 
 
@@ -107,6 +107,13 @@ console.log(user)
   const [ value, setValue ] = React.useState("")
 
 
+  const handleLogout = () => {
+    
+      dispatch(sendLogoutRequest())
+      history.push("/");
+      
+    };
+
  
  
   
@@ -162,12 +169,15 @@ console.log(user)
               </IconButton>
             </Link>
               {user.id? (<div><Link to="/logout">
-            <IconButton color="black">
+            <IconButton color="black" onClick={handleLogout}>
               <Badge color="black">
                 <ExitToAppIcon style={{ fontSize: 30 }} />
               </Badge>
             </IconButton>
-            </Link></div>):(<div>
+            </Link></div>)
+            
+            :
+            (<div>
                 <Link to="/signup">
 
             <IconButton color="black">
