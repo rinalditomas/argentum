@@ -38,7 +38,7 @@ router.post('/login', (req,res)=>{
 //     .catch(next())
 //     })
 
-router.put ("/:id",(req,res,next)=>{
+router.put ("/:id",checkJWT,(req,res,next)=>{
     User.findByPk(req.params.id)
     .then (user =>{
         user.update(req.body)

@@ -151,8 +151,10 @@ console.log(user)
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+
             
             <div>{ user.id? `Hola ${user.name}`: null}</div>
+
             {/* {'------------agregado solo para mi facilidad-----------'} */}
           <Link to="/admin">
             <IconButton color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
