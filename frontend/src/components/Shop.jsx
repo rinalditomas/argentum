@@ -39,8 +39,9 @@ const useStyles = makeStyles({
 
 export default function SpanningTable() {
   const classes = useStyles();
-  let carts = useSelector((state)=> state.cart)
   const [cart,setCart] = React.useState([])
+  let carts = useSelector((state)=> state.cart)
+  
   
   localStorage.setItem('cart', JSON.stringify(carts))
 
@@ -48,7 +49,7 @@ export default function SpanningTable() {
     return `${num.toFixed(2)}`;
   }
   const subtotal= (item)=> {
-    return item.map((obj) => obj.precio).reduce((sum, i) => sum + i, 0);
+    return item.map((obj) => obj.product.precio).reduce((sum, i) => sum + i, 0);
   }
   
   
@@ -57,7 +58,6 @@ export default function SpanningTable() {
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
   
 
-   
   console.log(cart)
   
   React.useEffect(()=>{
@@ -74,12 +74,15 @@ export default function SpanningTable() {
           <TableRow>
             <TableCell
               align="left"
-              colSpan={3}
+              colSpan={4}
               style={{ fontFamily: "'Lobster Two', cursive", fontSize: "50px" }}
             >
               Mi carrito
             </TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell align="right"
+            >
+
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell
@@ -124,14 +127,24 @@ export default function SpanningTable() {
             >
               Precio
             </TableCell>
+            <TableCell
+              align="right"
+              style={{
+                fontSize: "20px",
+                textDecoration: "underline",
+                fontFamily: "'Shippori Mincho B1', serif",
+                color: "#C25500",
+              }}
+            >
+              eliminar
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {carts.map((yerba) => (
-            <TableRow key={yerba.nombre}>
-              <TableCell>{<Checkbox color="primary" />}</TableCell>
+            <TableRow key={yerba.product.id}>
               <TableCell>
-                <Avatar alt="" src={yerba.imagen} al />
+                <Avatar alt="" src={yerba.product.imagen} al />
               </TableCell>
               <TableCell
                 style={{
@@ -140,7 +153,7 @@ export default function SpanningTable() {
                   color: "black",
                 }}
               >
-                {yerba.nombre}
+                {yerba.product.nombre}
               </TableCell>
               <TableCell
                 align="right"
@@ -153,7 +166,7 @@ export default function SpanningTable() {
                 <TextField
                   id="outlined-number"
                   /* label="stock" */
-                  defaultValue={yerba.stock}
+                  defaultValue={yerba.quantity}
                   type="number"
                   className={classes.stock}
                   InputLabelProps={{
@@ -170,12 +183,34 @@ export default function SpanningTable() {
                   color: "black",
                 }}
               >
-                {yerba.precio}{" "}
+                {yerba.product.precio}{" "}
+              </TableCell>
+              <TableCell
+                align="right"
+                style={{
+                  fontFamily: "'Shippori Mincho B1', serif",
+                  fontSize: "18px",
+                  color: "black",
+                }}
+              >
+                 <IconButton aria-label="delete">
+        <DeleteIcon
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            float: "right",
+            margin: "5%",
+            color: "red",
+            align: "right"
+          }}
+        />
+      </IconButton>
               </TableCell>
             </TableRow>
           ))} 
         <TableRow>
-            <TableCell rowSpan={3} />
+            <TableCell rowSpan={3} 
+            />
             <TableCell
               style={{
                 fontFamily: "'Shippori Mincho B1', serif",
@@ -254,18 +289,7 @@ export default function SpanningTable() {
           </TableRow>
         </TableBody>
       </Table>
-      <IconButton aria-label="delete">
-        <DeleteIcon
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            float: "right",
-            margin: "5%",
-            color: "red",
-            align: "right"
-          }}
-        />
-      </IconButton>
+     
       <Button
         align="right"
         variant="contained"

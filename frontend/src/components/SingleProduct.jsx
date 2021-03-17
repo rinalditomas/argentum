@@ -19,7 +19,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {setCart} from '../state/cart'
+import {setCart,setQuantity} from '../state/cart'
 
 
 import clsx from 'clsx';
@@ -187,8 +187,7 @@ export default function SingleProduct({match}) {
 const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
-
- 
+ const [quantity, setCantidad] = React.useState(1)
  
  React.useEffect(()=>{
  dispatch(getSingleProduct(match.params.id))
@@ -209,7 +208,7 @@ const [loading, setLoading] = React.useState(false);
   function toggleHeart(){
     setHeart(!heart)
   }
- 
+
 
   //----------------------------------------------
 
@@ -230,7 +229,8 @@ const [loading, setLoading] = React.useState(false);
       setSuccess(false);
       setLoading(true);
       
-       dispatch(setCart(singleProduct))
+       dispatch(setCart({...singleProduct,quantity:Number(quantity)}))
+       
       
       timer.current = window.setTimeout(() => {
         setSuccess(true);
@@ -240,6 +240,12 @@ const [loading, setLoading] = React.useState(false);
     }
   };
 
+  const handleChange =(event) => {
+    setCantidad(event.target.value);
+  }
+  console.log(quantity)
+
+  console.log(singleProduct)
 
   //-------------------------------------------
  
@@ -301,19 +307,22 @@ const [loading, setLoading] = React.useState(false);
                      <Box mt={4} />
                     {singleProduct.disponible? <Typography component="h5"  className={classes.disponibilidad}> STOCK DISPONIBLE</Typography>:<h1>no disponible</h1> }
                     {singleProduct.disponible? <Typography component="h10"  className={classes.stock}>({singleProduct.stock} disponibles)</Typography>:<h1>no disponible</h1> }
-                    <Button aria-controls="customized-menu" aria-haspopup="true" variant="contained"  onClick={handleClick} fullWidth='true'>
-                    Cantidad: 1 UNIDAD
+                    <select  onChange={handleChange}>
+                    <option>{1}</option>
+                    <option>{2}</option>
+                    <option>{3}</option>
+                    <option>{4}</option>
+                    <option>{5}</option>
+                    </select>
+                    {/* <Button aria-controls="customized-menu" aria-haspopup="true" variant="contained"  onClick={handleClick} fullWidth='true'>
+                    {`cantidad: ${cantidad}`}
                     </Button>
                     <StyledMenu id="customized-menu" anchorEl={anchorEl}keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
-                        <StyledMenuItem >
                         
-                        1 UNIDAD
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                        2 UNIDADES
-                        </StyledMenuItem>
                         
-                    </StyledMenu>
+                        
+                        
+                    </StyledMenu> */}
                    
                     </div>
                     </div>
