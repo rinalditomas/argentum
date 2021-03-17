@@ -8,19 +8,30 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
-import SaveIcon from '@material-ui/icons/Save';
-import Button from '@material-ui/core/Button';
-import PaymentIcon from '@material-ui/icons/Payment';
-import TextField from '@material-ui/core/TextField';
-import DeleteIcon from '@material-ui/icons/Delete';
-import {useSelector} from 'react-redux'
-
+import Button from "@material-ui/core/Button";
+import PaymentIcon from "@material-ui/icons/Payment";
+import TextField from "@material-ui/core/TextField";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import IconButton from "@material-ui/core/IconButton";
+import {useSelector} from "react-redux";
 
 const TAX_RATE = 0.21;
 
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
+  },
+  button: {
+    display: "flex",
+    justifyContent: "flex-end",
+    float: "right",
+    margin: "5%",
+    backgroundColor: "#C25500",
+  },
+  stock: {
+    width: "60px",
   },
 });
 
@@ -116,78 +127,174 @@ export default function SpanningTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-           {cart.map((carrito) => ( 
-            <TableRow key={carrito.nombre}>
+          {carts.map((yerba) => (
+            <TableRow key={yerba.nombre}>
+              <TableCell>{<Checkbox color="primary" />}</TableCell>
               <TableCell>
-                <Avatar alt="" src={carrito.imagen} />
+                <Avatar alt="" src={yerba.imagen} al />
               </TableCell>
-              <TableCell style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{carrito.nombre}</TableCell>
-              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>
-              <TextField
-              id="outlined-number"
-              /* label="stock" */
-              defaultValue = {carrito.stock}
-              type="number"
-              className={classes.stock}
-              InputLabelProps={{
-                shrink: true,
-          }}
-          variant="outlined"
-        /></TableCell>
-              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{carrito.precio}  </TableCell>
-               
+              <TableCell
+                style={{
+                  fontFamily: "'Shippori Mincho B1', serif",
+                  fontSize: "18px",
+                  color: "black",
+                }}
+              >
+                {yerba.nombre}
+              </TableCell>
+              <TableCell
+                align="right"
+                style={{
+                  fontFamily: "'Shippori Mincho B1', serif",
+                  fontSize: "18px",
+                  color: "black",
+                }}
+              >
+                <TextField
+                  id="outlined-number"
+                  /* label="stock" */
+                  defaultValue={yerba.stock}
+                  type="number"
+                  className={classes.stock}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="outlined"
+                />
+              </TableCell>
+              <TableCell
+                align="right"
+                style={{
+                  fontFamily: "'Shippori Mincho B1', serif",
+                  fontSize: "18px",
+                  color: "black",
+                }}
+              >
+                {yerba.precio}{" "}
+              </TableCell>
             </TableRow>
           ))} 
         <TableRow>
             <TableCell rowSpan={3} />
-            <TableCell style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black", textDecoration:"underline"}}>Unidades</TableCell>
-            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{`${(TAX_RATE * 100).toFixed(
-              0
-            )} %`}</TableCell>
-            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{ccyFormat(invoiceTaxes)}</TableCell>
+            <TableCell
+              style={{
+                fontFamily: "'Shippori Mincho B1', serif",
+                fontSize: "18px",
+                color: "black",
+                textDecoration: "underline",
+              }}
+            >
+              IVA
+            </TableCell>
+            <TableCell
+              align="right"
+              style={{
+                fontFamily: "'Shippori Mincho B1', serif",
+                fontSize: "18px",
+                color: "black",
+              }}
+            >{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
+            <TableCell
+              align="right"
+              style={{
+                fontFamily: "'Shippori Mincho B1', serif",
+                fontSize: "18px",
+                color: "black",
+              }}
+            >
+              {ccyFormat(invoiceTaxes)}
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2} style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black", textDecoration:"underline"}}>Subtotal</TableCell>
-            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{ccyFormat(invoiceSubtotal)}</TableCell>
+            <TableCell
+              colSpan={2}
+              style={{
+                fontFamily: "'Shippori Mincho B1', serif",
+                fontSize: "18px",
+                color: "black",
+                textDecoration: "underline",
+              }}
+            >
+              Subtotal
+            </TableCell>
+            <TableCell
+              align="right"
+              style={{
+                fontFamily: "'Shippori Mincho B1', serif",
+                fontSize: "18px",
+                color: "black",
+              }}
+            >
+              {ccyFormat(invoiceSubtotal)}
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2} style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"22px", color: "black", textDecoration: "underline", fontWeight:"bold"}}>Total</TableCell>
-            <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"22px", color: "black", textDecoration: "underline", fontWeight:"bold"}}>{ccyFormat(invoiceTotal)}</TableCell>
+            <TableCell
+              colSpan={2}
+              style={{
+                fontFamily: "'Shippori Mincho B1', serif",
+                fontSize: "22px",
+                color: "black",
+                textDecoration: "underline",
+                fontWeight: "bold",
+              }}
+            >
+              Total
+            </TableCell>
+            <TableCell
+              align="right"
+              style={{
+                fontFamily: "'Shippori Mincho B1', serif",
+                fontSize: "22px",
+                color: "black",
+                textDecoration: "underline",
+                fontWeight: "bold",
+              }}
+            >{`$ ${ccyFormat(invoiceTotal)}`}</TableCell>
           </TableRow>
         </TableBody>
+      </Table>
+      <IconButton aria-label="delete">
+        <DeleteIcon
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            float: "right",
+            margin: "5%",
+            color: "red",
+            align: "right"
+          }}
+        />
+      </IconButton>
       <Button
-      align="right"
+        align="right"
         variant="contained"
-        color="primary"
+        color="inherit"
         size="large"
         className={classes.button}
         startIcon={<PaymentIcon />}
       >
         Pagar
       </Button>
-      </Table>
     </TableContainer>
-
   );
 }
 
-
-
-
-
-
-let array =[
+let array = [
   {
-    nombre: 'cuchara',
-    cantidad: 10
+    nombre: "cuchara",
+    cantidad: 10,
   },
   {
-    nombre: 'tenedor',
-    cantidad: 6 
-  }
-]
+    nombre: "tenedor",
+    cantidad: 6,
+  },
+];
 
-function otromas (arreglo,item){
-  arreglo.map(algo => {if(algo.nombre == item)  { console.log(algo.cantidad)} }  )
+function otromas(arreglo, item) {
+  arreglo.map((algo) => {
+    if (algo.nombre == item) {
+      console.log(algo.cantidad);
+    }
+  });
 }
-
