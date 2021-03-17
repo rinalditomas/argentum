@@ -8,17 +8,15 @@ import Login from '../components/login'
 import SearchProd from '../components/SearchProd'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import SearchProd from '../components/SearchProd'
 import {useDispatch,useSelector} from "react-redux"
 import {sendToken} from "../state/user"
 import Shop from "../components/Shop";
 
 
 
+export default function Main(){
 
-
-
-
-export default function Main() {
   const dispatch = useDispatch()
   const user = useSelector(state => state)
   const token =localStorage.getItem("token")
@@ -50,4 +48,4 @@ export default function Main() {
             <Footer />
         </React.Fragment>
     )
-}
+  }
