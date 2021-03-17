@@ -107,11 +107,7 @@ const handleSubmit =  (e) => {
   if(validate()){
  dispatch(sendLoginRequest({email:email,password:password}))
   .then((data)=>{
-
-
     alert(`bienvenido!`)
-
-    localStorage.setItem("token",(data.payload.token))
     history.push('/')
 
   })
