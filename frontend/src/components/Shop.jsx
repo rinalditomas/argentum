@@ -8,7 +8,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
-<<<<<<< HEAD
 import Button from "@material-ui/core/Button";
 import PaymentIcon from "@material-ui/icons/Payment";
 import TextField from "@material-ui/core/TextField";
@@ -16,17 +15,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import IconButton from "@material-ui/core/IconButton";
+import {useSelector} from "react-redux";
 
-=======
-import SaveIcon from '@material-ui/icons/Save';
-import Button from '@material-ui/core/Button';
-import PaymentIcon from '@material-ui/icons/Payment';
-import TextField from '@material-ui/core/TextField';
-import DeleteIcon from '@material-ui/icons/Delete';
-import {useSelector} from 'react-redux'
-
-
->>>>>>> d597c0585ae3b6dd7ff679a749bc9f8b9888ee00
 const TAX_RATE = 0.21;
 
 const useStyles = makeStyles({
@@ -137,8 +127,7 @@ export default function SpanningTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-<<<<<<< HEAD
-          {yerbas.map((yerba) => (
+          {carts.map((yerba) => (
             <TableRow key={yerba.nombre}>
               <TableCell>{<Checkbox color="primary" />}</TableCell>
               <TableCell>
@@ -183,28 +172,6 @@ export default function SpanningTable() {
               >
                 {yerba.precio}{" "}
               </TableCell>
-=======
-           {cart.map((carrito) => ( 
-            <TableRow key={carrito.nombre}>
-              <TableCell>
-                <Avatar alt="" src={carrito.imagen} />
-              </TableCell>
-              <TableCell style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{carrito.nombre}</TableCell>
-              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>
-              <TextField
-              id="outlined-number"
-              /* label="stock" */
-              defaultValue = {carrito.stock}
-              type="number"
-              className={classes.stock}
-              InputLabelProps={{
-                shrink: true,
-          }}
-          variant="outlined"
-        /></TableCell>
-              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{carrito.precio}  </TableCell>
-               
->>>>>>> d597c0585ae3b6dd7ff679a749bc9f8b9888ee00
             </TableRow>
           ))} 
         <TableRow>
