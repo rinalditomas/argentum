@@ -18,7 +18,8 @@
     "sequelize": "^6.5.0"
   },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "seed": "node ./seed.js"
   },
   "keywords": [
     "argentum"

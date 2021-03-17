@@ -5,7 +5,7 @@ import {getSearchProductReducer} from './searchProduct'
 import {getAllProductsReducer} from './allProducts'
 import {productReducer} from './product'
 import { userReducer } from "./user";
-
+import {cartProductsReducer} from './cart'
 
 
 
@@ -18,6 +18,7 @@ const store = configureStore({
     user: userReducer,
 
     product :productReducer,
+    cart : cartProductsReducer
 
 
   },

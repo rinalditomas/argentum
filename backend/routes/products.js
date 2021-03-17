@@ -66,6 +66,21 @@ router.post ("/", (req,res,next)=>{
     })
 })
 
+/* router.post ("/cart", (req,res,next)=>{
+    console.log(req.body)
+    Product.findOne ({where:{nombre: req.body.nombre}})
+    .then ((producto)=>{
+        res.send(producto)
+    })
+})
+ */
+
+/* router.get("/cart", (req, res) => {
+    console.log(req.body)
+    Product.findAll()
+    .then(producto =>  res.send(producto) )
+})
+ */
 
 router.put("/:id", (req, res, next) => {
     let id = req.params.id;

@@ -19,6 +19,7 @@ import { useRadioGroup } from "@material-ui/core";
 
 
 
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -104,6 +105,7 @@ export default function PrimarySearchAppBar() {
   const user = useSelector(state => state.user)
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
+
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
@@ -161,12 +163,15 @@ export default function PrimarySearchAppBar() {
               </Badge>
               </IconButton>
             </Link>
+
               {user.id? (<div>
                 <IconButton onClick={handleSubmit} color="black">
+
               <Badge color="black">
                 <ExitToAppIcon style={{ fontSize: 30 }} />
               </Badge>
             </IconButton>
+
               {/* <Link to="/logout"></Link>
             <IconButton color="black">
               <Badge color="black">
@@ -174,6 +179,7 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton> */}
             </div>):(<div>
+
                 <Link to="/signup">
 
             <IconButton color="black">
