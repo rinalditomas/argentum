@@ -9,4 +9,7 @@ router.get("/private",checkJWT,isAdmin,(req,res)=>{
     res.status(200).json(req.user)
      })
 
+
+
+   
 module.exports = router
