@@ -6,7 +6,8 @@ const checkJWT = require("./middlewares/jwt");
 const isAdmin = require("./middlewares/isAdmin");
 
 router.post("/add/:id", checkJWT, (req, res, next) => {
-  Item.findOrCreate({
+  
+    Item.findOrCreate({
     where: {
       productId: req.params.id,
     },
