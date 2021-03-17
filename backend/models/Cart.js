@@ -7,7 +7,7 @@ Cart.init({
 
     estado: {
      type: Sequelize.ENUM({
-        values: ['accepted', 'pending','rejected','active']
+        values: ['accepted', 'pending','rejected','active']//active actual, pasa a pending con checkout, admin lo acepta
         
       }),
       defaultValue: 'active',

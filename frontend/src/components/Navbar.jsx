@@ -12,8 +12,9 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link,useHistory } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useDispatch,useSelector} from 'react-redux'
-import {sendLogoutRequest} from "../state/user"
+import {sendLoginRequest, sendLogoutRequest} from "../state/user"
 import { useRadioGroup } from "@material-ui/core";
+
 
 
 
@@ -102,17 +103,22 @@ export default function PrimarySearchAppBar() {
   
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-console.log(user)
   const history = useHistory();
   const [ value, setValue ] = React.useState("")
 
   
    const enter = (e)=> {
       if(e.keyCode == '13'){ 
-        
    history.push(`/search/${value}`)
    setValue("")
      } } 
+
+    const handleSubmit = (e) =>{
+      e.preventDefault();
+      dispatch(sendLogoutRequest())
+      // window.location.reload();
+      // return false;
+    }
    
   return (
     <div className={classes.grow}>
@@ -141,10 +147,7 @@ console.log(user)
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-
-            
-            <div>{ user.id? `Hola ${user.name}`: null}</div>
-
+            <div>{user.name?`Hola ${user.name}`: null} </div>
             {/* {'------------agregado solo para mi facilidad-----------'} */}
           <Link to="/admin">
             <IconButton color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
@@ -160,13 +163,23 @@ console.log(user)
               </Badge>
               </IconButton>
             </Link>
-              {user.id? (<div><Link to="/logout">
-            <IconButton color="black">
+
+              {user.id? (<div>
+                <IconButton onClick={handleSubmit} color="black">
+
               <Badge color="black">
                 <ExitToAppIcon style={{ fontSize: 30 }} />
               </Badge>
             </IconButton>
-            </Link></div>):(<div>
+
+              {/* <Link to="/logout"></Link>
+            <IconButton color="black">
+              <Badge color="black">
+                <ExitToAppIcon style={{ fontSize: 30 }} />
+              </Badge>
+            </IconButton> */}
+            </div>):(<div>
+
                 <Link to="/signup">
 
             <IconButton color="black">

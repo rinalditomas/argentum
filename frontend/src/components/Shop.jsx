@@ -8,6 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
+<<<<<<< HEAD
 import Button from "@material-ui/core/Button";
 import PaymentIcon from "@material-ui/icons/Payment";
 import TextField from "@material-ui/core/TextField";
@@ -16,6 +17,16 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import IconButton from "@material-ui/core/IconButton";
 
+=======
+import SaveIcon from '@material-ui/icons/Save';
+import Button from '@material-ui/core/Button';
+import PaymentIcon from '@material-ui/icons/Payment';
+import TextField from '@material-ui/core/TextField';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {useSelector} from 'react-redux'
+
+
+>>>>>>> d597c0585ae3b6dd7ff679a749bc9f8b9888ee00
 const TAX_RATE = 0.21;
 
 const useStyles = makeStyles({
@@ -34,56 +45,37 @@ const useStyles = makeStyles({
   },
 });
 
-function ccyFormat(num) {
-  return `${num.toFixed(2)}`;
-}
 
-function priceRow(qty, unit) {
-  return qty * unit;
-}
-
-function createRow(desc, qty, unit) {
-  const price = priceRow(qty, unit);
-  return { desc, qty, unit, price };
-}
-
-function subtotal(item) {
-  return item.map((obj) => obj.precio).reduce((sum, i) => sum + i, 0);
-}
-
-const yerbas = [
-  {
-    id: 1,
-    nombre: "Playadito",
-    precio: 200,
-    imagen:
-      "https://ardiaprod.vteximg.com.br/arquivos/ids/188719-1000-1000/YERBA-PLAYADITO-SUAVE-1-KG_1.jpg?v=637427630884900000",
-    stock: 2,
-  },
-  {
-    id: 2,
-    nombre: "Union",
-    precio: 180,
-    imagen:
-      "https://supermercado.carrefour.com.ar/media/catalog/product/7/7/7790387014334_02.jpg",
-    stock: 5,
-  },
-  {
-    id: 3,
-    nombre: "Amanda",
-    precio: 165,
-    imagen:
-      "http://ardiaprod.vteximg.com.br/arquivos/ids/186878-500-500/Yerba-Mate-Amanda-de-Campo-1-Kg-_1.jpg?v=637427594485800000",
-    stock: 1,
-  },
-];
-
-const invoiceSubtotal = subtotal(yerbas);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 export default function SpanningTable() {
   const classes = useStyles();
+  let carts = useSelector((state)=> state.cart)
+  const [cart,setCart] = React.useState([])
+  
+  localStorage.setItem('cart', JSON.stringify(carts))
+
+  const ccyFormat=(num)=> {
+    return `${num.toFixed(2)}`;
+  }
+  const subtotal= (item)=> {
+    return item.map((obj) => obj.precio).reduce((sum, i) => sum + i, 0);
+  }
+  
+  
+  const invoiceSubtotal = subtotal(cart);
+  const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+  const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+  
+
+   
+  console.log(cart)
+  
+  React.useEffect(()=>{
+     setCart(carts) 
+
+  },[])
+  
+
 
   return (
     <TableContainer component={Paper}>
@@ -145,6 +137,7 @@ export default function SpanningTable() {
           </TableRow>
         </TableHead>
         <TableBody>
+<<<<<<< HEAD
           {yerbas.map((yerba) => (
             <TableRow key={yerba.nombre}>
               <TableCell>{<Checkbox color="primary" />}</TableCell>
@@ -190,10 +183,31 @@ export default function SpanningTable() {
               >
                 {yerba.precio}{" "}
               </TableCell>
+=======
+           {cart.map((carrito) => ( 
+            <TableRow key={carrito.nombre}>
+              <TableCell>
+                <Avatar alt="" src={carrito.imagen} />
+              </TableCell>
+              <TableCell style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{carrito.nombre}</TableCell>
+              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>
+              <TextField
+              id="outlined-number"
+              /* label="stock" */
+              defaultValue = {carrito.stock}
+              type="number"
+              className={classes.stock}
+              InputLabelProps={{
+                shrink: true,
+          }}
+          variant="outlined"
+        /></TableCell>
+              <TableCell align="right" style={{fontFamily: "'Shippori Mincho B1', serif", fontSize:"18px", color: "black"}}>{carrito.precio}  </TableCell>
+               
+>>>>>>> d597c0585ae3b6dd7ff679a749bc9f8b9888ee00
             </TableRow>
-          ))}
-
-          <TableRow>
+          ))} 
+        <TableRow>
             <TableCell rowSpan={3} />
             <TableCell
               style={{

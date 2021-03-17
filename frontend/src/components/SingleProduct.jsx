@@ -19,7 +19,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import {setCart} from '../state/cart'
 
 
 import clsx from 'clsx';
@@ -188,7 +188,7 @@ const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
 
- console.log(singleProduct)
+ 
  
  React.useEffect(()=>{
  dispatch(getSingleProduct(match.params.id))
@@ -229,6 +229,9 @@ const [loading, setLoading] = React.useState(false);
     if (!loading) {
       setSuccess(false);
       setLoading(true);
+      
+       dispatch(setCart(singleProduct))
+      
       timer.current = window.setTimeout(() => {
         setSuccess(true);
         setLoading(false);

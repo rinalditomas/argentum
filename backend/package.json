@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "nodemon index.js",
-    "productos-seed": "nodemon backend/seed/productos.js"
+    "seed": "node ./seed.js"
   },
   "keywords": [
     "argentum"
