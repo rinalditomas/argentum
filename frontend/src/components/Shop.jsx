@@ -129,7 +129,8 @@ export default function SpanningTable() {
         <TableBody>
           {carts.map((yerba) => (
             <TableRow key={yerba.nombre}>
-              <TableCell>{<Checkbox color="primary" />}</TableCell>
+              
+              <TableCell>{<Checkbox color="primary" />}</TableCell>*/}
               <TableCell>
                 <Avatar alt="" src={yerba.imagen} al />
               </TableCell>
