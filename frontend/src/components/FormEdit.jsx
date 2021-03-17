@@ -8,6 +8,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useInput } from "../customHook";
 import axios from 'axios'
+
 const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
@@ -30,8 +31,9 @@ const useStyles = makeStyles((theme) => ({
     
 
 export default function EditForm() {
-  const history = useHistory();
-  const dispatch = useDispatch()
+  //const products = useSelector(state => state.searchProduct);
+  //const history = useHistory();
+  //const dispatch = useDispatch()
   const [ query, setQuery ] = React.useState([])
   const [ value, setValue ] = React.useState("")
   const product = useInput("product");
@@ -39,6 +41,8 @@ export default function EditForm() {
   const description = useInput("description")
   const image = useInput("image")
   const stock = useInput("stock")
+  const [ inputValue, setInputValue ] = React.useState("")
+
 
 
   const submitForm = (e)=>{
@@ -59,13 +63,27 @@ export default function EditForm() {
     setQuery(res.data) })
    setValue("")
      } } 
-  console.log(query[0])
-  console.log(product)
-  console.log(query[0]?product.value=query[0].nombre: null)
-  console.log(query[0]?price.value=query[0].precio: null)
+
+     const cambio = (e)=>{
+        if(e.keyCode =='13'){
+            setInputValue(query[0].nombre)
+        }
+     }
+     console.log(inputValue)
+   /*    React.useEffect(()=>{
+     setInputValue(query[0].nombre)
+    },[enter]) 
+      console.log(inputValue)
+      */
+     
+      //console.log(query[0]?query[0].nombre:null)
+       //console.log(query[0])
+       /*console.log(product)
+       console.log(query[0]?product.value=query[0].nombre: null)
+       console.log(query[0]?price.value=query[0].precio: null)
   console.log(query[0]?stock.value=query[0].stock: null)
   console.log(query[0]?description.value=query[0].descripcion: null)
-  console.log(query[0]?image.value=query[0].imagen: null)
+  console.log(query[0]?image.value=query[0].imagen: null) */
   
   return (
     <React.Fragment>
@@ -87,7 +105,8 @@ export default function EditForm() {
             inputProps={{ 'aria-label': 'search' }}
              onKeyDown= {(e)=>enter(e)} 
              value={value}
-             onChange={(e)=>setValue(e.target.value)} 
+             onChange={(e)=>setValue(e.target.value)}
+             onKeyUp={(e)=>{cambio(e)}} 
              />
         </Grid>
         
@@ -100,10 +119,15 @@ export default function EditForm() {
             name="product"
             label="product"
             fullWidth
-            {...product}
+            defaultValue={inputValue}
+            
+            //value={query[0]?query[0].nombre: null}
+            
+            //{...product}
+            //onChange={(e)=>setInputValue(e.target.value)}  
               />
         </Grid>
-        <Grid item xs={12} sm={4}>
+       {/*  <Grid item xs={12} sm={4}>
           <TextField
             required
             id="price"
@@ -148,8 +172,8 @@ export default function EditForm() {
         </Grid>
         
         
-        
-      </Grid> 
+        */}
+      </Grid>  
       
       <Button
         type="submit"

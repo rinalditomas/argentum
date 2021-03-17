@@ -24,44 +24,46 @@ const useStyles = makeStyles((theme) => ({
 export default function InsetDividers({match}) {
   const classes = useStyles();
 
-
-/* 
-  let queryProduct = useSelector((state)=> state.searchProduct)
+let queryProduct = useSelector((state)=> state.searchProduct)
   const queryProd = match.params.id
   const dispatch = useDispatch();
+  
   React.useEffect(()=>{
     dispatch(getSearchProduct(queryProd))
-  },[dispatch,queryProduct])
+  },[])
 
-  console.log(queryProduct) */
+  console.log(queryProduct) 
  
   return (
     <List className={classes.root}>
       <ListItem className={classes.list}>
         <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
+          <Avatar >
+          <ImageIcon />
           </Avatar>
+          
         </ListItemAvatar>
         <ListItemText primary="producto" />
         <ListItemText primary="precio" />
         <ListItemText primary="descripcion" />
         <ListItemText primary="stock" />
-        <ListItemText primary="Photos" />
-      </ListItem>
+       
+      </ListItem> 
       <Divider variant="middle" component="li" />
-      <ListItem >
+      
+        {queryProduct.map(prod => 
+      <ListItem key ={prod.id}>
         <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
+          <Avatar  alt="" src={prod.imagen} />
+           
         </ListItemAvatar>
-        <ListItemText primary="Photos" />
-        <ListItemText primary="Photos" />
-        <ListItemText primary="Photos" />
-        <ListItemText primary="Photos" />
-        <ListItemText primary="Photos" />
+        <ListItemText primary={prod.nombre} />
+        <ListItemText primary={`$${prod.precio}`} />
+        <ListItemText primary={prod.descripcion}/>
+        <ListItemText primary={prod.stock} />
+        
       </ListItem>
+      )}
       <Divider variant="inset" component="li" />
      
      
