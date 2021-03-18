@@ -19,7 +19,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import {setCart} from '../state/cart'
 
 
 import clsx from 'clsx';
@@ -188,7 +188,7 @@ const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
 
- console.log(singleProduct)
+ 
  
  React.useEffect(()=>{
  dispatch(getSingleProduct(match.params.id))
@@ -229,6 +229,9 @@ const [loading, setLoading] = React.useState(false);
     if (!loading) {
       setSuccess(false);
       setLoading(true);
+      
+       dispatch(setCart(singleProduct))
+      
       timer.current = window.setTimeout(() => {
         setSuccess(true);
         setLoading(false);
@@ -240,7 +243,7 @@ const [loading, setLoading] = React.useState(false);
 
   //-------------------------------------------
  
-
+console.log("ESTA ES LA IMAGEN",singleProduct.imagen)
   return (
     
     <React.Fragment>
@@ -251,6 +254,7 @@ const [loading, setLoading] = React.useState(false);
               <Grid item key={singleProduct.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                     <div >
+                      
                     
                     <img src={singleProduct.imagen} alt="" className={classes.cardMedia} />
                     
