@@ -6,44 +6,31 @@ const checkJWT = require("./middlewares/jwt");
 const isAdmin = require("./middlewares/isAdmin");
 
 router.post("/add/:id", checkJWT, (req, res, next) => {
-  Item.findOrCreate({
+  Cart.findOne({
     where: {
-      productId: req.params.id,
+      userId: req.user.id,
+      estado: "active",
     },
-    defaults: req.body,
   })
-    .then((item) => {
-      if (item.productId) {
-        item.quantity = req.body.quantity
-        item.save()
-        .then(()=>{
-            Cart.findOne({
-                where: {
-                  userId: req.user.id,
-                  estado: "active",
-                },
-                include:Item
-              }).then((cart) => {
-                 return res.send(cart);
-                });
-              }); 
-      } else {
-        item.setProduct(req.params.id).then((productItem) => {
-          Cart.findOne({
-            where: {
-              userId: req.user.id,
-              estado: "active",
-            },
-          }).then((cart) => {
-            cart.addItem(productItem).then((carritoLleno) => {
-              return res.send(carritoLleno);
-            });
-          });
-        });
-      }
+    .then((cart) => {
+      Item.findOrCreate({
+        where: {
+          productId: req.params.id,
+          cartId: cart.id,
+        },
+        defaults: req.body,
+      }).then((item) => {
+        console.log(item, "ESTE ES EL ITEM");
+        const items = item[0];
+        console.log("ENTRE EN EL IF*****************");
+        items.quantity = req.body.quantity;
+        items.save();
+        return res.send(items);
+      });
     })
     .catch(next);
 });
+
 router.post("/remove/:id", checkJWT, (req, res, next) => {
   Item.findOne({
     where: {
