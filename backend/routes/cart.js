@@ -1,49 +1,49 @@
 const express = require("express");
 const router = express.Router();
-const { Cart, Item, Product } = require("../models");
+const nodemailer = require("nodemailer");
+const { Cart, Item, Product, User } = require("../models");
 const jwt = require("jsonwebtoken");
 const checkJWT = require("./middlewares/jwt");
 const isAdmin = require("./middlewares/isAdmin");
+const { Op } = require("sequelize");
+
+//configuracion envio de mail
+let transport = nodemailer.createTransport({
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "0015b98869380e",
+    pass: "b40ccaa1a10089",
+  },
+});
+
+
 
 router.post("/add/:id", checkJWT, (req, res, next) => {
-  Item.findOrCreate({
+  Cart.findOne({
     where: {
-      productId: req.params.id,
+      userId: req.user.id,
+      estado: "active",
     },
-    defaults: req.body,
   })
-    .then((item) => {
-      if (item.productId) {
-        item.quantity = req.body.quantity
-        item.save()
-        .then(()=>{
-            Cart.findOne({
-                where: {
-                  userId: req.user.id,
-                  estado: "active",
-                },
-                include:Item
-              }).then((cart) => {
-                 return res.send(cart);
-                });
-              }); 
-      } else {
-        item.setProduct(req.params.id).then((productItem) => {
-          Cart.findOne({
-            where: {
-              userId: req.user.id,
-              estado: "active",
-            },
-          }).then((cart) => {
-            cart.addItem(productItem).then((carritoLleno) => {
-              return res.send(carritoLleno);
-            });
-          });
-        });
-      }
+    .then((cart) => {
+      Item.findOrCreate({
+        where: {
+          productId: req.params.id,
+          cartId: cart.id,
+        },
+        defaults: req.body,
+      }).then((item) => {
+        const items = item[0];
+        items.quantity = req.body.quantity;
+        items.save();
+        return res.send(items);
+      });
     })
     .catch(next);
 });
+
+
 router.post("/remove/:id", checkJWT, (req, res, next) => {
   Item.findOne({
     where: {
@@ -60,6 +60,7 @@ router.post("/remove/:id", checkJWT, (req, res, next) => {
     });
 });
 
+
 router.post("/create/:id", checkJWT, (req, res, next) => {
   Cart.findOrCreate({
     where: {
@@ -73,7 +74,9 @@ router.post("/create/:id", checkJWT, (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-}); //chequeo si hay carro, sino lo creo. Si existe agrego lo nuevo, si no existe guardo lo del front
+}); 
+
+
 router.delete("/clear", checkJWT, (req, res, next) => {
   Cart.findOne({
     where: {
@@ -93,7 +96,9 @@ router.delete("/clear", checkJWT, (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-}); //borra carro (productos con items)
+}); 
+
+
 router.post("/checkOut", checkJWT, (req, res, next) => {
   Cart.findOne({
     where: {
@@ -101,22 +106,100 @@ router.post("/checkOut", checkJWT, (req, res, next) => {
       estado: "active",
     },
   }).then((cart) => {
-    cart.update({ estado: "pending" }).then(() => {
-      console.log(cart);
-      Item.findAll({
-        where: {
-          cartId: cart.id,
-        },
-        include: Product,
-      }).then((response) => {
+    cart.update({ estado: "active" }).then(() => {//cambiar a pending
+      User.findByPk(req.user.id).then((persona) => {
+        const message = {
+          from: "smtp.mailtrap.io", 
+          to: persona.email, 
+          subject: "Confirmación de compra Argentum", 
+          text: "Gracias por haber elegido Argentum",
+        };
+        transport.sendMail(message, function (err, info) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(info);
+          }
+        });
+        console.log(cart);
+        Item.findAll({
+          where: {
+            cartId: cart.id,
+          },
+          include: Product,
+        }).then((response) => {
+          response.map((item) => {
+            if (item.product.stock > item.quantity) {
+              item.product.stock = item.product.stock - item.quantity;
+            } else {
+              console.log("No hay stock de este producto");
+            }
+          });
+        });
         console.log(response, "ietms con productos");
-        res.send(response.quantity);
+        Cart.create({ userId: req.user.id, estado: "active" }).then(() => {
+          res.send(response.quantity);
+        })
+        .catch (error =>{
+          next (error)
+      })
       });
     });
   });
-}); // cambia el estado del carrito y los pasa a pending, admin tiene que aceptar y pasa a accepted. Modificar stock.
+});
 
-//en checkout updatear producto con nuevo stock
-// crear carrito active, eliminar, checkout, agregar, combinar carritos (cuando loguea)
+
+router.get("/",checkJWT,(req,res,next)=>{
+  Cart.findAll({
+    where:{
+      [Op.or]: [{estado:"pending"}, {estado:"accepted"},{estado:"rejected"}]
+    }
+  })
+  .then((carts) => {res.send(carts)})
+  .catch (error =>{
+    next (error)
+  })
+})
+
+
+router.get("/pendings",checkJWT,isAdmin,(req,res,next)=>{
+  Cart.findAll({
+    where:{
+      estado:"pending"
+    }
+  })
+  .then(carritos =>{
+    res.send(carritos)
+  })
+  .catch (error =>{
+    next (error)
+  })
+})
+
+
+router.get("/accepted/:id",checkJWT,(req,res,next)=>{
+  console.log("ESTE ES EL REQ PARAMS ID",req.params.id)
+  Cart.findByPk(req.params.id)
+  .then(carrito =>{
+    carrito.estado = "accepted"
+    res.send(carrito)
+  })
+  .catch (error =>{
+    next (error)
+  })
+})
+
+
+router.get("/rejected/:id",checkJWT,(req,res,next)=>{
+  Cart.findByPk(req.params.id)
+  .then(carrito =>{
+    carrito.estado = "rejected"
+    res.send(carrito)
+  })
+  .catch (error =>{
+    next (error)
+  })
+})
+
 
 module.exports = router;

@@ -24,6 +24,9 @@ router.get ("/", (req,res,next) => {
         .then((productos)=>{
             res.send(productos)
             })
+            .catch (error =>{
+                next (error)
+            })
         //})
     }else{
     Product.findAll()
@@ -47,6 +50,9 @@ router.get("/search/:query", (req, res) => {
         }
     })
     .then(producto => { res.send(producto) })
+    .catch (error =>{
+        next (error)
+    })
 })
 
 
@@ -56,6 +62,9 @@ router.get("/:id", (req, res) => {
 console.log(id)
     Product.findByPk(id)
     .then(producto => { res.send(producto) })
+    .catch (error =>{
+        next (error)
+    })
 })
 
 router.post ("/", (req,res,next)=>{
@@ -63,6 +72,9 @@ router.post ("/", (req,res,next)=>{
     Product.create (req.body)
     .then ((producto)=>{
         res.send(producto)
+    })
+    .catch (error =>{
+        next (error)
     })
 })
 
@@ -75,6 +87,9 @@ router.put("/:id", (req, res, next) => {
             !data ? res.sendStatus(404) :
                 data.update(req.body)
                     .then(data => res.send(data))
+        })
+        .catch (error =>{
+            next (error)
         })
         
 })
@@ -91,6 +106,9 @@ router.delete("/:id", (req, res, next) => {
 
         res.send("Producto eliminado!!")
 
+    })
+    .catch (error =>{
+        next (error)
     })
 })
 
