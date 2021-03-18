@@ -106,10 +106,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
+   
+    width: "600px"
   },
+  ima:{
+    height: "300px"
+  }
 }));
 
 export default function Album() {
@@ -150,6 +155,7 @@ export default function Album() {
     <Container style={{ backgroundColor: "#FFDEB8" }}>
       <React.Fragment>
         <CssBaseline />
+
 
         <AliceCarousel
           disableButtonsControls
@@ -241,6 +247,7 @@ export default function Album() {
            ))}
         />
             
+
         <Container className={classes.cardGrid} maxWidth="md">
           {/*  <Typography  variant="h5" component="h2" className={classes.blue}>
         Productos sugeridos 
@@ -252,6 +259,7 @@ export default function Album() {
           Productos sugeridos 
           </Typography>
           <hr /> */}
+          
 
           <Grid container spacing={4}>
             {productos.slice(0, 9).map((prod) => (

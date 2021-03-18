@@ -79,7 +79,7 @@ export default function Delete() {
       </Grid>
       
       <Typography  variant="h5" component="h2" className={useStyles.prod} >
-      {/* {query && query.map(res => */} <ul><li>  {query[0]? query[0].nombre:null} </li> </ul>{/* )} */}
+      {/* {query && query.map(res =>  <ul><li>*/}  {query[0]? query[0].nombre:null} {/*</li> </ul> )} */}
       </Typography>
       
       <Grid item xs={8}>

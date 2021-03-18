@@ -9,8 +9,6 @@ export const getSingleProduct = createAsyncThunk('GET_PRODUCT',(productID,thunkA
 
 })
 
-
-
  export const getSingleProductReducer = createReducer({},{
  
    [getSingleProduct.fulfilled]: (state, action) => action.payload,
