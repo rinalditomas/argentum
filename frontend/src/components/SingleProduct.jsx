@@ -187,6 +187,7 @@ export default function SingleProduct({match}) {
 const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
+  
 
  
  

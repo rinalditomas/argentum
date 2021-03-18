@@ -19,7 +19,8 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Slider from "infinite-react-carousel";
-
+import {searchAllCategories,getSearchCategory} from '../state/category'
+import {useHistory} from 'react-router-dom'
 const handleDragStart = (e) => e.preventDefault();
 
 const items = [
@@ -115,10 +116,23 @@ export default function Album() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const productos = useSelector((state) => state.allProducts);
-  // const [heart,setHeart] = React.useState(false)
+  const searchCategories = useSelector((state) => state.categoryReducer);
+  const [cat,setCat] = React.useState(false)
+  const history = useHistory()
   React.useEffect(() => {
     dispatch(getAllProducts());
+    dispatch(searchAllCategories())
   }, []);
+
+  const handleChange = (e) =>{
+    setCat(e.target.value)
+
+  }
+  const handleClick = () =>{
+    dispatch(getSearchCategory(cat))
+    history.push('/searchCategory')
+  }
+  
 
   const settings = {
     arrows: false,
@@ -217,11 +231,16 @@ export default function Album() {
                 >
                   Donde vayas, estaremos con vos
                 </h2>
+                <div>
+                <select onChange ={handleChange} >{searchCategories && searchCategories.map((categoria)=> <option>{categoria.nombre}</option> )}</select>
+                    <button onClick= {handleClick}>ir</button>
+                  </div>
               </div>
-              );
+             ;
             </GridListTile>
-          ))}
+           ))}
         />
+            
         <Container className={classes.cardGrid} maxWidth="md">
           {/*  <Typography  variant="h5" component="h2" className={classes.blue}>
         Productos sugeridos 
