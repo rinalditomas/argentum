@@ -7,12 +7,9 @@ Category.init({
     nombre: {
         type: S.STRING
     },
-categoria: {
-    type: S.STRING
-},
-descripccion:{
-    type: S.TEXT
-}
+    descripccion:{
+        type: S.TEXT
+    }
 },{sequelize: db, modelName:"category"});
 
 module.exports = Category

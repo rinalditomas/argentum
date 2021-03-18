@@ -19,6 +19,10 @@ app.use(express.static(__dirname + "/public"));
 
 app.use(routes)
 
+app.use(function(err,req,res,next){
+  console.error(err)
+  res.status(500).send(err)
+})
 
 db.sync({ force: false}).then(() => {
     console.log("concetada a la base de datos");
