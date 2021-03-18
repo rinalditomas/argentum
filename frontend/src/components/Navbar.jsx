@@ -9,16 +9,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { Link,useHistory } from 'react-router-dom';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {useDispatch,useSelector} from 'react-redux'
-import {sendLoginRequest, sendLogoutRequest} from "../state/user"
+import { Link, useHistory } from "react-router-dom";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { useDispatch, useSelector } from "react-redux";
+import { sendLoginRequest, sendLogoutRequest } from "../state/user";
 import { useRadioGroup } from "@material-ui/core";
-
-
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -69,6 +64,15 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 auto",
     color: "black",
   },
+  log: {
+    color: "black",
+    display: "flex",
+    fontSize: "25px",    
+    fontFamily: "'Lobster', cursive",
+    position: "relative",
+    alignItems: "center"
+  },
+
   inputRoot: {
     color: "black",
   },
@@ -98,35 +102,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-
   const classes = useStyles();
-  
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const history = useHistory();
-  const [ value, setValue ] = React.useState("")
+  const [value, setValue] = React.useState("");
 
-  
-   const enter = (e)=> {
-      if(e.keyCode == '13'){ 
-   history.push(`/search/${value}`)
-   setValue("")
-     } } 
-
-    const handleSubmit = (e) =>{
-      e.preventDefault();
-      dispatch(sendLogoutRequest())
-      // window.location.reload();
-      // return false;
+  const enter = (e) => {
+    if (e.keyCode == "13") {
+      history.push(`/search/${value}`);
+      setValue("");
     }
-   
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(sendLogoutRequest());
+    // window.location.reload();
+    // return false;
+  };
+
+
+
   return (
     <div className={classes.grow}>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
           <div>
-            <Link to='/products'>
-            <img className={classes.logo} src="logo.png" alt="" />
+            <Link to="/products">
+              <img
+                className={classes.logo}
+                src="https://i.ibb.co/VpYy0sQ/logo.png"
+                alt=""
+              />
             </Link>
           </div>
           <div className={classes.search}>
@@ -135,9 +144,9 @@ export default function PrimarySearchAppBar() {
             </div>
             <InputBase
               placeholder="Buscar..."
-              onKeyDown= {(e)=>enter(e)} 
-               value={value}
-               onChange={(e)=>setValue(e.target.value)}
+              onKeyDown={(e) => enter(e)}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -147,66 +156,70 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <div>{user.name?`Hola ${user.name}`: null} </div>
+            <div className={classes.log}>
+              {user.name ? `Hola ${user.name.charAt(0).toUpperCase()+user.name.slice(1)}` : null}
+            </div>
             {/* {'------------agregado solo para mi facilidad-----------'} */}
-          <Link to="/admin">
-            <IconButton color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
-              <Badge color="black" style={{ fontSize: 30 , backgroundColor:"#FFCA8F"}}>
-              <PersonAddIcon style={{ fontSize: 30 , color:"#FFCA8F"}} />
-              </Badge>
-            </IconButton>
-            </Link>
-{/* {'------------agregado solo para mi facilidad-----------'}*/}          <Link to="/shop">
-            <IconButton color="black">
-              <Badge color="black">
-                <ShoppingCartIcon style={{ fontSize: 30 }} />
-              </Badge>
+            <Link to="/admin">
+              <IconButton
+                color="black"
+                style={{ fontSize: 30, backgroundColor: "#FFCA8F" }}
+              >
+                <Badge
+                  color="black"
+                  style={{ fontSize: 30, backgroundColor: "#FFCA8F" }}
+                >
+                  <PersonAddIcon style={{ fontSize: 30, color: "#FFCA8F" }} />
+                </Badge>
               </IconButton>
             </Link>
-
-              {user.id? (<div>
+            {/* {'------------agregado solo para mi facilidad-----------'}*/}{" "}
+            <Link to="/shop">
+              <IconButton color="black">
+                <Badge color="black">
+                  <ShoppingCartIcon style={{ fontSize: 30 }} />
+                </Badge>
+              </IconButton>
+            </Link>
+            {user.id ? (
+              <div>
                 <IconButton onClick={handleSubmit} color="black">
+                  <Badge color="black">
+                    <ExitToAppIcon style={{ fontSize: 30 }} />
+                  </Badge>
+                </IconButton>
 
-              <Badge color="black">
-                <ExitToAppIcon style={{ fontSize: 30 }} />
-              </Badge>
-            </IconButton>
-
-              {/* <Link to="/logout"></Link>
+                {/* <Link to="/logout"></Link>
             <IconButton color="black">
               <Badge color="black">
                 <ExitToAppIcon style={{ fontSize: 30 }} />
               </Badge>
             </IconButton> */}
-            </div>):(<div>
-
+              </div>
+            ) : (
+              <div>
                 <Link to="/signup">
-
-            <IconButton color="black">
-              <Badge color="black">
-                <PersonAddIcon style={{ fontSize: 30 }} />
-              </Badge>
-            </IconButton>
-            </Link>
-            <Link to="/login">
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                color="black"
-              >
-                <AccountCircle style={{ fontSize: 30 }} />
-              </IconButton>
-            </Link>
-              </div>)}
-           
-           
+                  <IconButton color="black">
+                    <Badge color="black">
+                      <PersonAddIcon style={{ fontSize: 30 }} />
+                    </Badge>
+                  </IconButton>
+                </Link>
+                <Link to="/login">
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="black"
+                  >
+                    <AccountCircle style={{ fontSize: 30 }} />
+                  </IconButton>
+                </Link>
+              </div>
+            )}
           </div>
-          
         </Toolbar>
       </AppBar>
-      
-      
     </div>
   );
 }

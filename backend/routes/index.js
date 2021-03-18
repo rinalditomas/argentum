@@ -1,6 +1,7 @@
 const express = require ('express')
 const router = express.Router()
-const userRouter = require ('./users')
+ const userRouter = require ('./users')
+//  const Email = require ("./middlewares/confirmationMail")
 const productRouter = require ('./products')
 const categoryRouter = require ('./caterories')
 const cartRouter = require ("./cart")
@@ -20,6 +21,5 @@ router.post ("/me",checkJWT ,(req,res,next) => {
     .then (user => res.send(user))
     .catch(next)
     })
-
 
 module.exports = router

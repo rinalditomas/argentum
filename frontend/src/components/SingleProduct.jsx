@@ -244,7 +244,7 @@ const [loading, setLoading] = React.useState(false);
 
   //-------------------------------------------
  
-
+console.log("ESTA ES LA IMAGEN",singleProduct.imagen)
   return (
     
     <React.Fragment>
@@ -255,6 +255,7 @@ const [loading, setLoading] = React.useState(false);
               <Grid item key={singleProduct.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                     <div >
+                      
                     
                     <img src={singleProduct.imagen} alt="" className={classes.cardMedia} />
                     
