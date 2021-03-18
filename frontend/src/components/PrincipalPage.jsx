@@ -105,10 +105,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "center",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
+   
+    width: "600px"
   },
+  ima:{
+    height: "300px"
+  }
 }));
 
 export default function Album() {
@@ -136,92 +141,26 @@ export default function Album() {
     <Container style={{ backgroundColor: "#FFDEB8" }}>
       <React.Fragment>
         <CssBaseline />
-
-        <AliceCarousel
-          disableButtonsControls
-          infinite="true"
-          disableDotsControls
-          items={productos.map((tile) => (
-            <GridListTile>
-              <div style={{ margin: "0 auto", alignContent: "center", padding:"20px" }}>
-                <Slider {...settings}>
-                  <div>
-                    <img
-                      src="img1.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img2.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img3.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img4.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img5.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                </Slider>
-                <h2
-                  style={{
-                    fontFamily: "'Lobster', cursive",
-                    fontSize: "30px",
-                    margin: "0 auto",
-                    alignText: "center",
-                    display: "inline-flex"
-                  }}
-                >
-                  Donde vayas, estaremos con vos
-                </h2>
-              </div>
-              );
-            </GridListTile>
-          ))}
-        />
+        <AliceCarousel 
+      autoPlay='true' 
+      autoWidth='true' 
+      autoHeight='true' 
+      disableButtonsControls
+      infinite='true'
+      autoPlayInterval={1000}
+      
+      disableDotsControls
+      items={  
+        productos.map((prod) => (
+          
+        
+        <GridListTile className={classes.root} >
+          <img src={prod.imagen} className={classes.ima} />
+        </GridListTile>
+    
+          
+      ))}
+     />
         <Container className={classes.cardGrid} maxWidth="md">
           {/*  <Typography  variant="h5" component="h2" className={classes.blue}>
         Productos sugeridos 
@@ -233,6 +172,7 @@ export default function Album() {
           Productos sugeridos 
           </Typography>
           <hr /> */}
+          
 
           <Grid container spacing={4}>
             {productos.slice(0, 9).map((prod) => (
