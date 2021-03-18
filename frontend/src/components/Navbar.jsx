@@ -126,7 +126,7 @@ export default function PrimarySearchAppBar() {
         <Toolbar>
           <div>
             <Link to='/products'>
-            <img className={classes.logo} src="logo.png" alt="" />
+            <img className={classes.logo} src="https://i.ibb.co/VpYy0sQ/logo.png" alt="" />
             </Link>
           </div>
           <div className={classes.search}>

@@ -12,11 +12,11 @@ import Button from "@material-ui/core/Button";
 import PaymentIcon from "@material-ui/icons/Payment";
 import TextField from "@material-ui/core/TextField";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import IconButton from "@material-ui/core/IconButton";
-import {useSelector} from "react-redux";
-
+import {useSelector,useDispatch} from "react-redux";
+import {  getcartRequest } from "../state/cart";
+import axios from 'axios'
+import { useHistory } from "react-router-dom";
 const TAX_RATE = 0.21;
 
 const useStyles = makeStyles({
@@ -38,12 +38,12 @@ const useStyles = makeStyles({
 
 
 export default function SpanningTable() {
+  const dispatch = useDispatch()
   const classes = useStyles();
-  const [cart,setCart] = React.useState([])
   let carts = useSelector((state)=> state.cart)
+  const user = useSelector(state => state.user)
+  const history = useHistory()
   
-  
-  localStorage.setItem('cart', JSON.stringify(carts))
 
   const ccyFormat=(num)=> {
     return `${num.toFixed(2)}`;
@@ -53,18 +53,44 @@ export default function SpanningTable() {
   }
   
   
-  const invoiceSubtotal = subtotal(cart);
+  const invoiceSubtotal = subtotal(carts);
   const invoiceTaxes = TAX_RATE * invoiceSubtotal;
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
   
 
-  console.log(cart)
+  console.log('este es el carrito de redux',carts)
   
-  React.useEffect(()=>{
-     setCart(carts) 
+  
 
-  },[])
+   React.useEffect(()=>{
+
+     dispatch(getcartRequest())
+
+  },[]) 
   
+console.log(carts)
+
+  
+   React.useEffect(()=>{
+   return  user?
+   carts.map(item => 
+   axios.post(`http://localhost:3001/cart/add/${item.product.id}`, {quantity: item.quantity},{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
+   .then((res)=> {
+     return res.data} ))
+    : null
+ },[]) 
+  
+ const handleClick =(e)=>{
+   console.log(e)
+   axios.post(`http://localhost:3001/cart/remove/${e}`,{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
+  setTimeout(function(){window.location.reload() }, 1000)
+  return false  
+ }
+
+ const cleanCart = ()=>{
+  axios.delete(`http://localhost:3001/cart/clear`,{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
+  setTimeout(function(){window.location.reload() }, 1000)
+ }
 
 
   return (
@@ -78,6 +104,7 @@ export default function SpanningTable() {
               style={{ fontFamily: "'Lobster Two', cursive", fontSize: "50px" }}
             >
               Mi carrito
+              
             </TableCell>
             <TableCell align="right"
             >
@@ -141,10 +168,10 @@ export default function SpanningTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {carts.map((yerba) => (
+       { carts.map((yerba) => (
             <TableRow key={yerba.product.id}>
               <TableCell>
-                <Avatar alt="" src={yerba.product.imagen} al />
+                <Avatar alt=""  src={yerba.product.imagen}  al />
               </TableCell>
               <TableCell
                 style={{
@@ -203,11 +230,12 @@ export default function SpanningTable() {
             color: "red",
             align: "right"
           }}
+           onClick={()=> handleClick(yerba.product.id)} 
         />
       </IconButton>
               </TableCell>
             </TableRow>
-          ))} 
+          )) } 
         <TableRow>
             <TableCell rowSpan={3} 
             />
@@ -290,6 +318,7 @@ export default function SpanningTable() {
         </TableBody>
       </Table>
      
+     
       <Button
         align="right"
         variant="contained"
@@ -299,6 +328,18 @@ export default function SpanningTable() {
         startIcon={<PaymentIcon />}
       >
         Pagar
+      </Button>
+      <Button
+        align="right"
+        variant="contained"
+        color="inherit"
+        size="large"
+        className={classes.button}
+        style ={{marginRight:'500px'}}
+        startIcon={<DeleteIcon />}
+        onClick = {cleanCart}
+      >
+        limpiar carrito
       </Button>
     </TableContainer>
   );

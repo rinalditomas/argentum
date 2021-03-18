@@ -12,7 +12,7 @@ import {useDispatch,useSelector} from "react-redux"
 import {sendToken} from "../state/user"
 import {useEffect} from 'react';
 import Shop from "../components/Shop";
-
+import axios from 'axios'
 
 
 
@@ -24,6 +24,7 @@ export default function Main() {
 
   React.useEffect(() => {
     if(token){
+      /* axios.defaults.headers.authorization = `Bearer ${token}`; */
       dispatch(sendToken(token))
     }
   }, []);

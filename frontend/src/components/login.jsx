@@ -13,11 +13,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch,useSelector} from "react-redux"
-import {sendLoginRequest,sendToken} from "../state/user"
+import {sendLoginRequest,sendToken, } from "../state/user"
 import { useHistory} from "react-router-dom";
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import {sendcartRequest} from '../state/cart'
 /////////////MATERIAL UI CODE///////////
 
 
@@ -107,6 +107,8 @@ const handleSubmit =  (e) => {
   if(validate()){
  dispatch(sendLoginRequest({email:email,password:password}))
   .then((data)=>{
+    console.log('esta es la data de user',data.payload.id)
+    dispatch(sendcartRequest(data.payload.id))
     alert(`bienvenido!`)
     history.push('/')
 

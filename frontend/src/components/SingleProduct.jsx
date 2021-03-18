@@ -20,12 +20,18 @@ import IconButton from '@material-ui/core/IconButton';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {setCart,setQuantity} from '../state/cart'
-
+import Snackbar from '@material-ui/core/Snackbar';
 
 import clsx from 'clsx';
 import { green } from '@material-ui/core/colors';
 import Fab from '@material-ui/core/Fab';
+import MuiAlert from '@material-ui/lab/Alert';
 
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 
@@ -188,23 +194,30 @@ const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
  const [quantity, setCantidad] = React.useState(1)
+ const [open, setOpen] = React.useState(false);
  
+ let carts = useSelector((state)=> state.cart)
+ console.log(carts)
+
+
  React.useEffect(()=>{
  dispatch(getSingleProduct(match.params.id))
  },[dispatch])
 
+
+ const handleClose2 = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+
+  setOpen(false);
+};
   
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [open, setOpen] = React.useState(false);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
 
-    
-  };
+ 
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+ 
   function toggleHeart(){
     setHeart(!heart)
   }
@@ -235,7 +248,8 @@ const [loading, setLoading] = React.useState(false);
       timer.current = window.setTimeout(() => {
         setSuccess(true);
         setLoading(false);
-        history.push("/shop")
+        setOpen(true);
+        setTimeout(function(){ history.push("/shop") }, 1000);
       }, 2000);
     }
   };
@@ -249,7 +263,7 @@ const [loading, setLoading] = React.useState(false);
 
   //-------------------------------------------
  
-
+console.log("ESTA ES LA IMAGEN",singleProduct.imagen)
   return (
     
     <React.Fragment>
@@ -260,6 +274,7 @@ const [loading, setLoading] = React.useState(false);
               <Grid item key={singleProduct.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                     <div >
+                      
                     
                     <img src={singleProduct.imagen} alt="" className={classes.cardMedia} />
                     
@@ -302,6 +317,11 @@ const [loading, setLoading] = React.useState(false);
                         >
                           AGREGAR AL CARRITO 
                         </Button>
+                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose2}>
+                      <Alert onClose={handleClose2} severity="success">
+                       Producto agregado al carrito!
+                      </Alert>
+                      </Snackbar>
                         {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                       </div>
                      <Box mt={4} />
@@ -327,7 +347,7 @@ const [loading, setLoading] = React.useState(false);
                     </div>
                     </div>
                    
-                    
+                   
                   </Card>
               </Grid>
             
