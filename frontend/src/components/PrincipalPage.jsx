@@ -7,18 +7,12 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { getAllProducts } from "../state/allProducts";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import Slider from "infinite-react-carousel";
 import {searchAllCategories,getSearchCategory} from '../state/category'
 import {useHistory} from 'react-router-dom'
 
@@ -197,27 +191,12 @@ export default function Album() {
                 <select onChange ={handleChange} >{searchCategories && searchCategories.map((categoria)=> <option>{categoria.nombre}</option> )}</select>
                     <button onClick= {handleClick}>ir</button>
                   </div>
-              </div>
-             ;
-            </GridListTile>
-           ))}
-        />
+              
             
 
 
         <Container className={classes.cardGrid} maxWidth="md">
-          {/*  <Typography  variant="h5" component="h2" className={classes.blue}>
-        Productos sugeridos 
-          </Typography>
-        <Typography  variant="h5" component="h2" className={classes.letters}>
-          Productos sugeridos 
-          </Typography>
-          <Typography  variant="h5" component="h2" className={classes.blue}>
-          Productos sugeridos 
-          </Typography>
-          <hr /> */}
-          
-
+         
           <Grid container spacing={4}>
             {productos.slice(0, 9).map((prod) => (
               <Grid item key={prod.id} xs={12} sm={6} md={4}>

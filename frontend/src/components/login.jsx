@@ -146,56 +146,7 @@ return isValid;
 
 
 
-
-
-  /////////////HANDLE INPUT'S///////////
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePass = (e) => {
-    setPassword(e.target.value);
-  };
-
-  ////////////////HANDLESUBMIT////////////
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("login attempt...");
-    if (validate()) {
-      dispatch(sendLoginRequest({ email: email, password: password }))
-        .then((data) => {
-          alert(`bienvenido!`);
-          history.push("/");
-        })
-        .catch((err) => console.log(err));
-    }
-  };
-
-  ////////////////VALIDATE////////////
-
-  const validate = () => {
-    let isValid = true;
-
-    if (!password) {
-      isValid = false;
-      alert("Por favor, ingresa una contraseña.");
-    }
-    if (!email) {
-      isValid = false;
-      alert("Por favor, ingresa un correo electronico.");
-    }
-
-    if (typeof email !== "undefined") {
-      var pattern = new RegExp(
-        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
-      );
-      if (!pattern.test(email)) {
-        isValid = false;
-        alert("Por favor, ingresa un correo electronico valido.");
-      }
-    }
-    return isValid;
-  };
+ 
 
   return (
     <Grid container component="main" className={classes.root}>
