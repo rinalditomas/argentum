@@ -110,14 +110,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
-
-    height: "300px",
-    width: "700px",
-    margin: "0 auto",
+   
+    width: "600px"
   },
-  ima: {
-    height: "300px",
-  },
+  ima:{
+    height: "300px"
+  }
 }));
 
 export default function Album() {
@@ -164,21 +162,15 @@ export default function Album() {
           infinite="true"
           autoPlayInterval={1000}
           disableDotsControls
-          items={items.map((tile) => (
-            <GridListTile className={classes.root}>{tile}</GridListTile>
+          items={  
+            productos.map((prod) => (
+              
+            
+            <GridListTile className={classes.root} >
+              <img src={prod.imagen} className={classes.ima} />
+            </GridListTile>
           ))}
         />
-        <h2
-          style={{
-            fontFamily: "'Lobster', cursive",
-            fontSize: "30px",
-            margin: "0 auto",
-            alignText: "center",
-            display: "inline-flex",
-          }}
-        >
-          Donde vayas, estaremos con vos
-        </h2>
         <div>
           <select onChange={handleChange}>
             {searchCategories &&
