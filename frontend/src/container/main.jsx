@@ -12,8 +12,15 @@ import {useDispatch,useSelector} from "react-redux"
 import {sendToken} from "../state/user"
 import panelAdmin from '../components/panelAdmin'
 import Shop from "../components/Shop";
+
 import AdminUser from '../components/AdminUser'
 //import axios from 'axios'
+
+
+
+import searchCategory from '../components/searchCategory'
+
+
 
 
 
@@ -47,6 +54,7 @@ export default function Main() {
             <Route exact path='/admin/products' component={Admin} />
             <Route exact path='/admin/users' component={AdminUser} />
             <Route exact path='/shop' component={Shop} />
+            <Route exact path='/searchCategory' component={searchCategory} />
             <Redirect to= "/products" />
             </Switch>
             <Footer />

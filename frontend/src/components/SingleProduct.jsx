@@ -193,8 +193,10 @@ export default function SingleProduct({match}) {
 const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
+
  const [quantity, setCantidad] = React.useState(1)
  const [open, setOpen] = React.useState(false);
+
  
  let carts = useSelector((state)=> state.cart)
  console.log(carts)

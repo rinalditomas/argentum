@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -42,8 +42,10 @@ export default function AddForm() {
   const description = useInput("description")
   const image = useInput("image")
   const stock = useInput("stock")
+  const category = useInput("category")
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
+  const [cat,setCat] = useState("")
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -65,17 +67,27 @@ e.preventDefault();
         precio: price.value,
         descripcion: description.value,
         imagen: image.value,
-        stock: stock.value
+        stock: stock.value,
+        categoryId: category.value,
       })
       .then((data)=>{
         setTimeout(function(){ history.push("/products") }, 2000);
         console.log(data) } )
       
+      
     
   }
+  React.useEffect(() => {
+    return axios.get(`http://localhost:3001/categories/search`)
+    .then((categorias)=>{
+     const categories = categorias.data
+      setCat(categories)
+    })
+  }, []);
   
-  
-  
+ 
+  console.log("ACA ESTAN LAS CATEGORIAS", category)
+
   
 /*   const submitForm = (e)=>{
     e.preventDefault()
@@ -162,7 +174,7 @@ axios.post('/products',{
         </Grid>
         
         <Grid item xs={8}>
-          
+         <select name="category" id=""{...category}>{cat && cat.map((categoria)=> <option>{categoria.nombre}</option> )}</select> 
         </Grid>
         
       </Grid>
