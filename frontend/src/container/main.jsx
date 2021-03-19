@@ -13,6 +13,7 @@ import {useDispatch,useSelector} from "react-redux"
 import {sendToken} from "../state/user"
 import {useEffect} from 'react';
 import Shop from "../components/Shop";
+import searchCategory from '../components/searchCategory'
 
 
 
@@ -45,7 +46,8 @@ export default function Main() {
             <Route exact path='/admin' component={Admin} />
             <Route exact path='/admin/login' component={AdminLogin} />
             <Route exact path='/shop' component={Shop} />
-            <Redirect to= "/products"/> 
+            <Route exact path='/searchCategory' component={searchCategory} />
+            <Redirect to= "/products" />
             </Switch>
             <Footer />
         </React.Fragment>
