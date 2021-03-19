@@ -34,7 +34,9 @@ router.post("/add/:id", checkJWT, (req, res, next) => {
         },
         defaults: req.body,
       }).then((item) => {
+        console.log(item, "ESTE ES EL ITEM");
         const items = item[0];
+        console.log("ENTRE EN EL IF*****************");
         items.quantity = req.body.quantity;
         items.save();
         return res.send(items);
@@ -42,7 +44,6 @@ router.post("/add/:id", checkJWT, (req, res, next) => {
     })
     .catch(next);
 });
-
 
 router.post("/remove/:id", checkJWT, (req, res, next) => {
   Item.findOne({
