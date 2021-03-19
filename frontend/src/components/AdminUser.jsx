@@ -7,9 +7,8 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import {Link} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
-import Form from './FormAdd';
-import Edit from './FormEdit'
-import Delete from './Delete'
+import AddAdmin  from './userList';
+import UserList from './isAdmin'
 
 
 
@@ -31,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
-    width:'1400px',
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
@@ -48,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
     backgroundColor: "#C25500",
-    width:'100%'
     
   },
 }));
@@ -57,19 +54,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Checkout() {
   const classes = useStyles();
-  const [add ,showAdd] = React.useState("create")
+  const [add ,showAdd] = React.useState("")
   
   
   
   const createClick = ()=>{
-    showAdd("create") 
+    showAdd("addAdmin") 
   }
   const editClick = ()=>{
-   showAdd("edit")
+   showAdd("UserList")
   }
-  const deleteClick = ()=>{
-  showAdd("delete")
-  }
+  
 
   return (
     <React.Fragment>
@@ -77,7 +72,7 @@ export default function Checkout() {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            ADMIN PRODUCTS
+            ADMIN USERS
           </Typography>
           <Button
                     variant="contained"
@@ -85,7 +80,7 @@ export default function Checkout() {
                     onClick={createClick}
                     className={classes.button}
                   >
-                    Add Product 
+                    Lista de usuarios
                   </Button>
                   <Button
                     variant="contained"
@@ -93,31 +88,23 @@ export default function Checkout() {
                     onClick={editClick}
                     className={classes.button}
                   >
-                    Edit Product 
+                    Hacer Admin
                   </Button>
+                  <Link to='/admin' style={{textDecoration:'none',color:'black'}} >
                   <Button
                     variant="contained"
                     color="inherit"
-                    onClick={deleteClick}
                     className={classes.button}
                   >
-                    delete Product 
-                  </Button>
-                  
-                  <Box mt={4} />
-                 {add==='create'? <Form /> : null} 
-                 {add==='edit'? <Edit /> : null} 
-                 {add==='delete'? <Delete /> : null} 
-                 <Link to='/admin' style={{textDecoration:'none',color:'black'}} >
-                 <Button
-                    variant="contained"
-                    color="inherit"
-                    className={classes.button}
-                    
-                  >
-                    back to panel
+                    Back to Panel
                   </Button>
                   </Link>
+                  <Box mt={4} />
+                 {add==='addAdmin'? <AddAdmin /> : null} 
+                 {add==='UserList'? <UserList /> : null} 
+                 
+                 
+          
         </Paper>
         
       </main>

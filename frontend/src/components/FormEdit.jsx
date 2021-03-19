@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
         marginLeft: theme.spacing(1),
+        backgroundColor: "#C25500",
+        width:'100%'
       },
       inputRoot: {
         color: 'inherit',
@@ -85,7 +87,7 @@ console.log(query)
       <Typography variant="h6" gutterBottom>
         Editar un Producto
       </Typography>
-      <form>
+      <form style={{marginLeft:'7%'}}> 
       
       <Grid container spacing={3}>
       <Grid item xs={10} >
@@ -173,7 +175,14 @@ console.log(query)
         variant="contained"
         color="primary"
         onClick={submitForm}
-        className={useStyles.button}>
+        className={useStyles.button}
+        style={{
+          backgroundColor: "#C25500",
+          width:'100%',
+          marginRight:'1%',
+          color:'black'
+                    }}
+        >
           Edit 
           </Button>
             </form>

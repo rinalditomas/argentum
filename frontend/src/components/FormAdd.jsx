@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
         marginLeft: theme.spacing(1),
+        backgroundColor: "#C25500",
+    width:'100%'
       },
       root: {
         width: '100%',
@@ -100,7 +102,7 @@ axios.post('/products',{
       <Typography variant="h6" gutterBottom>
         Agregar un Producto
       </Typography>
-          <form onSubmit={SubmitForm}>
+          <form onSubmit={SubmitForm} style={{marginLeft:'7%'}}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -169,7 +171,13 @@ axios.post('/products',{
       variant="contained"
       color="primary"
       className={useStyles.button}
-      /* onClick={handleClick} */
+      style={{
+        backgroundColor: "#C25500",
+        width:'100%',
+        marginRight:'1%',
+        color:'black'
+                  }}
+      
       >
         Add 
       </Button>
@@ -189,16 +197,3 @@ axios.post('/products',{
 
  
   
-  /*   <div className={classes.root}>
-      
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          This is a success message!
-        </Alert>
-      </Snackbar>
-      <Alert severity="error">This is an error message!</Alert>
-      <Alert severity="warning">This is a warning message!</Alert>
-      <Alert severity="info">This is an information message!</Alert>
-      <Alert severity="success">This is a success message!</Alert>
-    </div>
-   */

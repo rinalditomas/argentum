@@ -63,10 +63,12 @@ export default function SpanningTable() {
   
 
    React.useEffect(()=>{
-
+  
      dispatch(getcartRequest())
 
   },[]) 
+
+ 
   
 console.log(carts)
 

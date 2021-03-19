@@ -4,7 +4,7 @@ const {User} = require ('../models/index')
 const jwt= require ("jsonwebtoken")
 const checkJWT= require("./middlewares/jwt")
 const isAdmin=require("./middlewares/isAdmin")
-
+const { Op } = require("sequelize");
 router.post("/register", (req, res,next) => {  
     
     User.create(req.body)
@@ -38,7 +38,7 @@ router.post('/login', (req,res)=>{
 //     .catch(next())
 //     })
 
-router.put ("/:id",checkJWT,(req,res,next)=>{
+router.put ("/:id",/* checkJWT, */(req,res,next)=>{
     User.findByPk(req.params.id)
     .then (user =>{
         user.update(req.body)
@@ -48,8 +48,25 @@ router.put ("/:id",checkJWT,(req,res,next)=>{
     })
 })
 
-router.get ("/",checkJWT,isAdmin,(req,res,next) => {
+router.get ("/",/* checkJWT,isAdmin, */(req,res,next) => {
     User.findAll()
+    .then (users => {
+        res.send (users)
+    })
+    .catch (error =>{
+        next (error)
+    })
+})
+
+router.get ("/search/:query",/* checkJWT,isAdmin, */(req,res,next) => {
+    console.log(req.params.query)
+    User.findOne({
+        where:{
+            name:{
+                [Op.like]: req.params.query
+            }
+        }
+    })
     .then (users => {
         res.send (users)
     })

@@ -7,9 +7,7 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import {Link} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
-import Form from './FormAdd';
-import Edit from './FormEdit'
-import Delete from './Delete'
+
 
 
 
@@ -29,9 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     marginTop: theme.spacing(3),
+    height:'300px',
+    width:'150%',
+    margin:'0 auto',
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
-    width:'1400px',
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
@@ -43,13 +43,13 @@ const useStyles = makeStyles((theme) => ({
   buttons: {
     display: 'flex',
     justifyContent: 'space-between',
+    backgroundColor: "#C25500",
   },
   button: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
     backgroundColor: "#C25500",
-    width:'100%'
-    
+
   },
 }));
 
@@ -77,47 +77,34 @@ export default function Checkout() {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            ADMIN PRODUCTS
+            ADMIN 
           </Typography>
+          <Link to='/admin/products' style={{textDecoration:'none',color:'black'}} >
           <Button
                     variant="contained"
                     color="inherit"
                     onClick={createClick}
                     className={classes.button}
+                    fullWidth
                   >
-                    Add Product 
+                    Products 
                   </Button>
+                  </Link>
+                  <Link to='/admin/users' style={{textDecoration:'none',color:'black'}}>
                   <Button
                     variant="contained"
                     color="inherit"
                     onClick={editClick}
                     className={classes.button}
+                    fullWidth
                   >
-                    Edit Product 
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="inherit"
-                    onClick={deleteClick}
-                    className={classes.button}
-                  >
-                    delete Product 
-                  </Button>
-                  
-                  <Box mt={4} />
-                 {add==='create'? <Form /> : null} 
-                 {add==='edit'? <Edit /> : null} 
-                 {add==='delete'? <Delete /> : null} 
-                 <Link to='/admin' style={{textDecoration:'none',color:'black'}} >
-                 <Button
-                    variant="contained"
-                    color="inherit"
-                    className={classes.button}
-                    
-                  >
-                    back to panel
+                    Users 
                   </Button>
                   </Link>
+                  <Box mt={4} />
+                 
+                 
+          
         </Paper>
         
       </main>
