@@ -13,8 +13,32 @@ router.post("/register", (req, res,next) => {
       .catch(next)
 });
 
+router.post("/admin/login", isAdmin, (req, res)=>{
+    const {email,password} = req.body
+    User.findOne({
+        where:{
+            email,
+        }
+    }).then ((user)=>{
+        if(!user){
+            return res.status(400).send("usuario inexistente")
+        }
+        if(!user.validPassword(password)){
+            return res.status (401).send("invalid credentials")
+        }
+        const token= jwt.sign({id:user.id,email:user.email,name:user.name},"argentum")
+      return res.status(200).json({token})  
+    })
+    .catch (error =>{
+       next (error)
+   })
+ }
 
-router.post('/login', (req,res)=>{
+)
+
+
+
+router.post('/login',(req,res)=>{
      const {email,password} = req.body
      User.findOne({
          where:{

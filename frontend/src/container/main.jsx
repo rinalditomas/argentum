@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from "react-router-dom";
 import PrincipalPage from '../components/PrincipalPage'
 import SingleProduct from '../components/SingleProduct'
+import AdminLogin from '../components/AdminLogin'
 import Admin from '../components/Admin'
 import SignUp from '../components/signUp'
 import Login from '../components/login'

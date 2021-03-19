@@ -19,8 +19,8 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Slider from "infinite-react-carousel";
-import {searchAllCategories,getSearchCategory} from '../state/category'
-import {useHistory} from 'react-router-dom'
+import { searchAllCategories, getSearchCategory } from "../state/category";
+import { useHistory } from "react-router-dom";
 
 const handleDragStart = (e) => e.preventDefault();
 
@@ -110,11 +110,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
-
-    height: "300px",
-    width: "700px",
-    margin: "0 auto",
-
+   
+    width: "600px"
   },
   ima:{
     height: "300px"
@@ -126,22 +123,20 @@ export default function Album() {
   const dispatch = useDispatch();
   const productos = useSelector((state) => state.allProducts);
   const searchCategories = useSelector((state) => state.categoryReducer);
-  const [cat,setCat] = React.useState(false)
-  const history = useHistory()
+  const [cat, setCat] = React.useState(false);
+  const history = useHistory();
   React.useEffect(() => {
     dispatch(getAllProducts());
-    dispatch(searchAllCategories())
+    dispatch(searchAllCategories());
   }, []);
 
-  const handleChange = (e) =>{
-    setCat(e.target.value)
-
-  }
-  const handleClick = () =>{
-    dispatch(getSearchCategory(cat))
-    history.push('/searchCategory')
-  }
-  
+  const handleChange = (e) => {
+    setCat(e.target.value);
+  };
+  const handleClick = () => {
+    dispatch(getSearchCategory(cat));
+    history.push("/searchCategory");
+  };
 
   const settings = {
     arrows: false,
@@ -152,59 +147,39 @@ export default function Album() {
     dots: true,
     dotsScroll: 2,
     initialSlide: true,
-    slidesToShow: 4
+    slidesToShow: 4,
   };
 
   return (
     <Container style={{ backgroundColor: "#FFDEB8" }}>
       <React.Fragment>
         <CssBaseline />
-
-
-        <AliceCarousel 
-      autoPlay='true' 
-      autoWidth='true' 
-      autoHeight='true' 
-      disableButtonsControls
-      infinite='true'
-      autoPlayInterval={1000}
-      disableDotsControls
-      items={  
-        items.map((tile) => (
-          
-        
-        <GridListTile className={classes.root}>
-         {tile}  
-        </GridListTile>
-    
-          
-      ))}
-     />
-
-                <h2
-                  style={{
-                    fontFamily: "'Lobster', cursive",
-                    fontSize: "30px",
-                    margin: "0 auto",
-                    alignText: "center",
-                    display: "inline-flex"
-                  }}
-                >
-                  Donde vayas, estaremos con vos
-                </h2>
-
-                <div>
-                <select onChange ={handleChange} >{searchCategories && searchCategories.map((categoria)=> <option>{categoria.nombre}</option> )}</select>
-                    <button onClick= {handleClick}>ir</button>
-                  </div>
-              </div>
-             ;
-            </GridListTile>
-           ))}
-        />
+        <AliceCarousel
+          autoPlay="true"
+          autoWidth="true"
+          autoHeight="true"
+          disableButtonsControls
+          infinite="true"
+          autoPlayInterval={1000}
+          disableDotsControls
+          items={  
+            productos.map((prod) => (
+              
             
-
-
+            <GridListTile className={classes.root} >
+              <img src={prod.imagen} className={classes.ima} />
+            </GridListTile>
+          ))}
+        />
+        <div>
+          <select onChange={handleChange}>
+            {searchCategories &&
+              searchCategories.map((categoria) => (
+                <option>{categoria.nombre}</option>
+              ))}
+          </select>
+          <button onClick={handleClick}>ir</button>
+        </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/*  <Typography  variant="h5" component="h2" className={classes.blue}>
         Productos sugeridos 
@@ -216,7 +191,6 @@ export default function Album() {
           Productos sugeridos 
           </Typography>
           <hr /> */}
-          
 
           <Grid container spacing={4}>
             {productos.slice(0, 9).map((prod) => (
