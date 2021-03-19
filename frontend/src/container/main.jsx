@@ -12,7 +12,12 @@ import {useDispatch,useSelector} from "react-redux"
 import {sendToken} from "../state/user"
 import {useEffect} from 'react';
 import Shop from "../components/Shop";
+
 import axios from 'axios'
+
+import searchCategory from '../components/searchCategory'
+
+
 
 
 
@@ -44,6 +49,7 @@ export default function Main() {
             <Route exact path="/product/:id" render={({match})=> <SingleProduct match={match}/>} />
             <Route exact path='/admin' component={Admin} />
             <Route exact path='/shop' component={Shop} />
+            <Route exact path='/searchCategory' component={searchCategory} />
             <Redirect to= "/products" />
             </Switch>
             <Footer />

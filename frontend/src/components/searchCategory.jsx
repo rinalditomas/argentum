@@ -9,6 +9,8 @@ import ImageIcon from '@material-ui/icons/Image';
 import Divider from '@material-ui/core/Divider';
 import {getSearchProduct} from '../state/searchProduct'
 import {useDispatch,useSelector} from 'react-redux'
+import { Link } from "react-router-dom";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,15 +26,14 @@ const useStyles = makeStyles((theme) => ({
 export default function InsetDividers({match}) {
   const classes = useStyles();
 
-let queryProduct = useSelector((state)=> state.searchProduct)
+
   const queryProd = match.params.id
   const dispatch = useDispatch();
-  
-  React.useEffect(()=>{
-    dispatch(getSearchProduct(queryProd))
-  },[])
-  
+  const searchCategories = useSelector((state) => state.categoryReducer);
 
+
+  
+console.log("aca esta el search category", searchCategories)
  
   return (
     <List className={classes.root}>
@@ -51,7 +52,8 @@ let queryProduct = useSelector((state)=> state.searchProduct)
       </ListItem> 
       <Divider variant="middle" component="li" />
       
-        {queryProduct.map(prod => 
+        {searchCategories.map(prod => 
+        <Link style ={{textDecoration:"none"}} to ={`/product/${prod.id}`}>
       <ListItem key ={prod.id}>
         <ListItemAvatar>
           <Avatar  alt="" src={prod.imagen} />
@@ -63,7 +65,7 @@ let queryProduct = useSelector((state)=> state.searchProduct)
         <ListItemText primary={prod.stock} />
         
       </ListItem>
-      )}
+      </Link>)}
       <Divider variant="inset" component="li" />
      
      

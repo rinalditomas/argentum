@@ -30,6 +30,9 @@ router.post('/login', (req,res)=>{
          const token= jwt.sign({id:user.id,email:user.email,name:user.name},"argentum")
        return res.status(200).json({token})  
      })
+     .catch (error =>{
+        next (error)
+    })
   })
 
 //   router.post ("/auth",checkJWT ,(req,res,next) => {
@@ -45,6 +48,9 @@ router.put ("/:id",checkJWT,(req,res,next)=>{
     })
     .then (()=>{
         res.send("Usuario actualizado")
+    })
+    .catch (error =>{
+        next (error)
     })
 })
 
@@ -68,6 +74,9 @@ router.delete ("/:id",checkJWT,isAdmin, (req,res,next)=>{
     .then (()=>{
         res.send ("Producto eliminado")
     })
+    .catch (error =>{
+        next (error)
+    })
 })
 
 router.put ("/:id",checkJWT,isAdmin,(req,res,next)=>{
@@ -77,6 +86,9 @@ router.put ("/:id",checkJWT,isAdmin,(req,res,next)=>{
     })
     .then (()=>{
         res.send("Usuario actualizado")
+    })
+    .catch (error =>{
+        next (error)
     })
 })
 

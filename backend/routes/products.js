@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Product} = require("../models/index")
+const {Product, Category} = require("../models/index")
 const { Op } = require("sequelize");
 
 router.get ("/", (req,res,next) => {
@@ -23,6 +23,9 @@ router.get ("/", (req,res,next) => {
         //    })
         .then((productos)=>{
             res.send(productos)
+            })
+            .catch (error =>{
+                next (error)
             })
         //})
     }else{
@@ -47,6 +50,9 @@ router.get("/search/:query", (req, res) => {
         }
     })
     .then(producto => { res.send(producto) })
+    .catch (error =>{
+        next (error)
+    })
 })
 
 
@@ -56,14 +62,33 @@ router.get("/:id", (req, res) => {
 console.log(id)
     Product.findByPk(id)
     .then(producto => { res.send(producto) })
+    .catch (error =>{
+        next (error)
+    })
 })
 
+//AGREGAR UNA RUTA PARA CREAR PRODUCTOS SIN CATEGORIA ????????
+
 router.post ("/", (req,res,next)=>{
-    console.log(req.body)
     Product.create (req.body)
     .then ((producto)=>{
-        res.send(producto)
+        if(req.body.categoryId){
+            Category.findOne({
+                where :{
+                    nombre:req.body.categoryId
+                }
+            })
+            .then((categoria)=>{
+                producto.setCategories(categoria)
+                .then((ProdCat)=>{
+                    return res.send(producto)
+                })
+            })
+        }else{
+            return res.send(producto)
+        }
     })
+    .catch(errr => console.log("HUBO UN ERROR"))
 })
 
 /* router.post ("/cart", (req,res,next)=>{
@@ -91,6 +116,9 @@ router.put("/:id", (req, res, next) => {
                 data.update(req.body)
                     .then(data => res.send(data))
         })
+        .catch (error =>{
+            next (error)
+        })
         
 })
 
@@ -106,6 +134,9 @@ router.delete("/:id", (req, res, next) => {
 
         res.send("Producto eliminado!!")
 
+    })
+    .catch (error =>{
+        next (error)
     })
 })
 
