@@ -11,6 +11,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import {useDispatch,useSelector} from "react-redux"
 import {sendToken} from "../state/user"
+import {sendToken2} from "../state/adminUser"
 import panelAdmin from '../components/panelAdmin'
 import Shop from "../components/Shop";
 
@@ -35,6 +36,13 @@ export default function Main() {
     if(token){
       /* axios.defaults.headers.authorization = `Bearer ${token}`; */
       dispatch(sendToken(token))
+      dispatch(sendToken2(token))
+    }
+  }, []);
+  React.useEffect(() => {
+    if(token){
+      /* axios.defaults.headers.authorization = `Bearer ${token}`; */
+      dispatch(sendToken2(token))
     }
   }, []);
 
@@ -54,6 +62,7 @@ export default function Main() {
             <Route exact path='/admin' component={panelAdmin} />
             <Route exact path='/admin/products' component={Admin} />
             <Route exact path='/admin/users' component={AdminUser} />
+            <Route exact path='/admin/login' component={AdminLogin} />
             <Route exact path='/shop' component={Shop} />
             <Route exact path='/searchCategory' component={searchCategory} />
             <Redirect to= "/products" />

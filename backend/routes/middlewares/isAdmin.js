@@ -3,7 +3,12 @@ const {User} = require ('../../models')
 
 
 const isAdmin = (req,res,next)=>{
-   User.findByPk (req.user.id)
+    
+   User.findOne({
+       where:{
+           email: req.body.email
+       }
+   })
    .then (usuario =>{
     if(!usuario.isAdmin){
         return res.status(401).send("usuario no admin")
