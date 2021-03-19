@@ -34,28 +34,46 @@ const useStyles = makeStyles((theme) => ({
     
 
 export default function Delete() {
-    const history = useHistory();
-    const [ value, setValue ] = React.useState("")
-    const [ query, setQuery ] = React.useState({})
-    const dispatch = useDispatch()
+    
+    const [ value, setValue ] = React.useState('') 
+    const [ query, setQuery ] = React.useState({isAdmin:'',id:0,name:''})
+   
    
     const deleteForm = ()=>{
         // dispatch()
     }
       const enter = (e)=> {
       if(e.keyCode == '13'){ 
-   axios.get(`http://localhost:3001/products/search/${value}`)
+   axios.get(`http://localhost:3001/users/search/${value}`)
    .then(res=>{
      console.log(res.data)
-     setQuery(res.data)})
+     setQuery({
+      ...query, 
+      isAdmin:res.data.isAdmin,
+      id:res.data.id,
+      name: res.data.name
+    })})
    setValue("")
      } } 
   console.log(query)
+
+
+  const handleInputChange = (event) => {
+    setQuery({ ...query, [event.target.name]: event.target.value })
+    }
+
+  const onClick = ()=>{
+    axios.put(`http://localhost:3001/users/${query.id}`,{isAdmin:query.isAdmin})
+    .then(res => console.log(res.data))
+  }
+
+
+
   return (
     <React.Fragment>
        
       <Typography variant="h6" gutterBottom>
-        Eliminar un Producto
+        convertir en admin
       </Typography>
       <Grid container spacing={3}>
       <Grid item xs={12} >
@@ -72,16 +90,30 @@ export default function Delete() {
             onChange={(e)=>setValue(e.target.value)} 
           />
         </Grid>
-        <Grid item xs={8}>
+       
         
-        </Grid>
+        
+      
+        <Grid item xs={10} sm={6} style={{marginBottom:'15%'}} >
+        <Typography variant="h6" gutterBottom style={{marginBottom:'5%'}} >
+        {query && query.name}
+      </Typography>
+      
+          <TextField
+          classes={{ root: useStyles.inputRoot, input: useStyles.inputInput, }}
+            required
+            id="nombre"
+            name="isAdmin"
+             fullWidth
+            value ={query && query.isAdmin}
+             onChange={handleInputChange} 
+              />
+              </Grid>
+       
         
         
       </Grid>
       
-      <Typography  variant="h5" component="h2" className={useStyles.prod} >
-      {/* {query && query.map(res =>  <ul><li>*/}  {query[0]? query[0].nombre:null} {/*</li> </ul> )} */}
-      </Typography>
       
       <Grid item xs={8}>
         </Grid>
@@ -96,8 +128,9 @@ export default function Delete() {
                       marginLeft:'1%',
                       color:'black'
                                 }}
+                    onClick={onClick}
                   >
-                    Delete 
+                    Enviar 
                   </Button>
     </React.Fragment>
   );
