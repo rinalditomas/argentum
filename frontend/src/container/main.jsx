@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from "react-router-dom";
 import PrincipalPage from '../components/PrincipalPage'
 import SingleProduct from '../components/SingleProduct'
+import AdminLogin from '../components/AdminLogin'
 import Admin from '../components/Admin'
 import SignUp from '../components/signUp'
 import Login from '../components/login'
@@ -42,8 +43,9 @@ export default function Main() {
             <Route exact path="/search/:id" render={({match})=> <SearchProd match={match}/>} />
             <Route exact path="/product/:id" render={({match})=> <SingleProduct match={match}/>} />
             <Route exact path='/admin' component={Admin} />
+            <Route exact path='/admin/login' component={AdminLogin} />
             <Route exact path='/shop' component={Shop} />
-            <Redirect to= "/products" />
+            <Redirect to= "/products"/> 
             </Switch>
             <Footer />
         </React.Fragment>

@@ -17,8 +17,7 @@ import { sendLoginRequest, sendToken } from "../state/user";
 import { useHistory } from "react-router-dom";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
+import {sendAdminLoginRequest} from "../state/adminUser";
 
 /////////////MATERIAL UI CODE///////////
 
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://images.clarin.com/2018/11/28/wW3LTrOkj_720x0__1.jpg)",
+      "url(https://www.filo.news/__export/1601342138983/sites/claro/img/2020/09/28/mafalda_portada.jpg_554688468.jpg)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -103,10 +102,11 @@ export default function SignInSide() {
     e.preventDefault();
     console.log("login attempt...");
     if (validate()) {
-      dispatch(sendLoginRequest({ email: email, password: password }))
+      dispatch(sendAdminLoginRequest({ email: email, password: password, isAdmin: true }))
         .then((data) => {
           alert(`bienvenido!`);
-          history.push("/");
+          history.push("/admin");
+          
         })
         .catch((err) => console.log(err));
     }
@@ -148,13 +148,8 @@ export default function SignInSide() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" className={classes.tipo}>
-            Iniciar sesión
+            Iniciar sesión Administrador
           </Typography>
-          <Grid item>
-                <Link to="/admin/login" variant="body2">
-                  {"¿Eres Admin?"}
-                </Link>
-              </Grid>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
@@ -190,7 +185,9 @@ export default function SignInSide() {
               variant="contained"
               color="inherit"
               className={classes.submit}
+            
             >
+              <Link to="/admin"/>
               Iniciar sesión
             </Button>
             <Backdrop className={classes.backdrop} open={open}>
@@ -200,12 +197,6 @@ export default function SignInSide() {
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Olvidaste tu contraseña?
-                </Link>
-              </Grid>
-              <Grid item>
-                No tenes una cuenta todavia?
-                <Link to="/signup" variant="body2">
-                  {" Registrate!"}
                 </Link>
               </Grid>
             </Grid>
