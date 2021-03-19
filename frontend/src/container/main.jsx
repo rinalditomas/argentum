@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from "react-router-dom";
 import PrincipalPage from '../components/PrincipalPage'
 import SingleProduct from '../components/SingleProduct'
+import AdminLogin from '../components/AdminLogin'
 import Admin from '../components/Admin'
 import SignUp from '../components/signUp'
 import Login from '../components/login'
@@ -12,7 +13,6 @@ import {useDispatch,useSelector} from "react-redux"
 import {sendToken} from "../state/user"
 import panelAdmin from '../components/panelAdmin'
 import Shop from "../components/Shop";
-
 import AdminUser from '../components/AdminUser'
 //import axios from 'axios'
 
@@ -53,6 +53,7 @@ export default function Main() {
             <Route exact path='/admin' component={panelAdmin} />
             <Route exact path='/admin/products' component={Admin} />
             <Route exact path='/admin/users' component={AdminUser} />
+            <Route exact path='/admin/login' component={AdminLogin} />
             <Route exact path='/shop' component={Shop} />
             <Route exact path='/searchCategory' component={searchCategory} />
             <Redirect to= "/products" />

@@ -1,24 +1,23 @@
-
-import React, {useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import {Link} from 'react-router-dom';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import {useDispatch,useSelector} from "react-redux"
-import {sendLoginRequest,sendToken, } from "../state/user"
-import { useHistory} from "react-router-dom";
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import {sendcartRequest} from '../state/cart'
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import { Link } from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { sendLoginRequest, sendToken } from "../state/user";
+import { useHistory } from "react-router-dom";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {sendAdminLoginRequest} from "../state/adminUser";
 
 /////////////MATERIAL UI CODE///////////
 
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage:
-      "url(https://images.clarin.com/2018/11/28/wW3LTrOkj_720x0__1.jpg)",
+      "url(https://www.filo.news/__export/1601342138983/sites/claro/img/2020/09/28/mafalda_portada.jpg_554688468.jpg)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -89,64 +88,55 @@ export default function SignInSide() {
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
 
- 
+  /////////////HANDLE INPUT'S///////////
 
-/////////////HANDLE INPUT'S///////////
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePass = (e) => {
+    setPassword(e.target.value);
+  };
 
- 
-  
+  ////////////////HANDLESUBMIT////////////
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("login attempt...");
+    if (validate()) {
+      dispatch(sendAdminLoginRequest({ email: email, password: password, isAdmin: true }))
+        .then((data) => {
+          alert(`bienvenido!`);
+          history.push("/admin");
+          
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
-  const handleEmail = (e) =>{
-    setEmail(e.target.value)
-}
-const handlePass = (e) =>{
-    setPassword(e.target.value)
-}
+  ////////////////VALIDATE////////////
 
- ////////////////HANDLESUBMIT////////////
-const handleSubmit =  (e) => {
-  e.preventDefault();
-  console.log("login attempt...");
-  if(validate()){
- dispatch(sendLoginRequest({email:email,password:password}))
-  .then((data)=>{
-    console.log('esta es la data de user',data.payload.id)
-    dispatch(sendcartRequest(data.payload.id))
-    alert(`bienvenido!`)
-    history.push('/')
+  const validate = () => {
+    let isValid = true;
 
-  })
-  .catch((err) => console.log(err))
-  }
-};
+    if (!password) {
+      isValid = false;
+      alert("Por favor, ingresa una contraseña.");
+    }
+    if (!email) {
+      isValid = false;
+      alert("Por favor, ingresa un correo electronico.");
+    }
 
-////////////////VALIDATE////////////
-
-const validate = () =>{
-  let isValid = true
-
-  if (!password) {
-   isValid = false;
-   alert("Por favor, ingresa una contraseña.");
- }
-  if (!email) {
-   isValid = false;
-   alert("Por favor, ingresa un correo electronico.");
- }
-  
- if (typeof email !== "undefined"){
-   var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-   if (!pattern.test(email)) {
-     isValid = false;
-    alert("Por favor, ingresa un correo electronico valido.") 
- }
-}
-return isValid;
-}
-
-
-
- 
+    if (typeof email !== "undefined") {
+      var pattern = new RegExp(
+        /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+      );
+      if (!pattern.test(email)) {
+        isValid = false;
+        alert("Por favor, ingresa un correo electronico valido.");
+      }
+    }
+    return isValid;
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -158,13 +148,8 @@ return isValid;
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" className={classes.tipo}>
-            Iniciar sesión
+            Iniciar sesión Administrador
           </Typography>
-          <Grid item>
-                <Link to="/admin/login" variant="body2">
-                  {"¿Eres Admin?"}
-                </Link>
-              </Grid>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
@@ -200,7 +185,9 @@ return isValid;
               variant="contained"
               color="inherit"
               className={classes.submit}
+            
             >
+              <Link to="/admin"/>
               Iniciar sesión
             </Button>
             <Backdrop className={classes.backdrop} open={open}>
@@ -210,12 +197,6 @@ return isValid;
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Olvidaste tu contraseña?
-                </Link>
-              </Grid>
-              <Grid item>
-                No tenes una cuenta todavia?
-                <Link to="/signup" variant="body2">
-                  {" Registrate!"}
                 </Link>
               </Grid>
             </Grid>

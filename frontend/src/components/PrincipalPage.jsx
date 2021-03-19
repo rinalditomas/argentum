@@ -19,9 +19,9 @@ import {useHistory} from 'react-router-dom'
 const handleDragStart = (e) => e.preventDefault();
 
 const items = [
-  <img src="img1.jpg" onDragStart={handleDragStart} />,
-  <img src="img2.jpg" onDragStart={handleDragStart} />,
-  <img src="img3.jpg" onDragStart={handleDragStart} />,
+  <img src="http://topickr.com/img/posteo/thumb/437_paisajes-bonitos-en-argentina_3322.jpg" onDragStart={handleDragStart} />,
+  <img src="http://topickr.com/img/posteo/thumb/437_cataratas_3342.jpg" onDragStart={handleDragStart} />,
+  <img src="http://topickr.com/img/posteo/thumb/437_paisajes-bonitos-en-argentina_3325.jpg" onDragStart={handleDragStart} />,
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -104,11 +104,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
-
-    height: "300px",
-    width: "700px",
-    margin: "0 auto",
-
+   
+    width: "600px"
   },
   ima:{
     height: "300px"
@@ -120,22 +117,20 @@ export default function Album() {
   const dispatch = useDispatch();
   const productos = useSelector((state) => state.allProducts);
   const searchCategories = useSelector((state) => state.categoryReducer);
-  const [cat,setCat] = React.useState(false)
-  const history = useHistory()
+  const [cat, setCat] = React.useState(false);
+  const history = useHistory();
   React.useEffect(() => {
     dispatch(getAllProducts());
-    dispatch(searchAllCategories())
+    dispatch(searchAllCategories());
   }, []);
 
-  const handleChange = (e) =>{
-    setCat(e.target.value)
-
-  }
-  const handleClick = () =>{
-    dispatch(getSearchCategory(cat))
-    history.push('/searchCategory')
-  }
-  
+  const handleChange = (e) => {
+    setCat(e.target.value);
+  };
+  const handleClick = () => {
+    dispatch(getSearchCategory(cat));
+    history.push("/searchCategory");
+  };
 
   const settings = {
     arrows: false,
@@ -146,7 +141,7 @@ export default function Album() {
     dots: true,
     dotsScroll: 2,
     initialSlide: true,
-    slidesToShow: 4
+    slidesToShow: 4,
   };
 
   return (
