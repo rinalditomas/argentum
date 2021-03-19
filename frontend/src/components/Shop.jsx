@@ -12,11 +12,11 @@ import Button from "@material-ui/core/Button";
 import PaymentIcon from "@material-ui/icons/Payment";
 import TextField from "@material-ui/core/TextField";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import IconButton from "@material-ui/core/IconButton";
-import {useSelector} from "react-redux";
-
+import {useSelector,useDispatch} from "react-redux";
+import {  getcartRequest } from "../state/cart";
+import axios from 'axios'
+import { useHistory } from "react-router-dom";
 const TAX_RATE = 0.21;
 
 const useStyles = makeStyles({
@@ -38,33 +38,61 @@ const useStyles = makeStyles({
 
 
 export default function SpanningTable() {
+  const dispatch = useDispatch()
   const classes = useStyles();
   let carts = useSelector((state)=> state.cart)
-  const [cart,setCart] = React.useState([])
+  const user = useSelector(state => state.user)
+  const history = useHistory()
   
-  localStorage.setItem('cart', JSON.stringify(carts))
 
   const ccyFormat=(num)=> {
     return `${num.toFixed(2)}`;
   }
   const subtotal= (item)=> {
-    return item.map((obj) => obj.precio).reduce((sum, i) => sum + i, 0);
+    return item.map((obj) => obj.product.precio).reduce((sum, i) => sum + i, 0);
   }
   
   
-  const invoiceSubtotal = subtotal(cart);
+  const invoiceSubtotal = subtotal(carts);
   const invoiceTaxes = TAX_RATE * invoiceSubtotal;
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
   
 
-   
-  console.log(cart)
+  console.log('este es el carrito de redux',carts)
   
-  React.useEffect(()=>{
-     setCart(carts) 
+  
 
-  },[])
+   React.useEffect(()=>{
   
+     dispatch(getcartRequest())
+
+  },[]) 
+
+ 
+  
+console.log(carts)
+
+  
+   React.useEffect(()=>{
+   return  user?
+   carts.map(item => 
+   axios.post(`http://localhost:3001/cart/add/${item.product.id}`, {quantity: item.quantity},{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
+   .then((res)=> {
+     return res.data} ))
+    : null
+ },[]) 
+  
+ const handleClick =(e)=>{
+   console.log(e)
+   axios.post(`http://localhost:3001/cart/remove/${e}`,{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
+  setTimeout(function(){window.location.reload() }, 1000)
+  return false  
+ }
+
+ const cleanCart = ()=>{
+  axios.delete(`http://localhost:3001/cart/clear`,{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
+  setTimeout(function(){window.location.reload() }, 1000)
+ }
 
 
   return (
@@ -74,12 +102,16 @@ export default function SpanningTable() {
           <TableRow>
             <TableCell
               align="left"
-              colSpan={3}
+              colSpan={4}
               style={{ fontFamily: "'Lobster Two', cursive", fontSize: "50px" }}
             >
               Mi carrito
+              
             </TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell align="right"
+            >
+
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell
@@ -124,15 +156,26 @@ export default function SpanningTable() {
             >
               Precio
             </TableCell>
+            <TableCell
+              align="right"
+              style={{
+                fontSize: "20px",
+                textDecoration: "underline",
+                fontFamily: "'Shippori Mincho B1', serif",
+                color: "#C25500",
+              }}
+            >
+              eliminar
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {carts.map((yerba) => (
-            <TableRow key={yerba.nombre}>
-              
-              <TableCell>{<Checkbox color="primary" />}</TableCell>
+
+       { carts.map((yerba) => (
+            <TableRow key={yerba.product.id}>
+
               <TableCell>
-                <Avatar alt="" src={yerba.imagen} al />
+                <Avatar alt=""  src={yerba.product.imagen}  al />
               </TableCell>
               <TableCell
                 style={{
@@ -141,7 +184,7 @@ export default function SpanningTable() {
                   color: "black",
                 }}
               >
-                {yerba.nombre}
+                {yerba.product.nombre}
               </TableCell>
               <TableCell
                 align="right"
@@ -154,7 +197,7 @@ export default function SpanningTable() {
                 <TextField
                   id="outlined-number"
                   /* label="stock" */
-                  defaultValue={yerba.stock}
+                  defaultValue={yerba.quantity}
                   type="number"
                   className={classes.stock}
                   InputLabelProps={{
@@ -171,12 +214,35 @@ export default function SpanningTable() {
                   color: "black",
                 }}
               >
-                {yerba.precio}{" "}
+                {yerba.product.precio}{" "}
+              </TableCell>
+              <TableCell
+                align="right"
+                style={{
+                  fontFamily: "'Shippori Mincho B1', serif",
+                  fontSize: "18px",
+                  color: "black",
+                }}
+              >
+                 <IconButton aria-label="delete">
+        <DeleteIcon
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            float: "right",
+            margin: "5%",
+            color: "red",
+            align: "right"
+          }}
+           onClick={()=> handleClick(yerba.product.id)} 
+        />
+      </IconButton>
               </TableCell>
             </TableRow>
-          ))} 
+          )) } 
         <TableRow>
-            <TableCell rowSpan={3} />
+            <TableCell rowSpan={3} 
+            />
             <TableCell
               style={{
                 fontFamily: "'Shippori Mincho B1', serif",
@@ -255,18 +321,8 @@ export default function SpanningTable() {
           </TableRow>
         </TableBody>
       </Table>
-      <IconButton aria-label="delete">
-        <DeleteIcon
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            float: "right",
-            margin: "5%",
-            color: "red",
-            align: "right"
-          }}
-        />
-      </IconButton>
+     
+     
       <Button
         align="right"
         variant="contained"
@@ -276,6 +332,18 @@ export default function SpanningTable() {
         startIcon={<PaymentIcon />}
       >
         Pagar
+      </Button>
+      <Button
+        align="right"
+        variant="contained"
+        color="inherit"
+        size="large"
+        className={classes.button}
+        style ={{marginRight:'500px'}}
+        startIcon={<DeleteIcon />}
+        onClick = {cleanCart}
+      >
+        limpiar carrito
       </Button>
     </TableContainer>
   );

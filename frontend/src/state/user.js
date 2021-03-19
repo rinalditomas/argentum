@@ -16,12 +16,20 @@ const  parseJwt = (token) => {
 
 ////LOGIN///////////////////////////////
 
-export const sendLoginRequest = createAsyncThunk("LOGIN", (user,thunkAPI) => {
-    return axios.post("http://localhost:3001/users/login",{email:user.email,password:user.password}).then((res)=>{
-      localStorage.setItem("token",(res.data.token))
-      const data = parseJwt(res.data.token)
-      return data
-    })});
+export const sendLoginRequest = createAsyncThunk("LOGIN", (user, thunkAPI) => {
+  return axios
+    .post("http://localhost:3001/users/login", {
+      email: user.email,
+      password: user.password,
+    })
+    .then((res) => {
+      localStorage.setItem("token", res.data.token);
+      const data = parseJwt(res.data.token);
+      return data;
+    })
+    .catch(console.log("entre al error"))
+});
+
     //parsear la data del token y guardarla en redux, buscar el payload de jwt
 
 //////LOGOUT///////////////////////////////
@@ -35,15 +43,14 @@ export const sendLogoutRequest = createAsyncThunk("LOGOUT", (user,thunkAPI) => {
 
   export const sendRegisterRequest = createAsyncThunk("REGISTER", (user,thunkAPI) => {
       return axios.post("http://localhost:3001/users/register",{email:user.email,password:user.password,name:user.name,lastName:user.lastName})
-      .then((res)=> res.data )
-      .catch((err) => console.log(err))
+      
     });
   
 /////CHECK QUE EL TOKEN ESTE OK//////////
 
   export const sendToken = createAsyncThunk("LOGIN", (token,thunkAPI) => {
     console.log("llego hasta aca")
-      return axios.post("http://localhost:3001/me",{},{headers: { Authorization: `Bearer ${token}`}})
+      return axios.post("http://localhost:3001/me",{}, {headers: { Authorization: `Bearer ${token}`}} )
       .then((res)=> res.data) 
       .catch((err) => console.log(err))
     });
@@ -53,8 +60,8 @@ export const sendLogoutRequest = createAsyncThunk("LOGOUT", (user,thunkAPI) => {
   export const userReducer = createReducer({}, {
     [sendLoginRequest.fulfilled]: (state, action) => action.payload,
     [sendLogoutRequest.fulfilled]: (state, action) => action.payload,
-    [sendRegisterRequest.fulfilled]: (state, action) => action.payload,
     [sendToken.fulfilled]: (state, action) => action.payload,
+    
   });
 
  

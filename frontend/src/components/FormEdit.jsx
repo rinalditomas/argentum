@@ -8,11 +8,14 @@ import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useInput } from "../customHook";
 import axios from 'axios'
+import { setCart } from '../state/cart';
 
 const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
         marginLeft: theme.spacing(1),
+        backgroundColor: "#C25500",
+        width:'100%'
       },
       inputRoot: {
         color: 'inherit',
@@ -34,8 +37,8 @@ export default function EditForm() {
   //const products = useSelector(state => state.searchProduct);
   //const history = useHistory();
   //const dispatch = useDispatch()
-  const [ query, setQuery ] = React.useState({}) 
-  const [ value, setValue ] = React.useState("")
+  const [ query, setQuery ] = React.useState({nombre:'',precio:0,descripcion:'',stock:0,imagen:''}) 
+  const [ value, setValue ] = React.useState('')
  // const product = useInput("product");
 //const price = useInput("price");
 //  const description = useInput("description")
@@ -60,7 +63,13 @@ console.log(query)
    .then(res=>{
     //  console.log(res.data[0].nombre)
       // res.data[0].nombre
-    setQuery(res.data[0]) })
+    setQuery({...query, 
+      nombre:res.data[0].nombre,
+      descripcion:res.data[0].descripcion,
+      imagen:res.data[0].imagen,
+      precio:res.data[0].precio,
+      stock:res.data[0].stock,
+    }) })
    setValue("")
      } } 
 
@@ -78,7 +87,7 @@ console.log(query)
       <Typography variant="h6" gutterBottom>
         Editar un Producto
       </Typography>
-      <form>
+      <form style={{marginLeft:'7%'}}> 
       
       <Grid container spacing={3}>
       <Grid item xs={10} >
@@ -102,7 +111,7 @@ console.log(query)
           <TextField
             required
             id="product"
-            name="product"
+            name="nombre"
             label="product"
             fullWidth
             value ={query && query.nombre}
@@ -113,7 +122,7 @@ console.log(query)
           <TextField
             required
             id="price"
-            name="price"
+            name="precio"
             label="price"
             value ={query && query.precio}
             onChange={handleInputChange}
@@ -122,7 +131,7 @@ console.log(query)
         <Grid item xs={10}>
           <TextField
             id="description"
-            name="description"
+            name="descripcion"
             label="description"
             fullWidth
             value ={query && query.descripcion}
@@ -133,7 +142,7 @@ console.log(query)
           <TextField
             required
             id="image"
-            name="image"
+            name="imagen"
             label="image"
             fullWidth
             value ={query && query.imagen}
@@ -166,7 +175,14 @@ console.log(query)
         variant="contained"
         color="primary"
         onClick={submitForm}
-        className={useStyles.button}>
+        className={useStyles.button}
+        style={{
+          backgroundColor: "#C25500",
+          width:'100%',
+          marginRight:'1%',
+          color:'black'
+                    }}
+        >
           Edit 
           </Button>
             </form>
