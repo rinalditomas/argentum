@@ -1,6 +1,6 @@
-const {Product} = require ("./models/index");
+const {Product, Category,User} = require ("./models/index");
 
-
+//PRODUCTOS
 const yerba1= {
     nombre: "Playadito", //String
     precio: 200, //Integer
@@ -259,18 +259,107 @@ const ddl4= {
     disponible: true, //Boolean
     stock: 21, //Integer
 };
+//------------------------------------------------------
+//CATEGORIAS
+const cat1 ={
+    nombre:'vinos'
+}
+const cat2 ={
+    nombre:'alfajores'
+}
+const cat3 ={
+    nombre:'yerbas'
+}
+const cat4 ={
+    nombre:'dulce de leche'
+}
+const cat5 ={
+    nombre:'mates'
+}
+//-------------------------------------------------
+//USUARIOS
+const user1={
+    name: 'tomas',
+    lastName:'rinaldi',
+    email:'tomasrinaldi@argentum.com',
+    password:12345678
 
-//Productos.insertMany([yerba1, yerba2, yerba3, yerba4, vino1, vino2, vino3, vino4, artesanias1, artesanias2, artesanias3, artesanias4, alfajores1, alfajores2, alfajores3, alfajores4, asador1, asador2, asador3, asador4, cinturon1, cinturon2, cinturon3, cinturon4, ddl1, ddl2, ddl3, ddl4])
+}
+const user2={
+    name: 'florencia',
+    lastName:'paez',
+    email:'florenciapaez@argentum.com',
+    password:12345678
 
+}
+const user3={
+    name: 'julia',
+    lastName:'selma',
+    email:'juliaselma@argentum.com',
+    password:12345678
+
+}
+const user4={
+    name: 'maria',
+    lastName:'cortina',
+    email:'marcortina@argentum.com',
+    password:12345678
+
+}
+const user5={
+    name: 'damian',
+    lastName:'almanza',
+    email:'damianalmanza@argentum.com',
+    password:12345678
+
+}
+const user6={
+    name: 'augusto',
+    lastName:'morales',
+    email:'augustomorales@argentum.com',
+    password:12345678
+
+}
+const user7={
+    name: 'roberto',
+    lastName:'villa',
+    email:'robervilla@argentum.com',
+    password:12345678
+
+}
+const user8={
+    name: 'admin',
+    lastName:'admin',
+    email:'admin@argentum.com',
+    password:12345678,
+    isAdmin:true
+}
+//--------------------------------------------------------
 const productArray =[yerba1, yerba2, yerba3, yerba4, mate1, mate2, mate3, mate4, vino1, vino2, vino3, vino4, artesanias1, artesanias2, artesanias3, artesanias4, alfajores1, alfajores2, alfajores3, alfajores4, asador1, asador2, asador3, asador4, cinturon1, cinturon2, cinturon3, cinturon4, ddl1, ddl2, ddl3, ddl4]
+const userArray=[user1,user2,user3,user4,user5,user6,user7,user8]
+const categoryArray = [cat1,cat2,cat3,cat4,cat5]
 
+//---------------------------------------------------------------
 
 let productPromise = () => Product.bulkCreate(productArray)
   .then(res => {
     console.log(`-->productos creados`);
     return res;
   });
+  
+let categoryPromise = () => Category.bulkCreate(categoryArray)
+  .then(res => {
+    console.log(`-->productos creados`);
+    return res;
+  });
+let userPromise = () => User.bulkCreate(userArray)
+  .then(res => {
+    console.log(`-->productos creados`);
+    return res;
+  });
 
 
-  productPromise() 
+  productPromise()
+  .then(()=>categoryPromise()) 
+  .then(()=>userPromise()) 
   .then(() => console.log(`----Seed terminado----`));

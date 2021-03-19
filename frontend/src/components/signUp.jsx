@@ -117,7 +117,7 @@ export default function SignUp() {
       )
         .then(() => {
           alert(`Te registraste correctamente `);
-          history.push("/products");
+          history.push("/login");
         })
         .catch((err) => console.log(err));
     }

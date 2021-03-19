@@ -74,13 +74,15 @@ console.log(carts)
 
   
    React.useEffect(()=>{
+     
    return  user?
-   carts.map(item => 
+   carts.map(item => {
+    console.log("******************************************",item)
    axios.post(`http://localhost:3001/cart/add/${item.product.id}`, {quantity: item.quantity},{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
    .then((res)=> {
-     return res.data} ))
+     return res.data} )})
     : null
- },[]) 
+ ,[]}) 
   
  const handleClick =(e)=>{
    console.log(e)
