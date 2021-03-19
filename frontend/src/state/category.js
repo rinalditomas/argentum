@@ -6,8 +6,9 @@ import { createReducer, createAsyncThunk } from "@reduxjs/toolkit";
 
 
 export const getSearchCategory = createAsyncThunk('SEARCH_CATEGORY',(value)=> { 
+  console.log(value)
   return axios.get(`http://localhost:3001/categories/search/${value}`)
-   .then(response => response.data)
+   .then(response =>response.data)
 })
 export const searchAllCategories = createAsyncThunk('SEARCH_ALL',(value)=> {
     return axios.get(`http://localhost:3001/categories/search`)

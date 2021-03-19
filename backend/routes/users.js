@@ -5,6 +5,7 @@ const jwt= require ("jsonwebtoken")
 const checkJWT= require("./middlewares/jwt")
 const isAdmin=require("./middlewares/isAdmin")
 const { Op } = require("sequelize");
+
 router.post("/register", (req, res,next) => {  
     
     User.create(req.body)
@@ -15,6 +16,7 @@ router.post("/register", (req, res,next) => {
 
 router.post("/admin/login", isAdmin, (req, res)=>{
     const {email,password} = req.body
+    console.log("ESTE ES EL BODY",req.body)
     User.findOne({
         where:{
             email,
@@ -26,7 +28,7 @@ router.post("/admin/login", isAdmin, (req, res)=>{
         if(!user.validPassword(password)){
             return res.status (401).send("invalid credentials")
         }
-        const token= jwt.sign({id:user.id,email:user.email,name:user.name},"argentum")
+        const token= jwt.sign({id:user.id,email:user.email,name:user.name,isAdmin:user.isAdmin},"argentum")
       return res.status(200).json({token})  
     })
     .catch (error =>{
@@ -51,7 +53,7 @@ router.post('/login',(req,res)=>{
          if(!user.validPassword(password)){
              return res.status (401).send("invalid credentials")
          }
-         const token= jwt.sign({id:user.id,email:user.email,name:user.name},"argentum")
+         const token= jwt.sign({id:user.id,email:user.email,name:user.name,isAdmin:user.isAdmin},"argentum")
        return res.status(200).json({token})  
      })
      .catch (error =>{

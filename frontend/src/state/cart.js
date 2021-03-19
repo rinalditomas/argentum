@@ -7,10 +7,10 @@ export const filterProd = createAction("FILTER_PROD")
 
 
 export const sendcartRequest = createAsyncThunk("CREATE_CART", (user, thunkAPI) => {
-  console.log(user)
+  const token =localStorage.getItem("token")
   return axios
-    .post(`http://localhost:3001/cart/create/${user}`, {headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}} )
-    .then((res) => res.data)
+    .post(`http://localhost:3001/cart/create/${user}`,{} , {headers: { Authorization: `Bearer ${token}`}} )
+    .then((res) => console.log("ACA ESTA LA RESPUESTA DEL CARRITO",res.data))
     .catch(console.log("entre al error"))
 });
 

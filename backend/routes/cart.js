@@ -131,12 +131,19 @@ router.delete("/clear", checkJWT, (req, res, next) => {
 
 
 router.post("/checkOut", checkJWT, (req, res, next) => {
+ 
   Cart.findOne({
     where: {
       userId: req.user.id,
       estado: "active",
     },
   }).then((cart) => {
+    Item.findAll({
+      where: {
+       cartId: cart.id,
+      },include:Product
+    }).then((data)=>console.log(data))
+    
     cart.update({ estado: "active" }).then(() => {//cambiar a pending
       User.findByPk(req.user.id).then((persona) => {
         const message = {
@@ -167,8 +174,8 @@ router.post("/checkOut", checkJWT, (req, res, next) => {
             }
           });
         });
-        console.log(response, "ietms con productos");
-        Cart.create({ userId: req.user.id, estado: "active" }).then(() => {
+        /*  console.log(response, "ietms con productos"); */
+        Cart.create({ userId: req.user.id, estado: "active" }).then((response) => {
           res.send(response.quantity);
         })
         .catch (error =>{

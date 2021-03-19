@@ -60,6 +60,14 @@ export default function SpanningTable() {
 
   console.log('este es el carrito de redux',carts)
   
+  const pagar = ()=> {
+    console.log('se esta clickeando')
+     const token =localStorage.getItem("token")
+   return user.id?
+     axios.post("http://localhost:3001/cart/checkOut",{}, {headers: { Authorization: `Bearer ${token}`}} )
+          .then(()=> alert('gracias por tu compra'))
+           : alert('no estas logueado') 
+  } 
   
 
    React.useEffect(()=>{
@@ -74,13 +82,15 @@ console.log(carts)
 
   
    React.useEffect(()=>{
+     
    return  user?
-   carts.map(item => 
+   carts.map(item => {
+    console.log("******************************************",item)
    axios.post(`http://localhost:3001/cart/add/${item.product.id}`, {quantity: item.quantity},{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
    .then((res)=> {
-     return res.data} ))
+     return res.data} )})
     : null
- },[]) 
+ ,[]}) 
   
  const handleClick =(e)=>{
    console.log(e)
@@ -323,15 +333,27 @@ console.log(carts)
       </Table>
      
      
-      <Button
+     {/*  <Button
         align="right"
         variant="contained"
         color="inherit"
         size="large"
         className={classes.button}
         startIcon={<PaymentIcon />}
+        onclick ={pagar}
       >
         Pagar
+      </Button> */}
+      <Button
+      align = 'right'
+      variant='conatined'
+      color='inherit'
+      size='large'
+      className={classes.button}
+      startIcon={<PaymentIcon />}
+      onClick ={pagar}
+      >
+        pagar
       </Button>
       <Button
         align="right"

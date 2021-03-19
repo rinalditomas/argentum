@@ -19,42 +19,31 @@ const parseJwt = (token) => {
 ////LOGIN///////////////////////////////
 
 export const sendAdminLoginRequest = createAsyncThunk("ADMINLOGIN", (user, thunkAPI) => {
-  return axios
-    .post("http://localhost:3001/users/admin/login", {
-      isAdmin: user.isAdmin,
-      email: user.email,
-      password: user.password,
-    })
+  return axios.post("http://localhost:3001/users/admin/login", {email: user.email,password: user.password})
     .then((res) => {
+      console.log(res,"ACA ESTA LA RESPUESTA DEL LOGIN DEL ADMIN")
       localStorage.setItem("token", res.data.token);
       const data = parseJwt(res.data.token);
       return data;
     });
 });
 //parsear la data del token y guardarla en redux, buscar el payload de jwt
-//////LOGOUT///////////////////////////////
-
-export const sendLogoutRequest = createAsyncThunk("LOGOUT", (user,thunkAPI) => {
-  localStorage.removeItem('token')
-  return {}
-});
-
-
-/////CHECK QUE EL TOKEN ESTE OK//////////
-
-export const sendToken = createAsyncThunk("LOGIN", (token,thunkAPI) => {
+export const sendToken2 = createAsyncThunk("ADMINLOGIN", (token,thunkAPI) => {
   console.log("llego hasta aca")
     return axios.post("http://localhost:3001/me",{}, {headers: { Authorization: `Bearer ${token}`}} )
     .then((res)=> res.data) 
     .catch((err) => console.log(err))
   });
 
+  export const sendLogoutRequest2 = createAsyncThunk("ADMINLOGOUT", (user,thunkAPI) => {
+    localStorage.removeItem('token')
+    return {}
+});
 
-export const adminReducer = createReducer(
-  {},
-  {
-    [sendAdminLoginRequest.fulfilled]: (state, action) => action.payload,
-    [sendLogoutRequest.fulfilled]: (state, action) => action.payload,
-    [sendToken.fulfilled]: (state, action) => action.payload,
-  }
-);
+export const adminReducer = createReducer({},
+  {[sendAdminLoginRequest.fulfilled]: (state, action) => action.payload,
+  [sendLogoutRequest2.fulfilled]: (state, action) => action.payload,
+  [sendToken2.fulfilled]: (state, action) => action.payload,
+    
+  });
+

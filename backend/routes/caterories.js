@@ -54,6 +54,7 @@ router.get("/search/:query", (req, res) => {
           },include: Product
        },)
        .then((productos)=>{ 
+        
            res.send(productos[0].products)
        })
         .catch(err => console.log("hubo un error"))

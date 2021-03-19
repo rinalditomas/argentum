@@ -19,9 +19,9 @@ import {useHistory} from 'react-router-dom'
 const handleDragStart = (e) => e.preventDefault();
 
 const items = [
-  <img src="http://topickr.com/img/posteo/thumb/437_paisajes-bonitos-en-argentina_3322.jpg" onDragStart={handleDragStart} />,
-  <img src="http://topickr.com/img/posteo/thumb/437_cataratas_3342.jpg" onDragStart={handleDragStart} />,
-  <img src="http://topickr.com/img/posteo/thumb/437_paisajes-bonitos-en-argentina_3325.jpg" onDragStart={handleDragStart} />,
+  <img src="http:/.com/img/posteo/thumb/437_paisajes-bonitos-en-argentina_3322.jpg" onDragStart={handleDragStart} />,
+  <img src="http://topickr.commg/posteo/thumb/437_cataratas_3342.jpg" onDragStart={handleDragStart} />,
+  <img src="http://topickr.com/iposteo/thumb/437_paisajes-bonitos-en-argentina_3325.jpg" onDragStart={handleDragStart} />,
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -128,9 +128,12 @@ export default function Album() {
     setCat(e.target.value);
   };
   const handleClick = () => {
+    console.log(cat)
     dispatch(getSearchCategory(cat));
     history.push("/searchCategory");
   };
+
+ 
 
   const settings = {
     arrows: false,

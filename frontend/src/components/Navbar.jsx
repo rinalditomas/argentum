@@ -13,6 +13,7 @@ import { Link, useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useDispatch, useSelector } from "react-redux";
 import { sendLoginRequest, sendLogoutRequest } from "../state/user";
+import {sendLogoutRequest2 } from "../state/adminUser";
 import { useRadioGroup } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -106,8 +107,11 @@ export default function PrimarySearchAppBar() {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const userAdmin = useSelector((state) => state.admin);
   const history = useHistory();
   const [value, setValue] = React.useState("");
+
+  console.log("ACA ESTA EL USUARIO DE LA NAVBAR", user )
 
   const enter = (e) => {
     if (e.keyCode == "13") {
@@ -118,8 +122,8 @@ export default function PrimarySearchAppBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    userAdmin.id?  dispatch(sendLogoutRequest2()) :
     dispatch(sendLogoutRequest());
-    // window.location.reload();
     // return false;
   };
 
@@ -155,10 +159,11 @@ export default function PrimarySearchAppBar() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <div className={classes.log}>
-              {user.name ? `Hola ${user.name.charAt(0).toUpperCase()+user.name.slice(1)}` : null}
+              {user.name || userAdmin.name? `Hola ${user.name.charAt(0).toUpperCase()+user.name.slice(1)}` : null}
             </div>
             {/* {'------------agregado solo para mi facilidad-----------'} */}
-            <Link to="/admin">
+            {user.isAdmin ?(
+              <Link to="/admin">
               <IconButton
                 color="black"
                 style={{ fontSize: 30, backgroundColor: "#FFCA8F" }}
@@ -167,10 +172,13 @@ export default function PrimarySearchAppBar() {
                   color="black"
                   style={{ fontSize: 30, backgroundColor: "#FFCA8F" }}
                 >
-                  <PersonAddIcon style={{ fontSize: 30, color: "#FFCA8F" }} />
+                  <PersonAddIcon  />
                 </Badge>
               </IconButton>
             </Link>
+            ): null
+            }
+            
             {/* {'------------agregado solo para mi facilidad-----------'}*/}{" "}
             <Link to="/shop">
               <IconButton color="black">
@@ -179,7 +187,7 @@ export default function PrimarySearchAppBar() {
                 </Badge>
               </IconButton>
             </Link>
-            {user.id ? (
+            {user.id || userAdmin.id ? (
               <div>
                 <IconButton onClick={handleSubmit} color="black">
                   <Badge color="black">

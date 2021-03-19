@@ -10,7 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import {getSearchProduct} from '../state/searchProduct'
 import {useDispatch,useSelector} from 'react-redux'
 import { Link } from "react-router-dom";
-
+/* import {getSearchCategories} from '../state/category' */
 
 
 const useStyles = makeStyles((theme) => ({

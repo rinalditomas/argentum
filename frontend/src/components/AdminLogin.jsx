@@ -102,11 +102,16 @@ export default function SignInSide() {
     e.preventDefault();
     console.log("login attempt...");
     if (validate()) {
-      dispatch(sendAdminLoginRequest({ email: email, password: password, isAdmin: true }))
+      dispatch(sendAdminLoginRequest({ email: email, password: password }))
         .then((data) => {
-          alert(`bienvenido!`);
-          history.push("/admin");
-          
+          console.log("ACA ESTA LA DATA DEL ADMINISTRADOR",data)
+          if(data.payload){
+            alert(`bienvenido!`);
+            history.push("/admin");
+          }else{
+            alert("no sos administrador")
+          }
+
         })
         .catch((err) => console.log(err));
     }
