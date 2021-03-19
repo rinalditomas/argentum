@@ -100,9 +100,9 @@ export default function Checkout() {
                     delete Product 
                   </Button>
                   <Box mt={4} />
-                 {add=='create'? <Form /> : null} 
-                 {add=='edit'? <Edit /> : null} 
-                 {add=='delete'? <Delete /> : null} 
+                 {add==='create'? <Form /> : null} 
+                 {add==='edit'? <Edit /> : null} 
+                 {add==='delete'? <Delete /> : null} 
                  
           
         </Paper>

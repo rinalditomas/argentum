@@ -17,9 +17,11 @@ const store = configureStore({
     searchProduct: getSearchProductReducer,
     allProducts : getAllProductsReducer,
     user: userReducer,
+
     categoryReducer: getSearchCategoryReducer,
     product :productReducer,
     cart : cartProductsReducer
+
   },
 });
 

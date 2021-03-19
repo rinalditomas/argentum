@@ -19,7 +19,12 @@ let transport = nodemailer.createTransport({
 
 
 
-router.post("/add/:id", checkJWT, (req, res, next) => {
+
+router.post("/add/:id",  checkJWT, (req, res, next) => {
+  console.log(req.params.id)
+  console.log(req.body)
+  console.log(req.user)
+
   Cart.findOne({
     where: {
       userId: req.user.id,
@@ -45,7 +50,30 @@ router.post("/add/:id", checkJWT, (req, res, next) => {
     .catch(next);
 });
 
-router.post("/remove/:id", checkJWT, (req, res, next) => {
+
+router.get("/getCart",  checkJWT, (req, res, next) => {
+  Cart.findOne({
+    where: {
+      userId: req.user.id,
+      estado: "active",
+    }
+  })
+  .then((cart) => {
+    Item.findAll({
+      where: {
+       cartId: cart.id,
+      },include:Product
+    })
+    .then(data => res.send(data))
+    
+})
+
+
+});
+
+router.post("/remove/:id",   /* checkJWT,  */  (req, res, next) => {
+  console.log(req.params.id)
+
   Item.findOne({
     where: {
       productId: req.params.id,
@@ -62,7 +90,9 @@ router.post("/remove/:id", checkJWT, (req, res, next) => {
 });
 
 
+
 router.post("/create/:id", checkJWT, (req, res, next) => {
+
   Cart.findOrCreate({
     where: {
       userId: req.params.id,

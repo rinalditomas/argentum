@@ -21,12 +21,13 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Slider from "infinite-react-carousel";
 import {searchAllCategories,getSearchCategory} from '../state/category'
 import {useHistory} from 'react-router-dom'
+
 const handleDragStart = (e) => e.preventDefault();
 
 const items = [
-  <img src="diegote.jpg" onDragStart={handleDragStart} />,
-  <img src="diegote.jpg" onDragStart={handleDragStart} />,
-  <img src="diegote.jpg" onDragStart={handleDragStart} />,
+  <img src="img1.jpg" onDragStart={handleDragStart} />,
+  <img src="img2.jpg" onDragStart={handleDragStart} />,
+  <img src="img3.jpg" onDragStart={handleDragStart} />,
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -109,8 +110,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
-   
-    width: "600px"
+
+    height: "300px",
+    width: "700px",
+    margin: "0 auto",
+
   },
   ima:{
     height: "300px"
@@ -157,75 +161,26 @@ export default function Album() {
         <CssBaseline />
 
 
-        <AliceCarousel
-          disableButtonsControls
-          infinite="true"
-          disableDotsControls
-          items={productos.map((tile) => (
-            <GridListTile>
-              <div style={{ margin: "0 auto", alignContent: "center", padding:"20px" }}>
-                <Slider {...settings}>
-                  <div>
-                    <img
-                      src="img1.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img2.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img3.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img4.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      src="img5.jpg"
-                      alt=""
-                      style={{
-                        height: "300px",
-                        width: "700px",
-                        margin: "0 auto",
-                        display: "flex",
-                      }}
-                    />
-                  </div>
-                </Slider>
+        <AliceCarousel 
+      autoPlay='true' 
+      autoWidth='true' 
+      autoHeight='true' 
+      disableButtonsControls
+      infinite='true'
+      autoPlayInterval={1000}
+      disableDotsControls
+      items={  
+        items.map((tile) => (
+          
+        
+        <GridListTile className={classes.root}>
+         {tile}  
+        </GridListTile>
+    
+          
+      ))}
+     />
+
                 <h2
                   style={{
                     fontFamily: "'Lobster', cursive",
@@ -237,6 +192,7 @@ export default function Album() {
                 >
                   Donde vayas, estaremos con vos
                 </h2>
+
                 <div>
                 <select onChange ={handleChange} >{searchCategories && searchCategories.map((categoria)=> <option>{categoria.nombre}</option> )}</select>
                     <button onClick= {handleClick}>ir</button>
@@ -247,6 +203,7 @@ export default function Album() {
            ))}
         />
             
+
 
         <Container className={classes.cardGrid} maxWidth="md">
           {/*  <Typography  variant="h5" component="h2" className={classes.blue}>

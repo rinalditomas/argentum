@@ -19,13 +19,19 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {setCart} from '../state/cart'
-
+import {setCart,setQuantity} from '../state/cart'
+import Snackbar from '@material-ui/core/Snackbar';
 
 import clsx from 'clsx';
 import { green } from '@material-ui/core/colors';
 import Fab from '@material-ui/core/Fab';
+import MuiAlert from '@material-ui/lab/Alert';
 
+
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 
 
@@ -187,30 +193,37 @@ export default function SingleProduct({match}) {
 const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
-  
+
+ const [quantity, setCantidad] = React.useState(1)
+ const [open, setOpen] = React.useState(false);
 
  
- 
+ let carts = useSelector((state)=> state.cart)
+ console.log(carts)
+
+
  React.useEffect(()=>{
  dispatch(getSingleProduct(match.params.id))
  },[dispatch])
 
+
+ const handleClose2 = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+
+  setOpen(false);
+};
   
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [open, setOpen] = React.useState(false);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
 
-    
-  };
+ 
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+ 
   function toggleHeart(){
     setHeart(!heart)
   }
- 
+
 
   //----------------------------------------------
 
@@ -231,16 +244,24 @@ const [loading, setLoading] = React.useState(false);
       setSuccess(false);
       setLoading(true);
       
-       dispatch(setCart(singleProduct))
+       dispatch(setCart({...singleProduct,quantity:Number(quantity)}))
+       
       
       timer.current = window.setTimeout(() => {
         setSuccess(true);
         setLoading(false);
-        history.push("/shop")
+        setOpen(true);
+        setTimeout(function(){ history.push("/shop") }, 1000);
       }, 2000);
     }
   };
 
+  const handleChange =(event) => {
+    setCantidad(event.target.value);
+  }
+  console.log(quantity)
+
+  console.log(singleProduct)
 
   //-------------------------------------------
  
@@ -298,29 +319,37 @@ console.log("ESTA ES LA IMAGEN",singleProduct.imagen)
                         >
                           AGREGAR AL CARRITO 
                         </Button>
+                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose2}>
+                      <Alert onClose={handleClose2} severity="success">
+                       Producto agregado al carrito!
+                      </Alert>
+                      </Snackbar>
                         {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                       </div>
                      <Box mt={4} />
                     {singleProduct.disponible? <Typography component="h5"  className={classes.disponibilidad}> STOCK DISPONIBLE</Typography>:<h1>no disponible</h1> }
                     {singleProduct.disponible? <Typography component="h10"  className={classes.stock}>({singleProduct.stock} disponibles)</Typography>:<h1>no disponible</h1> }
-                    <Button aria-controls="customized-menu" aria-haspopup="true" variant="contained"  onClick={handleClick} fullWidth='true'>
-                    Cantidad: 1 UNIDAD
+                    <select  onChange={handleChange}>
+                    <option>{1}</option>
+                    <option>{2}</option>
+                    <option>{3}</option>
+                    <option>{4}</option>
+                    <option>{5}</option>
+                    </select>
+                    {/* <Button aria-controls="customized-menu" aria-haspopup="true" variant="contained"  onClick={handleClick} fullWidth='true'>
+                    {`cantidad: ${cantidad}`}
                     </Button>
                     <StyledMenu id="customized-menu" anchorEl={anchorEl}keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
-                        <StyledMenuItem >
                         
-                        1 UNIDAD
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                        2 UNIDADES
-                        </StyledMenuItem>
                         
-                    </StyledMenu>
+                        
+                        
+                    </StyledMenu> */}
                    
                     </div>
                     </div>
                    
-                    
+                   
                   </Card>
               </Grid>
             
