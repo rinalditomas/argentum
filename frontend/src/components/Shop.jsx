@@ -13,9 +13,9 @@ import PaymentIcon from "@material-ui/icons/Payment";
 import TextField from "@material-ui/core/TextField";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import {useSelector,useDispatch} from "react-redux";
-import {  getcartRequest } from "../state/cart";
-import axios from 'axios'
+import { useSelector, useDispatch } from "react-redux";
+import { getcartRequest } from "../state/cart";
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 const TAX_RATE = 0.21;
 
@@ -35,67 +35,86 @@ const useStyles = makeStyles({
   },
 });
 
-
-
 export default function SpanningTable() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const classes = useStyles();
-  let carts = useSelector((state)=> state.cart)
-  const user = useSelector(state => state.user)
-  const history = useHistory()
-  
+  let carts = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.user);
+  const history = useHistory();
 
-  const ccyFormat=(num)=> {
+  const ccyFormat = (num) => {
     return `${num.toFixed(2)}`;
-  }
-  const subtotal= (item)=> {
+  };
+  const subtotal = (item) => {
     return item.map((obj) => obj.product.precio).reduce((sum, i) => sum + i, 0);
-  }
-  
-  
+  };
+
   const invoiceSubtotal = subtotal(carts);
   const invoiceTaxes = TAX_RATE * invoiceSubtotal;
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
-  
 
-  console.log('este es el carrito de redux',carts)
-  
-  
 
-   React.useEffect(()=>{
-  
-     dispatch(getcartRequest())
+  React.useEffect(() => {
+    dispatch(getcartRequest());
+  }, []);
 
-  },[]) 
+  const onClick = () => {
+    const token = localStorage.getItem("token");
+    return user.id
+      ? axios
+          .post(
+            "http://localhost:3001/cart/checkOut",
+            {},
+            { headers: { Authorization: `Bearer ${token}` } }
+          )
+          .then(() => {
+            alert("Gracias por tu compra");
+            history.push("/");
+          })
+      : alert("No estas logueado");
+  };
 
- 
-  
-console.log(carts)
+  React.useEffect(() => {
+    return (
+      user
+        ? carts.map((item) => {
+            axios
+              .post(
+                `http://localhost:3001/cart/add/${item.product.id}`,
+                { quantity: item.quantity },
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                }
+              )
+              .then((res) => {
+                return res.data;
+              });
+          })
+        : null,
+      []
+    );
+  });
 
-  
-   React.useEffect(()=>{
-     
-   return  user?
-   carts.map(item => {
-    console.log("******************************************",item)
-   axios.post(`http://localhost:3001/cart/add/${item.product.id}`, {quantity: item.quantity},{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
-   .then((res)=> {
-     return res.data} )})
-    : null
- ,[]}) 
-  
- const handleClick =(e)=>{
-   console.log(e)
-   axios.post(`http://localhost:3001/cart/remove/${e}`,{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
-  setTimeout(function(){window.location.reload() }, 1000)
-  return false  
- }
+  const handleClick = (e) => {
+    axios.post(`http://localhost:3001/cart/remove/${e}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    setTimeout(function () {
+      window.location.reload();
+    }, 1000);
+    return false;
+  };
 
- const cleanCart = ()=>{
-  axios.delete(`http://localhost:3001/cart/clear`,{headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}})
-  setTimeout(function(){window.location.reload() }, 1000)
- }
-
+  const cleanCart = () => {
+    axios.delete(`http://localhost:3001/cart/clear`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    setTimeout(function () {
+      window.location.reload();
+    }, 1000);
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -108,12 +127,8 @@ console.log(carts)
               style={{ fontFamily: "'Lobster Two', cursive", fontSize: "50px" }}
             >
               Mi carrito
-              
             </TableCell>
-            <TableCell align="right"
-            >
-
-            </TableCell>
+            <TableCell align="right"></TableCell>
           </TableRow>
           <TableRow>
             <TableCell
@@ -172,12 +187,10 @@ console.log(carts)
           </TableRow>
         </TableHead>
         <TableBody>
-
-       { carts.map((yerba) => (
+          {carts.map((yerba) => (
             <TableRow key={yerba.product.id}>
-
               <TableCell>
-                <Avatar alt=""  src={yerba.product.imagen}  al />
+                <Avatar alt="" src={yerba.product.imagen} al />
               </TableCell>
               <TableCell
                 style={{
@@ -226,25 +239,24 @@ console.log(carts)
                   color: "black",
                 }}
               >
-                 <IconButton aria-label="delete">
-        <DeleteIcon
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            float: "right",
-            margin: "5%",
-            color: "red",
-            align: "right"
-          }}
-           onClick={()=> handleClick(yerba.product.id)} 
-        />
-      </IconButton>
+                <IconButton aria-label="delete">
+                  <DeleteIcon
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      float: "right",
+                      margin: "5%",
+                      color: "red",
+                      align: "right",
+                    }}
+                    onClick={() => handleClick(yerba.product.id)}
+                  />
+                </IconButton>
               </TableCell>
             </TableRow>
-          )) } 
-        <TableRow>
-            <TableCell rowSpan={3} 
-            />
+          ))}
+          <TableRow>
+            <TableCell rowSpan={3} />
             <TableCell
               style={{
                 fontFamily: "'Shippori Mincho B1', serif",
@@ -323,8 +335,7 @@ console.log(carts)
           </TableRow>
         </TableBody>
       </Table>
-     
-     
+
       <Button
         align="right"
         variant="contained"
@@ -332,18 +343,20 @@ console.log(carts)
         size="large"
         className={classes.button}
         startIcon={<PaymentIcon />}
+        onClick={onClick}
       >
         Pagar
       </Button>
+
       <Button
         align="right"
         variant="contained"
         color="inherit"
         size="large"
         className={classes.button}
-        style ={{marginRight:'500px'}}
+        style={{ marginRight: "500px" }}
         startIcon={<DeleteIcon />}
-        onClick = {cleanCart}
+        onClick={cleanCart}
       >
         limpiar carrito
       </Button>

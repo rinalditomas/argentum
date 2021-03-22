@@ -17,13 +17,10 @@ let transport = nodemailer.createTransport({
   },
 });
 
-
-
-
-router.post("/add/:id",  checkJWT, (req, res, next) => {
-  console.log(req.params.id)
-  console.log(req.body)
-  console.log(req.user)
+router.post("/add/:id", checkJWT, (req, res, next) => {
+  console.log(req.params.id);
+  console.log(req.body);
+  console.log(req.user);
 
   Cart.findOne({
     where: {
@@ -50,49 +47,44 @@ router.post("/add/:id",  checkJWT, (req, res, next) => {
     .catch(next);
 });
 
-
-router.get("/getCart",  checkJWT, (req, res, next) => {
+router.get("/getCart", checkJWT, (req, res, next) => {
   Cart.findOne({
     where: {
       userId: req.user.id,
       estado: "active",
-    }
-  })
-  .then((cart) => {
+    },
+  }).then((cart) => {
     Item.findAll({
       where: {
-       cartId: cart.id,
-      },include:Product
-    })
-    .then(data => res.send(data))
-    
-})
-
-
+        cartId: cart.id,
+      },
+      include: Product,
+    }).then((data) => res.send(data));
+  });
 });
 
-router.post("/remove/:id",   /* checkJWT,  */  (req, res, next) => {
-  console.log(req.params.id)
+router.post(
+  "/remove/:id",
+  /* checkJWT,  */ (req, res, next) => {
+    console.log(req.params.id);
 
-  Item.findOne({
-    where: {
-      productId: req.params.id,
-    },
-  })
-    .then((item) => {
-      item.destroy().then(() => {
-        console.log("producto eliminado");
+    Item.findOne({
+      where: {
+        productId: req.params.id,
+      },
+    })
+      .then((item) => {
+        item.destroy().then(() => {
+          console.log("producto eliminado");
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-
+  }
+);
 
 router.post("/create/:id", checkJWT, (req, res, next) => {
-
   Cart.findOrCreate({
     where: {
       userId: req.params.id,
@@ -105,8 +97,7 @@ router.post("/create/:id", checkJWT, (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-}); 
-
+});
 
 router.delete("/clear", checkJWT, (req, res, next) => {
   Cart.findOne({
@@ -127,8 +118,7 @@ router.delete("/clear", checkJWT, (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-}); 
-
+});
 
 router.post("/checkOut", checkJWT, (req, res, next) => {
   Cart.findOne({
@@ -137,12 +127,13 @@ router.post("/checkOut", checkJWT, (req, res, next) => {
       estado: "active",
     },
   }).then((cart) => {
-    cart.update({ estado: "active" }).then(() => {//cambiar a pending
+    cart.update({ estado: "active" }).then(() => {
+      //cambiar a pending
       User.findByPk(req.user.id).then((persona) => {
         const message = {
-          from: "smtp.mailtrap.io", 
-          to: persona.email, 
-          subject: "Confirmación de compra Argentum", 
+          from: "smtp.mailtrap.io",
+          to: persona.email,
+          subject: "Confirmación de compra Argentum",
           text: "Gracias por haber elegido Argentum",
         };
         transport.sendMail(message, function (err, info) {
@@ -167,70 +158,72 @@ router.post("/checkOut", checkJWT, (req, res, next) => {
             }
           });
         });
-        console.log(response, "ietms con productos");
-        Cart.create({ userId: req.user.id, estado: "active" }).then(() => {
-          res.send(response.quantity);
-        })
-        .catch (error =>{
-          next (error)
-      })
+
+        Cart.create({ userId: req.user.id, estado: "active" })
+          .then((response) => {
+            res.send(response.quantity);
+          })
+          .catch((error) => {
+            next(error);
+          });
       });
     });
   });
 });
 
-
-router.get("/",checkJWT,(req,res,next)=>{
+router.get("/", checkJWT, (req, res, next) => {
   Cart.findAll({
-    where:{
-      [Op.or]: [{estado:"pending"}, {estado:"accepted"},{estado:"rejected"}]
-    }
+    where: {
+      [Op.or]: [
+        { estado: "pending" },
+        { estado: "accepted" },
+        { estado: "rejected" },
+      ],
+    },
   })
-  .then((carts) => {res.send(carts)})
-  .catch (error =>{
-    next (error)
-  })
-})
+    .then((carts) => {
+      res.send(carts);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
 
-
-router.get("/pendings",checkJWT,isAdmin,(req,res,next)=>{
+router.get("/pendings", checkJWT, isAdmin, (req, res, next) => {
   Cart.findAll({
-    where:{
-      estado:"pending"
-    }
+    where: {
+      estado: "pending",
+    },
   })
-  .then(carritos =>{
-    res.send(carritos)
-  })
-  .catch (error =>{
-    next (error)
-  })
-})
+    .then((carritos) => {
+      res.send(carritos);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
 
-
-router.get("/accepted/:id",checkJWT,(req,res,next)=>{
-  console.log("ESTE ES EL REQ PARAMS ID",req.params.id)
+router.get("/accepted/:id", checkJWT, (req, res, next) => {
+  console.log("ESTE ES EL REQ PARAMS ID", req.params.id);
   Cart.findByPk(req.params.id)
-  .then(carrito =>{
-    carrito.estado = "accepted"
-    res.send(carrito)
-  })
-  .catch (error =>{
-    next (error)
-  })
-})
+    .then((carrito) => {
+      carrito.estado = "accepted";
+      res.send(carrito);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
 
-
-router.get("/rejected/:id",checkJWT,(req,res,next)=>{
+router.get("/rejected/:id", checkJWT, (req, res, next) => {
   Cart.findByPk(req.params.id)
-  .then(carrito =>{
-    carrito.estado = "rejected"
-    res.send(carrito)
-  })
-  .catch (error =>{
-    next (error)
-  })
-})
-
+    .then((carrito) => {
+      carrito.estado = "rejected";
+      res.send(carrito);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
 
 module.exports = router;
