@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
       },
       inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -34,35 +33,21 @@ const useStyles = makeStyles((theme) => ({
     
 
 export default function EditForm() {
-  //const products = useSelector(state => state.searchProduct);
-  //const history = useHistory();
-  //const dispatch = useDispatch()
   const [ query, setQuery ] = React.useState({nombre:'',precio:0,descripcion:'',stock:0,imagen:''}) 
   const [ value, setValue ] = React.useState('')
- // const product = useInput("product");
-//const price = useInput("price");
-//  const description = useInput("description")
- // const image = useInput("image")
- // const stock = useInput("stock")
+
 
 
 console.log(query)
 
   const submitForm = (e)=>{
     e.preventDefault()
-      /* console.log(product.value)
-      console.log(price.value)
-      console.log(description.value)
-      console.log(image.value)
-      console.log(stock.value) */
-      
+   
     }
     const enter = (e)=> {
       if(e.keyCode == '13'){ 
    axios.get(`http://localhost:3001/products/search/${value}`)
    .then(res=>{
-    //  console.log(res.data[0].nombre)
-      // res.data[0].nombre
     setQuery({...query, 
       nombre:res.data[0].nombre,
       descripcion:res.data[0].descripcion,

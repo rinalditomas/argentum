@@ -100,16 +100,15 @@ export default function SignInSide() {
   ////////////////HANDLESUBMIT////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("login attempt...");
     if (validate()) {
       dispatch(sendAdminLoginRequest({ email: email, password: password }))
         .then((data) => {
           console.log("ACA ESTA LA DATA DEL ADMINISTRADOR",data)
           if(data.payload){
-            alert(`bienvenido!`);
+            alert(`Bienvenido!`);
             history.push("/admin");
           }else{
-            alert("no sos administrador")
+            alert("Acceso denegado. No sos administrador")
           }
 
         })
@@ -128,7 +127,7 @@ export default function SignInSide() {
     }
     if (!email) {
       isValid = false;
-      alert("Por favor, ingresa un correo electronico.");
+      alert("Por favor, ingresa un correo electrónico.");
     }
 
     if (typeof email !== "undefined") {
@@ -137,7 +136,7 @@ export default function SignInSide() {
       );
       if (!pattern.test(email)) {
         isValid = false;
-        alert("Por favor, ingresa un correo electronico valido.");
+        alert("Por favor, ingresa un correo electrónico válido.");
       }
     }
     return isValid;

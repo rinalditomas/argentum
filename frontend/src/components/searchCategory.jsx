@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   list:{
-      backgroundColor:'#00aae4'
+      backgroundColor:'#FFDEB8'
   }
 }));
 
@@ -38,16 +38,16 @@ console.log("aca esta el search category", searchCategories)
   return (
     <List className={classes.root}>
       <ListItem className={classes.list}>
-        <ListItemAvatar>
-          <Avatar >
-          <ImageIcon />
+        <ListItemAvatar >
+          <Avatar src="https://rockcontent.com/es/wp-content/uploads/sites/3/2019/02/o-que-e-produto-no-mix-de-marketing.png" >
+         
           </Avatar>
           
         </ListItemAvatar>
-        <ListItemText primary="producto" />
-        <ListItemText primary="precio" />
-        <ListItemText primary="descripcion" />
-        <ListItemText primary="stock" />
+        <ListItemText primary="Producto" />
+        <ListItemText primary="Precio" />
+        <ListItemText primary="Descripcion" />
+        <ListItemText primary="Stock" />
        
       </ListItem> 
       <Divider variant="middle" component="li" />

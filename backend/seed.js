@@ -359,7 +359,7 @@ let userPromise = () => User.bulkCreate(userArray)
   });
 
 
-  productPromise()
-  .then(()=>categoryPromise()) 
-  .then(()=>userPromise()) 
+  categoryPromise()
+  //.then(()=>categoryPromise()) 
+  //.then(()=>userPromise()) 
   .then(() => console.log(`----Seed terminado----`));

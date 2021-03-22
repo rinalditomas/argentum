@@ -110,12 +110,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
-   
-    width: "600px"
+
+    width: "600px",
   },
-  ima:{
-    height: "300px"
-  }
+  ima: {
+    height: "300px",
+  },
 }));
 
 export default function Album() {
@@ -137,6 +137,7 @@ export default function Album() {
     dispatch(getSearchCategory(cat));
     history.push("/searchCategory");
   };
+console.log("ESTE ES EL SEARCHCATEGORYYY", searchCategories)
 
   const settings = {
     arrows: false,
@@ -162,70 +163,63 @@ export default function Album() {
           infinite="true"
           autoPlayInterval={1000}
           disableDotsControls
-          items={  
-            productos.map((prod) => (
-              
-            
-            <GridListTile className={classes.root} >
+          items={productos.map((prod) => (
+            <GridListTile className={classes.root}>
               <img src={prod.imagen} className={classes.ima} />
             </GridListTile>
           ))}
         />
         <div>
-          <select onChange={handleChange}>
-            {searchCategories &&
-              searchCategories.map((categoria) => (
-                <option>{categoria.nombre}</option>
-              ))}
-          </select>
-          <button onClick={handleClick}>ir</button>
+          
+        <select onChange ={handleChange}>
+        <option>Categorias</option>
+                  <option>vinos</option>
+                  <option>alfajores</option>
+                  <option>yerbas</option>
+                  <option>dulce de leche</option>
+                  <option>mates</option>
+                </select>
+          <button onClick={handleClick}>Ir</button>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
-          {/*  <Typography  variant="h5" component="h2" className={classes.blue}>
-        Productos sugeridos 
-          </Typography>
-        <Typography  variant="h5" component="h2" className={classes.letters}>
-          Productos sugeridos 
-          </Typography>
-          <Typography  variant="h5" component="h2" className={classes.blue}>
-          Productos sugeridos 
-          </Typography>
-          <hr /> */}
+         
 
           <Grid container spacing={4}>
-            {productos.slice(0, 9).map((prod) => (
-              <Grid item key={prod.id} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <Link to={`/product/${prod.id}`}>
-                    <CardMedia
-                      className={classes.cardMedia}
-                      image={prod.imagen}
-                      title={prod.nombre}
-                    />
-                  </Link>
+            {productos
+              .slice(0, 12)
+              .map((prod) => (
+                <Grid item key={prod.id} xs={12} sm={6} md={4}>
+                  <Card className={classes.card}>
+                    <Link to={`/product/${prod.id}`}>
+                      <CardMedia
+                        className={classes.cardMedia}
+                        image={prod.imagen}
+                        title={prod.nombre}
+                      />
+                    </Link>
 
-                  <CardContent className={classes.cardContent}>
-                    <Button
-                      size="small"
-                      color="inherit"
-                      variant="text"
-                      className={classes.margin}
-                    >
-                      {prod.nombre}
-                    </Button>
-                    <hr />
-                    <Button
-                      size="small"
-                      color="inherit"
-                      variant="text"
-                      className={classes.margin}
-                    >
-                      ${prod.precio}
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
+                    <CardContent className={classes.cardContent}>
+                      <Button
+                        size="small"
+                        color="inherit"
+                        variant="text"
+                        className={classes.margin}
+                      >
+                        {prod.nombre}
+                      </Button>
+                      <hr />
+                      <Button
+                        size="small"
+                        color="inherit"
+                        variant="text"
+                        className={classes.margin}
+                      >
+                        ${prod.precio}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </React.Fragment>

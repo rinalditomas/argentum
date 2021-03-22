@@ -50,7 +50,7 @@ export default function Delete() {
      setQuery(res.data)})
    setValue("")
      } } 
-  console.log(query)
+
   return (
     <React.Fragment>
        
@@ -80,7 +80,7 @@ export default function Delete() {
       </Grid>
       
       <Typography  variant="h5" component="h2" className={useStyles.prod} >
-      {/* {query && query.map(res =>  <ul><li>*/}  {query[0]? query[0].nombre:null} {/*</li> </ul> )} */}
+     {query[0]? query[0].nombre:null} 
       </Typography>
       
       <Grid item xs={8}>

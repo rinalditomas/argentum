@@ -37,6 +37,7 @@ export default function Delete() {
     
     const [ value, setValue ] = React.useState('') 
     const [ query, setQuery ] = React.useState({isAdmin:'',id:0,name:''})
+    const history= useHistory()
    
    
     const deleteForm = ()=>{
@@ -46,8 +47,7 @@ export default function Delete() {
       if(e.keyCode == '13'){ 
    axios.get(`http://localhost:3001/users/search/${value}`)
    .then(res=>{
-     console.log(res.data)
-     setQuery({
+      setQuery({
       ...query, 
       isAdmin:res.data.isAdmin,
       id:res.data.id,
@@ -55,7 +55,7 @@ export default function Delete() {
     })})
    setValue("")
      } } 
-  console.log(query)
+ 
 
 
   const handleInputChange = (event) => {
@@ -64,7 +64,7 @@ export default function Delete() {
 
   const onClick = ()=>{
     axios.put(`http://localhost:3001/users/${query.id}`,{isAdmin:query.isAdmin})
-    .then(res => console.log(res.data))
+     history.push("/admin/users")
   }
 
 
@@ -91,8 +91,6 @@ export default function Delete() {
           />
         </Grid>
        
-        
-        
       
         <Grid item xs={10} sm={6} style={{marginBottom:'15%'}} >
         <Typography variant="h6" gutterBottom style={{marginBottom:'5%'}} >
